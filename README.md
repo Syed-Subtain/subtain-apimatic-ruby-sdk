@@ -271,20 +271,20 @@ It is up to API consumers to parse the string into a decimal number representati
 Install the gem from the command line:
 
 ```ruby
-gem install subtain-apimatic-sdk -v 1.1.2
+gem install subtain-apimatic-sdk -v 1.1.6
 ```
 
 Or add the gem to your Gemfile and run `bundle`:
 
 ```ruby
-gem 'subtain-apimatic-sdk', '1.1.2'
+gem 'subtain-apimatic-sdk', '1.1.6'
 ```
 
-For additional gem details, see the [RubyGems page for the subtain-apimatic-sdk gem](https://rubygems.org/gems/subtain-apimatic-sdk/versions/1.1.2).
+For additional gem details, see the [RubyGems page for the subtain-apimatic-sdk gem](https://rubygems.org/gems/subtain-apimatic-sdk/versions/1.1.6).
 
 ## Initialize the API Client
 
-**_Note:_** Documentation for the client can be found [here.](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/client.md)
+**_Note:_** Documentation for the client can be found [here.](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/client.md)
 
 The following parameters are configurable for the API Client:
 
@@ -334,41 +334,41 @@ This API uses `Basic Authentication`.
 
 ## List of APIs
 
-* [API Exports](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/api-exports.md)
-* [Advance Invoice](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/advance-invoice.md)
-* [Billing Portal](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/billing-portal.md)
-* [Custom Fields](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/custom-fields.md)
-* [Events-Based Billing Segments](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/events-based-billing-segments.md)
-* [Payment Profiles](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/payment-profiles.md)
-* [Product Families](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/product-families.md)
-* [Product Price Points](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/product-price-points.md)
-* [Proforma Invoices](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/proforma-invoices.md)
-* [Reason Codes](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/reason-codes.md)
-* [Referral Codes](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/referral-codes.md)
-* [Sales Commissions](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/sales-commissions.md)
-* [Subscription Components](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/subscription-components.md)
-* [Subscription Groups](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/subscription-groups.md)
-* [Subscription Group Invoice Account](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/subscription-group-invoice-account.md)
-* [Subscription Group Status](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/subscription-group-status.md)
-* [Subscription Invoice Account](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/subscription-invoice-account.md)
-* [Subscription Notes](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/subscription-notes.md)
-* [Subscription Products](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/subscription-products.md)
-* [Subscription Status](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/subscription-status.md)
-* [Coupons](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/coupons.md)
-* [Components](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/components.md)
-* [Customers](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/customers.md)
-* [Events](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/events.md)
-* [Insights](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/insights.md)
-* [Invoices](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/invoices.md)
-* [Offers](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/offers.md)
-* [Products](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/products.md)
-* [Sites](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/sites.md)
-* [Subscriptions](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/subscriptions.md)
-* [Webhooks](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/controllers/webhooks.md)
+* [API Exports](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/api-exports.md)
+* [Advance Invoice](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/advance-invoice.md)
+* [Billing Portal](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/billing-portal.md)
+* [Custom Fields](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/custom-fields.md)
+* [Events-Based Billing Segments](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/events-based-billing-segments.md)
+* [Payment Profiles](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/payment-profiles.md)
+* [Product Families](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/product-families.md)
+* [Product Price Points](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/product-price-points.md)
+* [Proforma Invoices](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/proforma-invoices.md)
+* [Reason Codes](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/reason-codes.md)
+* [Referral Codes](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/referral-codes.md)
+* [Sales Commissions](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/sales-commissions.md)
+* [Subscription Components](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/subscription-components.md)
+* [Subscription Groups](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/subscription-groups.md)
+* [Subscription Group Invoice Account](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/subscription-group-invoice-account.md)
+* [Subscription Group Status](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/subscription-group-status.md)
+* [Subscription Invoice Account](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/subscription-invoice-account.md)
+* [Subscription Notes](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/subscription-notes.md)
+* [Subscription Products](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/subscription-products.md)
+* [Subscription Status](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/subscription-status.md)
+* [Coupons](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/coupons.md)
+* [Components](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/components.md)
+* [Customers](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/customers.md)
+* [Events](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/events.md)
+* [Insights](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/insights.md)
+* [Invoices](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/invoices.md)
+* [Offers](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/offers.md)
+* [Products](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/products.md)
+* [Sites](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/sites.md)
+* [Subscriptions](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/subscriptions.md)
+* [Webhooks](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/controllers/webhooks.md)
 
 ## Classes Documentation
 
-* [Utility Classes](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/utility-classes.md)
-* [HttpResponse](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/http-response.md)
-* [HttpRequest](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.2/doc/http-request.md)
+* [Utility Classes](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/utility-classes.md)
+* [HttpResponse](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/http-response.md)
+* [HttpRequest](https://www.github.com/Syed-Subtain/subtain-apimatic-ruby-sdk/tree/1.1.6/doc/http-request.md)
 
