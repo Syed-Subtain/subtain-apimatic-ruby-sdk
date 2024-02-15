@@ -6,96 +6,48 @@
 module AdvancedBilling
   # ProformaInvoicesController
   class ProformaInvoicesController < BaseController
-    # This endpoint will trigger the creation of a consolidated proforma invoice
-    # asynchronously. It will return a 201 with no message, or a 422 with any
-    # errors. To find and view the new consolidated proforma invoice, you may
-    # poll the subscription group listing for proforma invoices; only one
-    # consolidated proforma invoice may be created per group at a time.
-    # If the information becomes outdated, simply void the old consolidated
-    # proforma invoice and generate a new one.
-    # ## Restrictions
-    # Proforma invoices are only available on Relationship Invoicing sites. To
-    # create a proforma invoice, the subscription must not be prepaid, and must
-    # be in a live state.
-    # @param [String] uid Required parameter: The uid of the subscription
-    # group
-    # @return [void] response from the API call
-    def create_consolidated_proforma_invoice(uid)
+    # This endpoint is only available for Relationship Invoicing sites. It
+    # cannot be used to create consolidated proforma invoice previews or preview
+    # prepaid subscriptions.
+    # Create a signup preview in the format of a proforma invoice to preview
+    # costs before a subscription's signup. You have the option of optionally
+    # previewing the first renewal's costs as well. The proforma invoice preview
+    # will not be persisted.
+    # Pass a payload that resembles a subscription create or signup preview
+    # request. For example, you can specify components, coupons/a referral,
+    # offers, custom pricing, and an existing customer or payment profile to
+    # populate a shipping or billing address.
+    # A product and customer first name, last name, and email are the minimum
+    # requirements.
+    # @param [String] include_next_proforma_invoice Optional parameter: Choose
+    # to include a proforma invoice preview for the first renewal
+    # @param [CreateSubscriptionRequest] body Optional parameter: Example:
+    # @return [SignupProformaPreviewResponse] response from the API call
+    def preview_signup_proforma_invoice(include_next_proforma_invoice: nil,
+                                        body: nil)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/subscription_groups/{uid}/proforma_invoices.json',
+                                     '/subscriptions/proforma_invoices/preview.json',
                                      Server::DEFAULT)
-                   .template_param(new_parameter(uid, key: 'uid')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .auth(Single.new('global')))
+                   .header_param(new_parameter('application/json', key: 'Content-Type'))
+                   .query_param(new_parameter(include_next_proforma_invoice, key: 'include=next_proforma_invoice'))
+                   .body_param(new_parameter(body))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
-                   .is_response_void(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(SignupProformaPreviewResponse.method(:from_hash))
+                   .local_error('400',
+                                'Bad Request',
+                                ProformaBadRequestErrorResponseException)
+                   .local_error('403',
+                                'Forbidden',
+                                APIException)
                    .local_error('422',
                                 'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
-        .execute
-    end
-
-    # Only proforma invoices with a `consolidation_level` of parent are
-    # returned.
-    # By default, proforma invoices returned on the index will only include
-    # totals, not detailed breakdowns for `line_items`, `discounts`, `taxes`,
-    # `credits`, `payments`, `custom_fields`. To include breakdowns, pass the
-    # specific field as a key in the query with a value set to true.
-    # @param [String] uid Required parameter: The uid of the subscription
-    # group
-    # @return [ProformaInvoice] response from the API call
-    def list_subscription_group_proforma_invoices(uid)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::GET,
-                                     '/subscription_groups/{uid}/proforma_invoices.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(uid, key: 'uid')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProformaInvoice.method(:from_hash))
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
-        .execute
-    end
-
-    # Use this endpoint to read the details of an existing proforma invoice.
-    # ## Restrictions
-    # Proforma invoices are only available on Relationship Invoicing sites.
-    # @param [Integer] proforma_invoice_uid Required parameter: The uid of the
-    # proforma invoice
-    # @return [ProformaInvoice] response from the API call
-    def read_proforma_invoice(proforma_invoice_uid)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::GET,
-                                     '/proforma_invoices/{proforma_invoice_uid}.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(proforma_invoice_uid, key: 'proforma_invoice_uid')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProformaInvoice.method(:from_hash))
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                                ErrorMapResponseException))
         .execute
     end
 
@@ -120,7 +72,7 @@ module AdvancedBilling
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -193,7 +145,7 @@ module AdvancedBilling
                    .query_param(new_parameter(options['payments'], key: 'payments'))
                    .query_param(new_parameter(options['custom_fields'], key: 'custom_fields'))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -228,7 +180,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -242,6 +194,99 @@ module AdvancedBilling
                    .local_error('422',
                                 'Unprocessable Entity (WebDAV)',
                                 ErrorListResponseException))
+        .execute
+    end
+
+    # This endpoint will trigger the creation of a consolidated proforma invoice
+    # asynchronously. It will return a 201 with no message, or a 422 with any
+    # errors. To find and view the new consolidated proforma invoice, you may
+    # poll the subscription group listing for proforma invoices; only one
+    # consolidated proforma invoice may be created per group at a time.
+    # If the information becomes outdated, simply void the old consolidated
+    # proforma invoice and generate a new one.
+    # ## Restrictions
+    # Proforma invoices are only available on Relationship Invoicing sites. To
+    # create a proforma invoice, the subscription must not be prepaid, and must
+    # be in a live state.
+    # @param [String] uid Required parameter: The uid of the subscription
+    # group
+    # @return [void] response from the API call
+    def create_consolidated_proforma_invoice(uid)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/subscription_groups/{uid}/proforma_invoices.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(uid, key: 'uid')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .is_response_void(true)
+                   .local_error('422',
+                                'Unprocessable Entity (WebDAV)',
+                                ErrorListResponseException))
+        .execute
+    end
+
+    # Only proforma invoices with a `consolidation_level` of parent are
+    # returned.
+    # By default, proforma invoices returned on the index will only include
+    # totals, not detailed breakdowns for `line_items`, `discounts`, `taxes`,
+    # `credits`, `payments`, `custom_fields`. To include breakdowns, pass the
+    # specific field as a key in the query with a value set to true.
+    # @param [String] uid Required parameter: The uid of the subscription
+    # group
+    # @return [ProformaInvoice] response from the API call
+    def list_subscription_group_proforma_invoices(uid)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::GET,
+                                     '/subscription_groups/{uid}/proforma_invoices.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(uid, key: 'uid')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(ProformaInvoice.method(:from_hash))
+                   .local_error('403',
+                                'Forbidden',
+                                APIException)
+                   .local_error('404',
+                                'Not Found',
+                                APIException))
+        .execute
+    end
+
+    # Use this endpoint to read the details of an existing proforma invoice.
+    # ## Restrictions
+    # Proforma invoices are only available on Relationship Invoicing sites.
+    # @param [Integer] proforma_invoice_uid Required parameter: The uid of the
+    # proforma invoice
+    # @return [ProformaInvoice] response from the API call
+    def read_proforma_invoice(proforma_invoice_uid)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::GET,
+                                     '/proforma_invoices/{proforma_invoice_uid}.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(proforma_invoice_uid, key: 'proforma_invoice_uid')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(ProformaInvoice.method(:from_hash))
+                   .local_error('403',
+                                'Forbidden',
+                                APIException)
+                   .local_error('404',
+                                'Not Found',
+                                APIException))
         .execute
     end
 
@@ -274,7 +319,7 @@ module AdvancedBilling
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -316,56 +361,11 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
                    .deserialize_into(ProformaInvoice.method(:from_hash))
-                   .local_error('400',
-                                'Bad Request',
-                                ProformaBadRequestErrorResponseException)
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorMapResponseException))
-        .execute
-    end
-
-    # This endpoint is only available for Relationship Invoicing sites. It
-    # cannot be used to create consolidated proforma invoice previews or preview
-    # prepaid subscriptions.
-    # Create a signup preview in the format of a proforma invoice to preview
-    # costs before a subscription's signup. You have the option of optionally
-    # previewing the first renewal's costs as well. The proforma invoice preview
-    # will not be persisted.
-    # Pass a payload that resembles a subscription create or signup preview
-    # request. For example, you can specify components, coupons/a referral,
-    # offers, custom pricing, and an existing customer or payment profile to
-    # populate a shipping or billing address.
-    # A product and customer first name, last name, and email are the minimum
-    # requirements.
-    # @param [String] include_next_proforma_invoice Optional parameter: Choose
-    # to include a proforma invoice preview for the first renewal
-    # @param [CreateSubscriptionRequest] body Optional parameter: Example:
-    # @return [SignupProformaPreviewResponse] response from the API call
-    def preview_signup_proforma_invoice(include_next_proforma_invoice: nil,
-                                        body: nil)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/subscriptions/proforma_invoices/preview.json',
-                                     Server::DEFAULT)
-                   .header_param(new_parameter('application/json', key: 'Content-Type'))
-                   .query_param(new_parameter(include_next_proforma_invoice, key: 'include=next_proforma_invoice'))
-                   .body_param(new_parameter(body))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SignupProformaPreviewResponse.method(:from_hash))
                    .local_error('400',
                                 'Bad Request',
                                 ProformaBadRequestErrorResponseException)

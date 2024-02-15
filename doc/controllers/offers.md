@@ -13,8 +13,8 @@ offers_controller = client.offers
 * [Create Offer](../../doc/controllers/offers.md#create-offer)
 * [List Offers](../../doc/controllers/offers.md#list-offers)
 * [Read Offers](../../doc/controllers/offers.md#read-offers)
-* [Archive Offer](../../doc/controllers/offers.md#archive-offer)
 * [Unarchive Offer](../../doc/controllers/offers.md#unarchive-offer)
+* [Archive Offer](../../doc/controllers/offers.md#archive-offer)
 
 
 # Create Offer
@@ -229,39 +229,6 @@ result = offers_controller.read_offers(offer_id)
 | 401 | Unauthorized | `APIException` |
 
 
-# Archive Offer
-
-Archive an existing offer. Please provide an `offer_id` in order to archive the correct item.
-
-```ruby
-def archive_offer(offer_id)
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `offer_id` | `Integer` | Template, Required | The Chargify id of the offer |
-
-## Response Type
-
-`void`
-
-## Example Usage
-
-```ruby
-offer_id = 130
-
-offers_controller.archive_offer(offer_id)
-```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 401 | Unauthorized | `APIException` |
-
-
 # Unarchive Offer
 
 Unarchive a previously archived offer. Please provide an `offer_id` in order to un-archive the correct item.
@@ -286,6 +253,39 @@ def unarchive_offer(offer_id)
 offer_id = 130
 
 offers_controller.unarchive_offer(offer_id)
+```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 401 | Unauthorized | `APIException` |
+
+
+# Archive Offer
+
+Archive an existing offer. Please provide an `offer_id` in order to archive the correct item.
+
+```ruby
+def archive_offer(offer_id)
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `offer_id` | `Integer` | Template, Required | The Chargify id of the offer |
+
+## Response Type
+
+`void`
+
+## Example Usage
+
+```ruby
+offer_id = 130
+
+offers_controller.archive_offer(offer_id)
 ```
 
 ## Errors

@@ -10,89 +10,10 @@ subscription_group_status_controller = client.subscription_group_status
 
 ## Methods
 
-* [Cancel Subscriptions in Group](../../doc/controllers/subscription-group-status.md#cancel-subscriptions-in-group)
-* [Initiate Delayed Cancellation for Group](../../doc/controllers/subscription-group-status.md#initiate-delayed-cancellation-for-group)
 * [Stop Delayed Cancellation for Group](../../doc/controllers/subscription-group-status.md#stop-delayed-cancellation-for-group)
 * [Reactivate Subscription Group](../../doc/controllers/subscription-group-status.md#reactivate-subscription-group)
-
-
-# Cancel Subscriptions in Group
-
-This endpoint will immediately cancel all subscriptions within the specified group. The group is identified by it's `uid` passed in the URL. To successfully cancel the group, the primary subscription must be on automatic billing. The group members as well must be on automatic billing or they must be prepaid.
-
-In order to cancel a subscription group while also charging for any unbilled usage on metered or prepaid components, the `charge_unbilled_usage=true` parameter must be included in the request.
-
-```ruby
-def cancel_subscriptions_in_group(uid,
-                                  body: nil)
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `uid` | `String` | Template, Required | The uid of the subscription group |
-| `body` | [`CancelGroupedSubscriptionsRequest`](../../doc/models/cancel-grouped-subscriptions-request.md) | Body, Optional | - |
-
-## Response Type
-
-`void`
-
-## Example Usage
-
-```ruby
-uid = 'uid0'
-
-body = CancelGroupedSubscriptionsRequest.new(
-  true
-)
-
-subscription_group_status_controller.cancel_subscriptions_in_group(
-  uid,
-  body: body
-)
-```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
-
-
-# Initiate Delayed Cancellation for Group
-
-This endpoint will schedule all subscriptions within the specified group to be canceled at the end of their billing period. The group is identified by it's uid passed in the URL.
-
-All subscriptions in the group must be on automatic billing in order to successfully cancel them, and the group must not be in a "past_due" state.
-
-```ruby
-def initiate_delayed_cancellation_for_group(uid)
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `uid` | `String` | Template, Required | The uid of the subscription group |
-
-## Response Type
-
-`void`
-
-## Example Usage
-
-```ruby
-uid = 'uid0'
-
-subscription_group_status_controller.initiate_delayed_cancellation_for_group(uid)
-```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
+* [Initiate Delayed Cancellation for Group](../../doc/controllers/subscription-group-status.md#initiate-delayed-cancellation-for-group)
+* [Cancel Subscriptions in Group](../../doc/controllers/subscription-group-status.md#cancel-subscriptions-in-group)
 
 
 # Stop Delayed Cancellation for Group
@@ -198,6 +119,85 @@ result = subscription_group_status_controller.reactivate_subscription_group(
   "state": "active",
   "cancel_at_end_of_period": false
 }
+```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
+
+
+# Initiate Delayed Cancellation for Group
+
+This endpoint will schedule all subscriptions within the specified group to be canceled at the end of their billing period. The group is identified by it's uid passed in the URL.
+
+All subscriptions in the group must be on automatic billing in order to successfully cancel them, and the group must not be in a "past_due" state.
+
+```ruby
+def initiate_delayed_cancellation_for_group(uid)
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `uid` | `String` | Template, Required | The uid of the subscription group |
+
+## Response Type
+
+`void`
+
+## Example Usage
+
+```ruby
+uid = 'uid0'
+
+subscription_group_status_controller.initiate_delayed_cancellation_for_group(uid)
+```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
+
+
+# Cancel Subscriptions in Group
+
+This endpoint will immediately cancel all subscriptions within the specified group. The group is identified by it's `uid` passed in the URL. To successfully cancel the group, the primary subscription must be on automatic billing. The group members as well must be on automatic billing or they must be prepaid.
+
+In order to cancel a subscription group while also charging for any unbilled usage on metered or prepaid components, the `charge_unbilled_usage=true` parameter must be included in the request.
+
+```ruby
+def cancel_subscriptions_in_group(uid,
+                                  body: nil)
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `uid` | `String` | Template, Required | The uid of the subscription group |
+| `body` | [`CancelGroupedSubscriptionsRequest`](../../doc/models/cancel-grouped-subscriptions-request.md) | Body, Optional | - |
+
+## Response Type
+
+`void`
+
+## Example Usage
+
+```ruby
+uid = 'uid0'
+
+body = CancelGroupedSubscriptionsRequest.new(
+  true
+)
+
+subscription_group_status_controller.cancel_subscriptions_in_group(
+  uid,
+  body: body
+)
 ```
 
 ## Errors

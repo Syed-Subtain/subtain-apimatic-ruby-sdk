@@ -10,40 +10,26 @@ reason_codes_controller = client.reason_codes
 
 ## Methods
 
-* [Create Reason Code](../../doc/controllers/reason-codes.md#create-reason-code)
-* [List Reason Codes](../../doc/controllers/reason-codes.md#list-reason-codes)
 * [Read Reason Code](../../doc/controllers/reason-codes.md#read-reason-code)
-* [Update Reason Code](../../doc/controllers/reason-codes.md#update-reason-code)
 * [Delete Reason Code](../../doc/controllers/reason-codes.md#delete-reason-code)
+* [List Reason Codes](../../doc/controllers/reason-codes.md#list-reason-codes)
+* [Update Reason Code](../../doc/controllers/reason-codes.md#update-reason-code)
+* [Create Reason Code](../../doc/controllers/reason-codes.md#create-reason-code)
 
 
-# Create Reason Code
+# Read Reason Code
 
-# Reason Codes Intro
-
-ReasonCodes are a way to gain a high level view of why your customers are cancelling the subcription to your product or service.
-
-Add a set of churn reason codes to be displayed in-app and/or the Chargify Billing Portal. As your subscribers decide to cancel their subscription, learn why they decided to cancel.
-
-## Reason Code Documentation
-
-Full documentation on how Reason Codes operate within Chargify can be located under the following links.
-
-[Churn Reason Codes](https://chargify.zendesk.com/hc/en-us/articles/4407896775579#churn-reason-codes)
-
-## Create Reason Code
-
-This method gives a merchant the option to create a reason codes for a given Site.
+This method gives a merchant the option to retrieve a list of a particular code for a given Site by providing the unique numerical ID of the code.
 
 ```ruby
-def create_reason_code(body: nil)
+def read_reason_code(reason_code_id)
 ```
 
 ## Parameters
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `body` | [`CreateReasonCodeRequest`](../../doc/models/create-reason-code-request.md) | Body, Optional | - |
+| `reason_code_id` | `Integer` | Template, Required | The Chargify id of the reason code |
 
 ## Response Type
 
@@ -52,22 +38,57 @@ def create_reason_code(body: nil)
 ## Example Usage
 
 ```ruby
-body = CreateReasonCodeRequest.new(
-  CreateReasonCode.new(
-    'NOTHANKYOU',
-    'No thank you!',
-    5
-  )
-)
+reason_code_id = 32
 
-result = reason_codes_controller.create_reason_code(body: body)
+result = reason_codes_controller.read_reason_code(reason_code_id)
 ```
 
 ## Errors
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
+| 404 | Not Found | `APIException` |
+
+
+# Delete Reason Code
+
+This method gives a merchant the option to delete one reason code from the Churn Reason Codes. This code will be immediately removed. This action is not reversable.
+
+```ruby
+def delete_reason_code(reason_code_id)
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `reason_code_id` | `Integer` | Template, Required | The Chargify id of the reason code |
+
+## Response Type
+
+[`ReasonCodesJsonResponse`](../../doc/models/reason-codes-json-response.md)
+
+## Example Usage
+
+```ruby
+reason_code_id = 32
+
+result = reason_codes_controller.delete_reason_code(reason_code_id)
+```
+
+## Example Response *(as JSON)*
+
+```json
+{
+  "ok": "ok"
+}
+```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 404 | Not Found | `APIException` |
 
 
 # List Reason Codes
@@ -82,8 +103,8 @@ def list_reason_codes(options = {})
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `Integer` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `per_page` | `Integer` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `Integer` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `per_page` | `Integer` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 
 ## Response Type
 
@@ -141,39 +162,6 @@ result = reason_codes_controller.list_reason_codes(collect)
 ```
 
 
-# Read Reason Code
-
-This method gives a merchant the option to retrieve a list of a particular code for a given Site by providing the unique numerical ID of the code.
-
-```ruby
-def read_reason_code(reason_code_id)
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `reason_code_id` | `Integer` | Template, Required | The Chargify id of the reason code |
-
-## Response Type
-
-[`ReasonCodeResponse`](../../doc/models/reason-code-response.md)
-
-## Example Usage
-
-```ruby
-reason_code_id = 32
-
-result = reason_codes_controller.read_reason_code(reason_code_id)
-```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 404 | Not Found | `APIException` |
-
-
 # Update Reason Code
 
 This method gives a merchant the option to update an existing reason code for a given site.
@@ -209,43 +197,55 @@ result = reason_codes_controller.update_reason_code(reason_code_id)
 | 404 | Not Found | `APIException` |
 
 
-# Delete Reason Code
+# Create Reason Code
 
-This method gives a merchant the option to delete one reason code from the Churn Reason Codes. This code will be immediately removed. This action is not reversable.
+# Reason Codes Intro
+
+ReasonCodes are a way to gain a high level view of why your customers are cancelling the subcription to your product or service.
+
+Add a set of churn reason codes to be displayed in-app and/or the Chargify Billing Portal. As your subscribers decide to cancel their subscription, learn why they decided to cancel.
+
+## Reason Code Documentation
+
+Full documentation on how Reason Codes operate within Chargify can be located under the following links.
+
+[Churn Reason Codes](https://chargify.zendesk.com/hc/en-us/articles/4407896775579#churn-reason-codes)
+
+## Create Reason Code
+
+This method gives a merchant the option to create a reason codes for a given Site.
 
 ```ruby
-def delete_reason_code(reason_code_id)
+def create_reason_code(body: nil)
 ```
 
 ## Parameters
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `reason_code_id` | `Integer` | Template, Required | The Chargify id of the reason code |
+| `body` | [`CreateReasonCodeRequest`](../../doc/models/create-reason-code-request.md) | Body, Optional | - |
 
 ## Response Type
 
-[`ReasonCodesJsonResponse`](../../doc/models/reason-codes-json-response.md)
+[`ReasonCodeResponse`](../../doc/models/reason-code-response.md)
 
 ## Example Usage
 
 ```ruby
-reason_code_id = 32
+body = CreateReasonCodeRequest.new(
+  CreateReasonCode.new(
+    'NOTHANKYOU',
+    'No thank you!',
+    5
+  )
+)
 
-result = reason_codes_controller.delete_reason_code(reason_code_id)
-```
-
-## Example Response *(as JSON)*
-
-```json
-{
-  "ok": "ok"
-}
+result = reason_codes_controller.create_reason_code(body: body)
 ```
 
 ## Errors
 
 | HTTP Status Code | Error Description | Exception Class |
 |  --- | --- | --- |
-| 404 | Not Found | `APIException` |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 

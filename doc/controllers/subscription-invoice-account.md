@@ -10,12 +10,63 @@ subscription_invoice_account_controller = client.subscription_invoice_account
 
 ## Methods
 
-* [Read Account Balances](../../doc/controllers/subscription-invoice-account.md#read-account-balances)
-* [Create Prepayment](../../doc/controllers/subscription-invoice-account.md#create-prepayment)
-* [List Prepayments](../../doc/controllers/subscription-invoice-account.md#list-prepayments)
 * [Issue Service Credit](../../doc/controllers/subscription-invoice-account.md#issue-service-credit)
+* [Read Account Balances](../../doc/controllers/subscription-invoice-account.md#read-account-balances)
+* [List Prepayments](../../doc/controllers/subscription-invoice-account.md#list-prepayments)
 * [Deduct Service Credit](../../doc/controllers/subscription-invoice-account.md#deduct-service-credit)
+* [Create Prepayment](../../doc/controllers/subscription-invoice-account.md#create-prepayment)
 * [Refund Prepayment](../../doc/controllers/subscription-invoice-account.md#refund-prepayment)
+
+
+# Issue Service Credit
+
+Credit will be added to the subscription in the amount specified in the request body. The credit is subsequently applied to the next generated invoice.
+
+```ruby
+def issue_service_credit(subscription_id,
+                         body: nil)
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
+| `body` | [`IssueServiceCreditRequest`](../../doc/models/issue-service-credit-request.md) | Body, Optional | - |
+
+## Response Type
+
+[`ServiceCredit`](../../doc/models/service-credit.md)
+
+## Example Usage
+
+```ruby
+subscription_id = 'subscription_id0'
+
+body = IssueServiceCreditRequest.new(
+  IssueServiceCredit.new(
+    '1',
+    'Courtesy credit'
+  )
+)
+
+result = subscription_invoice_account_controller.issue_service_credit(
+  subscription_id,
+  body: body
+)
+```
+
+## Example Response *(as JSON)*
+
+```json
+{
+  "id": 101,
+  "amount_in_cents": 1000,
+  "ending_balance_in_cents": 2000,
+  "entry_type": "Credit",
+  "memo": "Credit to group account"
+}
+```
 
 
 # Read Account Balances
@@ -43,6 +94,116 @@ subscription_id = 'subscription_id0'
 
 result = subscription_invoice_account_controller.read_account_balances(subscription_id)
 ```
+
+
+# List Prepayments
+
+This request will list a subscription's prepayments.
+
+```ruby
+def list_prepayments(options = {})
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
+| `page` | `Integer` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `per_page` | `Integer` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `filter_date_field` | [`BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. created_at - Time when prepayment was created. application_at - Time when prepayment was applied to invoice. Use in query `filter[date_field]=created_at`. |
+| `filter_start_date` | `String` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns prepayments with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. Use in query `filter[start_date]=2011-12-15`. |
+| `filter_end_date` | `String` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns prepayments with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. Use in query `filter[end_date]=2011-12-15`. |
+
+## Response Type
+
+[`PrepaymentsResponse`](../../doc/models/prepayments-response.md)
+
+## Example Usage
+
+```ruby
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')collect = {
+  'subscription_id': 'subscription_id0',
+  'page': 2,
+  'per_page': 50
+}
+
+result = subscription_invoice_account_controller.list_prepayments(collect)
+```
+
+## Example Response *(as JSON)*
+
+```json
+{
+  "prepayments": [
+    {
+      "id": 17,
+      "subscription_id": 3558750,
+      "amount_in_cents": 2000,
+      "remaining_amount_in_cents": 1100,
+      "refunded_amount_in_cents": 0,
+      "external": true,
+      "memo": "test",
+      "details": "test details",
+      "payment_type": "cash",
+      "created_at": "2022-01-18T22:45:41+11:00"
+    }
+  ]
+}
+```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 401 | Unauthorized | `APIException` |
+| 403 | Forbidden | `APIException` |
+| 404 | Not Found | `APIException` |
+
+
+# Deduct Service Credit
+
+Credit will be removed from the subscription in the amount specified in the request body. The credit amount being deducted must be equal to or less than the current credit balance.
+
+```ruby
+def deduct_service_credit(subscription_id,
+                          body: nil)
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
+| `body` | [`DeductServiceCreditRequest`](../../doc/models/deduct-service-credit-request.md) | Body, Optional | - |
+
+## Response Type
+
+`void`
+
+## Example Usage
+
+```ruby
+subscription_id = 'subscription_id0'
+
+body = DeductServiceCreditRequest.new(
+  DeductServiceCredit.new(
+    '1',
+    'Deduction'
+  )
+)
+
+subscription_invoice_account_controller.deduct_service_credit(
+  subscription_id,
+  body: body
+)
+```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Create Prepayment
@@ -106,167 +267,6 @@ result = subscription_invoice_account_controller.create_prepayment(
   }
 }
 ```
-
-
-# List Prepayments
-
-This request will list a subscription's prepayments.
-
-```ruby
-def list_prepayments(options = {})
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
-| `page` | `Integer` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `per_page` | `Integer` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
-| `filter_date_field` | [`BasicDateField`](../../doc/models/basic-date-field.md) | Query, Optional | The type of filter you would like to apply to your search. created_at - Time when prepayment was created. application_at - Time when prepayment was applied to invoice. Use in query `filter[date_field]=created_at`. |
-| `filter_start_date` | `String` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns prepayments with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. Use in query `filter[start_date]=2011-12-15`. |
-| `filter_end_date` | `String` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns prepayments with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. Use in query `filter[end_date]=2011-12-15`. |
-
-## Response Type
-
-[`PrepaymentsResponse`](../../doc/models/prepayments-response.md)
-
-## Example Usage
-
-```ruby
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')collect = {
-  'subscription_id': 'subscription_id0',
-  'page': 2,
-  'per_page': 50
-}
-
-result = subscription_invoice_account_controller.list_prepayments(collect)
-```
-
-## Example Response *(as JSON)*
-
-```json
-{
-  "prepayments": [
-    {
-      "id": 17,
-      "subscription_id": 3558750,
-      "amount_in_cents": 2000,
-      "remaining_amount_in_cents": 1100,
-      "refunded_amount_in_cents": 0,
-      "external": true,
-      "memo": "test",
-      "details": "test details",
-      "payment_type": "cash",
-      "created_at": "2022-01-18T22:45:41+11:00"
-    }
-  ]
-}
-```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 401 | Unauthorized | `APIException` |
-| 403 | Forbidden | `APIException` |
-| 404 | Not Found | `APIException` |
-
-
-# Issue Service Credit
-
-Credit will be added to the subscription in the amount specified in the request body. The credit is subsequently applied to the next generated invoice.
-
-```ruby
-def issue_service_credit(subscription_id,
-                         body: nil)
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
-| `body` | [`IssueServiceCreditRequest`](../../doc/models/issue-service-credit-request.md) | Body, Optional | - |
-
-## Response Type
-
-[`ServiceCredit`](../../doc/models/service-credit.md)
-
-## Example Usage
-
-```ruby
-subscription_id = 'subscription_id0'
-
-body = IssueServiceCreditRequest.new(
-  IssueServiceCredit.new(
-    '1',
-    'Courtesy credit'
-  )
-)
-
-result = subscription_invoice_account_controller.issue_service_credit(
-  subscription_id,
-  body: body
-)
-```
-
-## Example Response *(as JSON)*
-
-```json
-{
-  "id": 101,
-  "amount_in_cents": 1000,
-  "ending_balance_in_cents": 2000,
-  "entry_type": "Credit",
-  "memo": "Credit to group account"
-}
-```
-
-
-# Deduct Service Credit
-
-Credit will be removed from the subscription in the amount specified in the request body. The credit amount being deducted must be equal to or less than the current credit balance.
-
-```ruby
-def deduct_service_credit(subscription_id,
-                          body: nil)
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
-| `body` | [`DeductServiceCreditRequest`](../../doc/models/deduct-service-credit-request.md) | Body, Optional | - |
-
-## Response Type
-
-`void`
-
-## Example Usage
-
-```ruby
-subscription_id = 'subscription_id0'
-
-body = DeductServiceCreditRequest.new(
-  DeductServiceCredit.new(
-    '1',
-    'Deduction'
-  )
-)
-
-subscription_invoice_account_controller.deduct_service_credit(
-  subscription_id,
-  body: body
-)
-```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
 # Refund Prepayment

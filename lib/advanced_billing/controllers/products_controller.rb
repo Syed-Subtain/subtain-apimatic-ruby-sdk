@@ -6,6 +6,31 @@
 module AdvancedBilling
   # ProductsController
   class ProductsController < BaseController
+    # Sending a DELETE request to this endpoint will archive the product. All
+    # current subscribers will be unffected; their subscription/purchase will
+    # continue to be charged monthly.
+    # This will restrict the option to chose the product for purchase via the
+    # Billing Portal, as well as disable Public Signup Pages for the product.
+    # @param [Integer] product_id Required parameter: The Chargify id of the
+    # product
+    # @return [ProductResponse] response from the API call
+    def archive_product(product_id)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::DELETE,
+                                     '/products/{product_id}.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(product_id, key: 'product_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(ProductResponse.method(:from_hash)))
+        .execute
+    end
+
     # Use this method to create a product within your Chargify site.
     # + [Products
     # Documentation](https://maxio-chargify.zendesk.com/hc/en-us/articles/540556
@@ -30,7 +55,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -52,7 +77,7 @@ module AdvancedBilling
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -85,7 +110,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -93,31 +118,6 @@ module AdvancedBilling
                    .local_error('422',
                                 'Unprocessable Entity (WebDAV)',
                                 ErrorListResponseException))
-        .execute
-    end
-
-    # Sending a DELETE request to this endpoint will archive the product. All
-    # current subscribers will be unffected; their subscription/purchase will
-    # continue to be charged monthly.
-    # This will restrict the option to chose the product for purchase via the
-    # Billing Portal, as well as disable Public Signup Pages for the product.
-    # @param [Integer] product_id Required parameter: The Chargify id of the
-    # product
-    # @return [ProductResponse] response from the API call
-    def archive_product(product_id)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::DELETE,
-                                     '/products/{product_id}.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(product_id, key: 'product_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductResponse.method(:from_hash)))
         .execute
     end
 
@@ -133,7 +133,7 @@ module AdvancedBilling
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -208,7 +208,7 @@ module AdvancedBilling
                    .query_param(new_parameter(options['filter_prepaid_product_price_point_product_price_point_id'], key: 'filter[prepaid_product_price_point][product_price_point_id]'))
                    .query_param(new_parameter(options['filter_use_site_exchange_rate'], key: 'filter[use_site_exchange_rate]'))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))

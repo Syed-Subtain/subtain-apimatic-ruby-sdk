@@ -6,33 +6,30 @@
 module AdvancedBilling
   # SubscriptionNotesController
   class SubscriptionNotesController < BaseController
-    # Use the following method to create a note for a subscription.
-    # ## How to Use Subscription Notes
-    # Notes allow you to record information about a particular Subscription in a
-    # free text format.
-    # If you have structured data such as birth date, color, etc., consider
-    # using Metadata instead.
-    # Full documentation on how to use Notes in the Chargify UI can be located
-    # [here](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404434903181-
-    # Subscription-Summary#notes).
+    # Use the following method to update a note for a Subscription.
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
+    # @param [String] note_id Required parameter: The Chargify id of the note
     # @param [UpdateSubscriptionNoteRequest] body Optional parameter: Example:
     # @return [SubscriptionNoteResponse] response from the API call
-    def create_subscription_note(subscription_id,
+    def update_subscription_note(subscription_id,
+                                 note_id,
                                  body: nil)
       new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/subscriptions/{subscription_id}/notes.json',
+        .request(new_request_builder(HttpMethodEnum::PUT,
+                                     '/subscriptions/{subscription_id}/notes/{note_id}.json',
                                      Server::DEFAULT)
                    .template_param(new_parameter(subscription_id, key: 'subscription_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .template_param(new_parameter(note_id, key: 'note_id')
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'Content-Type'))
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -52,7 +49,7 @@ module AdvancedBilling
                    .template_param(new_parameter(subscription_id, key: 'subscription_id')
                                     .is_required(true)
                                     .should_encode(true))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .is_response_void(true)
@@ -89,7 +86,7 @@ module AdvancedBilling
                    .query_param(new_parameter(options['page'], key: 'page'))
                    .query_param(new_parameter(options['per_page'], key: 'per_page'))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -117,7 +114,7 @@ module AdvancedBilling
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -125,30 +122,33 @@ module AdvancedBilling
         .execute
     end
 
-    # Use the following method to update a note for a Subscription.
+    # Use the following method to create a note for a subscription.
+    # ## How to Use Subscription Notes
+    # Notes allow you to record information about a particular Subscription in a
+    # free text format.
+    # If you have structured data such as birth date, color, etc., consider
+    # using Metadata instead.
+    # Full documentation on how to use Notes in the Chargify UI can be located
+    # [here](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404434903181-
+    # Subscription-Summary#notes).
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
-    # @param [String] note_id Required parameter: The Chargify id of the note
     # @param [UpdateSubscriptionNoteRequest] body Optional parameter: Example:
     # @return [SubscriptionNoteResponse] response from the API call
-    def update_subscription_note(subscription_id,
-                                 note_id,
+    def create_subscription_note(subscription_id,
                                  body: nil)
       new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::PUT,
-                                     '/subscriptions/{subscription_id}/notes/{note_id}.json',
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/subscriptions/{subscription_id}/notes.json',
                                      Server::DEFAULT)
                    .template_param(new_parameter(subscription_id, key: 'subscription_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .template_param(new_parameter(note_id, key: 'note_id')
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'Content-Type'))
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))

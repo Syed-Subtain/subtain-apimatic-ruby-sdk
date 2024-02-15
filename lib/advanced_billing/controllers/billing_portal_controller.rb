@@ -6,6 +6,109 @@
 module AdvancedBilling
   # BillingPortalController
   class BillingPortalController < BaseController
+    # You can revoke a customer's Billing Portal invitation.
+    # If you attempt to revoke an invitation when the Billing Portal is already
+    # disabled for a Customer, you will receive a 422 error response.
+    # ## Limitations
+    # This endpoint will only return a JSON response.
+    # @param [Integer] customer_id Required parameter: The Chargify id of the
+    # customer
+    # @return [RevokedInvitation] response from the API call
+    def revoke_billing_portal_access(customer_id)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::DELETE,
+                                     '/portal/customers/{customer_id}/invitations/revoke.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(customer_id, key: 'customer_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(RevokedInvitation.method(:from_hash))
+                   .local_error('422',
+                                'Unprocessable Entity (WebDAV)',
+                                APIException))
+        .execute
+    end
+
+    # This method will provide to the API user the exact URL required for a
+    # subscriber to access the Billing Portal.
+    # ## Rules for Management Link API
+    # + When retrieving a management URL, multiple requests for the same
+    # customer in a short period will return the **same** URL
+    # + We will not generate a new URL for 15 days
+    # + You must cache and remember this URL if you are going to need it again
+    # within 15 days
+    # + Only request a new URL after the `new_link_available_at` date
+    # + You are limited to 15 requests for the same URL. If you make more than
+    # 15 requests before `new_link_available_at`, you will be blocked from
+    # further Management URL requests (with a response code `429`)
+    # @param [Integer] customer_id Required parameter: The Chargify id of the
+    # customer
+    # @return [PortalManagementLink] response from the API call
+    def read_billing_portal_link(customer_id)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::GET,
+                                     '/portal/customers/{customer_id}/management_link.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(customer_id, key: 'customer_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(PortalManagementLink.method(:from_hash))
+                   .local_error('422',
+                                'Unprocessable Entity (WebDAV)',
+                                ErrorListResponseException)
+                   .local_error('429',
+                                'Too Many Requests',
+                                TooManyManagementLinkRequestsErrorException))
+        .execute
+    end
+
+    # You can resend a customer's Billing Portal invitation.
+    # If you attempt to resend an invitation 5 times within 30 minutes, you will
+    # receive a `422` response with `error` message in the body.
+    # If you attempt to resend an invitation when the Billing Portal is already
+    # disabled for a Customer, you will receive a `422` error response.
+    # If you attempt to resend an invitation when the Billing Portal is already
+    # disabled for a Customer, you will receive a `422` error response.
+    # If you attempt to resend an invitation when the Customer does not exist a
+    # Customer, you will receive a `404` error response.
+    # ## Limitations
+    # This endpoint will only return a JSON response.
+    # @param [Integer] customer_id Required parameter: The Chargify id of the
+    # customer
+    # @return [ResentInvitation] response from the API call
+    def resend_billing_portal_invitation(customer_id)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/portal/customers/{customer_id}/invitations/invite.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(customer_id, key: 'customer_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(ResentInvitation.method(:from_hash))
+                   .local_error('404',
+                                'Not Found',
+                                APIException)
+                   .local_error('422',
+                                'Unprocessable Entity (WebDAV)',
+                                ErrorListResponseException))
+        .execute
+    end
+
     # ## Billing Portal Documentation
     # Full documentation on how the Billing Portal operates within the Chargify
     # UI can be located
@@ -48,7 +151,7 @@ module AdvancedBilling
                                     .should_encode(true))
                    .query_param(new_parameter(auto_invite, key: 'auto_invite'))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -56,109 +159,6 @@ module AdvancedBilling
                    .local_error('422',
                                 'Unprocessable Entity (WebDAV)',
                                 ErrorListResponseException))
-        .execute
-    end
-
-    # This method will provide to the API user the exact URL required for a
-    # subscriber to access the Billing Portal.
-    # ## Rules for Management Link API
-    # + When retrieving a management URL, multiple requests for the same
-    # customer in a short period will return the **same** URL
-    # + We will not generate a new URL for 15 days
-    # + You must cache and remember this URL if you are going to need it again
-    # within 15 days
-    # + Only request a new URL after the `new_link_available_at` date
-    # + You are limited to 15 requests for the same URL. If you make more than
-    # 15 requests before `new_link_available_at`, you will be blocked from
-    # further Management URL requests (with a response code `429`)
-    # @param [Integer] customer_id Required parameter: The Chargify id of the
-    # customer
-    # @return [PortalManagementLink] response from the API call
-    def read_billing_portal_link(customer_id)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::GET,
-                                     '/portal/customers/{customer_id}/management_link.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(customer_id, key: 'customer_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(PortalManagementLink.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException)
-                   .local_error('429',
-                                'Too Many Requests',
-                                TooManyManagementLinkRequestsErrorException))
-        .execute
-    end
-
-    # You can resend a customer's Billing Portal invitation.
-    # If you attempt to resend an invitation 5 times within 30 minutes, you will
-    # receive a `422` response with `error` message in the body.
-    # If you attempt to resend an invitation when the Billing Portal is already
-    # disabled for a Customer, you will receive a `422` error response.
-    # If you attempt to resend an invitation when the Billing Portal is already
-    # disabled for a Customer, you will receive a `422` error response.
-    # If you attempt to resend an invitation when the Customer does not exist a
-    # Customer, you will receive a `404` error response.
-    # ## Limitations
-    # This endpoint will only return a JSON response.
-    # @param [Integer] customer_id Required parameter: The Chargify id of the
-    # customer
-    # @return [ResentInvitation] response from the API call
-    def resend_billing_portal_invitation(customer_id)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/portal/customers/{customer_id}/invitations/invite.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(customer_id, key: 'customer_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ResentInvitation.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
-        .execute
-    end
-
-    # You can revoke a customer's Billing Portal invitation.
-    # If you attempt to revoke an invitation when the Billing Portal is already
-    # disabled for a Customer, you will receive a 422 error response.
-    # ## Limitations
-    # This endpoint will only return a JSON response.
-    # @param [Integer] customer_id Required parameter: The Chargify id of the
-    # customer
-    # @return [RevokedInvitation] response from the API call
-    def revoke_billing_portal_access(customer_id)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::DELETE,
-                                     '/portal/customers/{customer_id}/invitations/revoke.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(customer_id, key: 'customer_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(RevokedInvitation.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                APIException))
         .execute
     end
   end

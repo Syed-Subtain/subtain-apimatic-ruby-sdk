@@ -6,35 +6,6 @@
 module AdvancedBilling
   # ProductPricePointsController
   class ProductPricePointsController < BaseController
-    # [Product Price Point
-    # Documentation](https://chargify.zendesk.com/hc/en-us/articles/440775582415
-    # 5)
-    # @param [Integer] product_id Required parameter: The id or handle of the
-    # product. When using the handle, it must be prefixed with `handle:`
-    # @param [CreateProductPricePointRequest] body Optional parameter:
-    # Example:
-    # @return [ProductPricePointResponse] response from the API call
-    def create_product_price_point(product_id,
-                                   body: nil)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/products/{product_id}/price_points.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(product_id, key: 'product_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'Content-Type'))
-                   .body_param(new_parameter(body))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductPricePointResponse.method(:from_hash)))
-        .execute
-    end
-
     # Use this endpoint to retrieve a list of product price points.
     # @param [Integer] product_id Required parameter: The id or handle of the
     # product. When using the handle, it must be prefixed with `handle:`
@@ -72,13 +43,41 @@ module AdvancedBilling
                    .query_param(new_parameter(options['currency_prices'], key: 'currency_prices'))
                    .query_param(new_parameter(options['filter_type'], key: 'filter[type]'))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global'))
-
+                   .auth(Single.new('BasicAuth'))
                    .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
                    .deserialize_into(ListProductPricePointsResponse.method(:from_hash)))
+        .execute
+    end
+
+    # [Product Price Point
+    # Documentation](https://chargify.zendesk.com/hc/en-us/articles/440775582415
+    # 5)
+    # @param [Integer] product_id Required parameter: The id or handle of the
+    # product. When using the handle, it must be prefixed with `handle:`
+    # @param [CreateProductPricePointRequest] body Optional parameter:
+    # Example:
+    # @return [ProductPricePointResponse] response from the API call
+    def create_product_price_point(product_id,
+                                   body: nil)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/products/{product_id}/price_points.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(product_id, key: 'product_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'Content-Type'))
+                   .body_param(new_parameter(body))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(ProductPricePointResponse.method(:from_hash)))
         .execute
     end
 
@@ -109,72 +108,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductPricePointResponse.method(:from_hash)))
-        .execute
-    end
-
-    # Use this endpoint to retrieve details for a specific product price point.
-    # @param [Integer] product_id Required parameter: The id or handle of the
-    # product. When using the handle, it must be prefixed with `handle:`
-    # @param [Integer] price_point_id Required parameter: The id or handle of
-    # the price point. When using the handle, it must be prefixed with
-    # `handle:`
-    # @param [TrueClass | FalseClass] currency_prices Optional parameter: When
-    # fetching a product's price points, if you have defined multiple currencies
-    # at the site level, you can optionally pass the ?currency_prices=true query
-    # param to include an array of currency price data in the response. If the
-    # product price point is set to use_site_exchange_rate: true, it will return
-    # pricing based on the current exchange rate. If the flag is set to false,
-    # it will return all of the defined prices for each currency.
-    # @return [ProductPricePointResponse] response from the API call
-    def read_product_price_point(product_id,
-                                 price_point_id,
-                                 currency_prices: nil)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::GET,
-                                     '/products/{product_id}/price_points/{price_point_id}.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(product_id, key: 'product_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .template_param(new_parameter(price_point_id, key: 'price_point_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .query_param(new_parameter(currency_prices, key: 'currency_prices'))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductPricePointResponse.method(:from_hash)))
-        .execute
-    end
-
-    # Use this endpoint to archive a product price point.
-    # @param [Integer] product_id Required parameter: The id or handle of the
-    # product. When using the handle, it must be prefixed with `handle:`
-    # @param [Integer] price_point_id Required parameter: The id or handle of
-    # the price point. When using the handle, it must be prefixed with
-    # `handle:`
-    # @return [ProductPricePointResponse] response from the API call
-    def archive_product_price_point(product_id,
-                                    price_point_id)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::DELETE,
-                                     '/products/{product_id}/price_points/{price_point_id}.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(product_id, key: 'product_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .template_param(new_parameter(price_point_id, key: 'price_point_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -201,37 +135,7 @@ module AdvancedBilling
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductPricePointResponse.method(:from_hash)))
-        .execute
-    end
-
-    # Use this endpoint to make a product price point the default for the
-    # product.
-    # Note: Custom product price points are not able to be set as the default
-    # for a product.
-    # @param [Integer] product_id Required parameter: The Chargify id of the
-    # product to which the price point belongs
-    # @param [Integer] price_point_id Required parameter: The Chargify id of the
-    # product price point
-    # @return [ProductPricePointResponse] response from the API call
-    def set_default_price_point_for_product(product_id,
-                                            price_point_id)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::PATCH,
-                                     '/products/{product_id}/price_points/{price_point_id}/default.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(product_id, key: 'product_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .template_param(new_parameter(price_point_id, key: 'price_point_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -258,7 +162,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -291,7 +195,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -299,6 +203,64 @@ module AdvancedBilling
                    .local_error('422',
                                 'Unprocessable Entity (WebDAV)',
                                 ErrorMapResponseException))
+        .execute
+    end
+
+    # Use this endpoint to archive a product price point.
+    # @param [Integer] product_id Required parameter: The id or handle of the
+    # product. When using the handle, it must be prefixed with `handle:`
+    # @param [Integer] price_point_id Required parameter: The id or handle of
+    # the price point. When using the handle, it must be prefixed with
+    # `handle:`
+    # @return [ProductPricePointResponse] response from the API call
+    def archive_product_price_point(product_id,
+                                    price_point_id)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::DELETE,
+                                     '/products/{product_id}/price_points/{price_point_id}.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(product_id, key: 'product_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .template_param(new_parameter(price_point_id, key: 'price_point_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(ProductPricePointResponse.method(:from_hash)))
+        .execute
+    end
+
+    # Use this endpoint to make a product price point the default for the
+    # product.
+    # Note: Custom product price points are not able to be set as the default
+    # for a product.
+    # @param [Integer] product_id Required parameter: The Chargify id of the
+    # product to which the price point belongs
+    # @param [Integer] price_point_id Required parameter: The Chargify id of the
+    # product price point
+    # @return [ProductPricePointResponse] response from the API call
+    def set_default_price_point_for_product(product_id,
+                                            price_point_id)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::PATCH,
+                                     '/products/{product_id}/price_points/{price_point_id}/default.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(product_id, key: 'product_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .template_param(new_parameter(price_point_id, key: 'price_point_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(ProductPricePointResponse.method(:from_hash)))
         .execute
     end
 
@@ -326,7 +288,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -408,8 +370,7 @@ module AdvancedBilling
                    .query_param(new_parameter(options['page'], key: 'page'))
                    .query_param(new_parameter(options['per_page'], key: 'per_page'))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global'))
-
+                   .auth(Single.new('BasicAuth'))
                    .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
                    .is_nullify404(true)
@@ -418,6 +379,43 @@ module AdvancedBilling
                    .local_error('422',
                                 'Unprocessable Entity (WebDAV)',
                                 ErrorListResponseException))
+        .execute
+    end
+
+    # Use this endpoint to retrieve details for a specific product price point.
+    # @param [Integer] product_id Required parameter: The id or handle of the
+    # product. When using the handle, it must be prefixed with `handle:`
+    # @param [Integer] price_point_id Required parameter: The id or handle of
+    # the price point. When using the handle, it must be prefixed with
+    # `handle:`
+    # @param [TrueClass | FalseClass] currency_prices Optional parameter: When
+    # fetching a product's price points, if you have defined multiple currencies
+    # at the site level, you can optionally pass the ?currency_prices=true query
+    # param to include an array of currency price data in the response. If the
+    # product price point is set to use_site_exchange_rate: true, it will return
+    # pricing based on the current exchange rate. If the flag is set to false,
+    # it will return all of the defined prices for each currency.
+    # @return [ProductPricePointResponse] response from the API call
+    def read_product_price_point(product_id,
+                                 price_point_id,
+                                 currency_prices: nil)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::GET,
+                                     '/products/{product_id}/price_points/{price_point_id}.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(product_id, key: 'product_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .template_param(new_parameter(price_point_id, key: 'price_point_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .query_param(new_parameter(currency_prices, key: 'currency_prices'))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(ProductPricePointResponse.method(:from_hash)))
         .execute
     end
   end

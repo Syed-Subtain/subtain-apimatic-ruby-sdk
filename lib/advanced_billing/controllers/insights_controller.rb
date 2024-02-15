@@ -6,30 +6,6 @@
 module AdvancedBilling
   # InsightsController
   class InsightsController < BaseController
-    # The Stats API is a very basic view of some Site-level stats. This API call
-    # only answers with JSON responses. An XML version is not provided.
-    # ## Stats Documentation
-    # There currently is not a complimentary matching set of documentation that
-    # compliments this endpoint. However, each Site's dashboard will reflect the
-    # summary of information provided in the Stats reposnse.
-    # ```
-    # https://subdomain.chargify.com/dashboard
-    # ```
-    # @return [SiteSummary] response from the API call
-    def read_site_stats
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::GET,
-                                     '/stats.json',
-                                     Server::DEFAULT)
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SiteSummary.method(:from_hash)))
-        .execute
-    end
-
     # This endpoint returns your site's current MRR, including plan and usage
     # breakouts.
     # @param [DateTime] at_time Optional parameter: submit a timestamp in
@@ -47,11 +23,35 @@ module AdvancedBilling
                    .query_param(new_parameter(at_time, key: 'at_time'))
                    .query_param(new_parameter(subscription_id, key: 'subscription_id'))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
                    .deserialize_into(MRRResponse.method(:from_hash)))
+        .execute
+    end
+
+    # The Stats API is a very basic view of some Site-level stats. This API call
+    # only answers with JSON responses. An XML version is not provided.
+    # ## Stats Documentation
+    # There currently is not a complimentary matching set of documentation that
+    # compliments this endpoint. However, each Site's dashboard will reflect the
+    # summary of information provided in the Stats reposnse.
+    # ```
+    # https://subdomain.chargify.com/dashboard
+    # ```
+    # @return [SiteSummary] response from the API call
+    def read_site_stats
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::GET,
+                                     '/stats.json',
+                                     Server::DEFAULT)
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(SiteSummary.method(:from_hash)))
         .execute
     end
 
@@ -109,7 +109,7 @@ module AdvancedBilling
                                                   .validate(value)
                                  end))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -153,8 +153,7 @@ module AdvancedBilling
                    .query_param(new_parameter(options['per_page'], key: 'per_page'))
                    .query_param(new_parameter(options['direction'], key: 'direction'))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global'))
-
+                   .auth(Single.new('BasicAuth'))
                    .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
                    .is_nullify404(true)

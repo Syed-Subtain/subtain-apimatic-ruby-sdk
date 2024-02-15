@@ -307,7 +307,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -318,38 +318,118 @@ module AdvancedBilling
         .execute
     end
 
-    # This method will return all of the active `payment_profiles` for a Site,
-    # or for one Customer within a site.  If no payment profiles are found, this
-    # endpoint will return an empty array, not a 404.
-    # @param [Integer] page Optional parameter: Result records are organized in
-    # pages. By default, the first page of results is displayed. The page
-    # parameter specifies a page number of results to fetch. You can start
-    # navigating through the pages to consume the results. You do this by
-    # passing in a page parameter. Retrieve the next page by adding ?page=2 to
-    # the query string. If there are no results to return, then an empty result
-    # set will be returned. Use in query `page=1`.
-    # @param [Integer] per_page Optional parameter: This parameter indicates how
-    # many records to fetch in each request. Default value is 20. The maximum
-    # allowed values is 200; any per_page value over 200 will be changed to 200.
-    # Use in query `per_page=200`.
-    # @param [Integer] customer_id Optional parameter: The ID of the customer
-    # for which you wish to list payment profiles
-    # @return [Array[ListPaymentProfilesResponse]] response from the API call
-    def list_payment_profiles(options = {})
+    # Deletes an unused payment profile.
+    # If the payment profile is in use by one or more subscriptions or groups, a
+    # 422 and error message will be returned.
+    # @param [String] payment_profile_id Required parameter: The Chargify id of
+    # the payment profile
+    # @return [void] response from the API call
+    def delete_unused_payment_profile(payment_profile_id)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::DELETE,
+                                     '/payment_profiles/{payment_profile_id}.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(payment_profile_id, key: 'payment_profile_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .is_response_void(true)
+                   .local_error('422',
+                                'Unprocessable Entity (WebDAV)',
+                                ErrorListResponseException))
+        .execute
+    end
+
+    # This will delete a payment profile belonging to the customer on the
+    # subscription.
+    # + If the customer has multiple subscriptions, the payment profile will be
+    # removed from all of them.
+    # + If you delete the default payment profile for a subscription, you will
+    # need to specify another payment profile to be the default through the api,
+    # or either prompt the user to enter a card in the billing portal or on the
+    # self-service page, or visit the Payment Details tab on the subscription in
+    # the Admin UI and use the “Add New Credit Card” or “Make Active Payment
+    # Method” link, (depending on whether there are other cards present).
+    # @param [String] subscription_id Required parameter: The Chargify id of the
+    # subscription
+    # @param [String] payment_profile_id Required parameter: The Chargify id of
+    # the payment profile
+    # @return [void] response from the API call
+    def delete_subscriptions_payment_profile(subscription_id,
+                                             payment_profile_id)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::DELETE,
+                                     '/subscriptions/{subscription_id}/payment_profiles/{payment_profile_id}.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .template_param(new_parameter(payment_profile_id, key: 'payment_profile_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .is_response_void(true))
+        .execute
+    end
+
+    # This will delete a Payment Profile belonging to a Subscription Group.
+    # **Note**: If the Payment Profile belongs to multiple Subscription Groups
+    # and/or Subscriptions, it will be removed from all of them.
+    # @param [String] uid Required parameter: The uid of the subscription
+    # group
+    # @param [String] payment_profile_id Required parameter: The Chargify id of
+    # the payment profile
+    # @return [void] response from the API call
+    def delete_subscription_group_payment_profile(uid,
+                                                  payment_profile_id)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::DELETE,
+                                     '/subscription_groups/{uid}/payment_profiles/{payment_profile_id}.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(uid, key: 'uid')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .template_param(new_parameter(payment_profile_id, key: 'payment_profile_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .is_response_void(true))
+        .execute
+    end
+
+    # One Time Tokens aka Chargify Tokens house the credit card or ACH
+    # (Authorize.Net or Stripe only) data for a customer.
+    # You can use One Time Tokens while creating a subscription or payment
+    # profile instead of passing all bank account or credit card data directly
+    # to a given API endpoint.
+    # To obtain a One Time Token you have to use
+    # [chargify.js](https://developers.chargify.com/docs/developer-docs/ZG9jOjE0
+    # NjAzNDI0-overview).
+    # @param [String] chargify_token Required parameter: Chargify Token
+    # @return [GetOneTimeTokenRequest] response from the API call
+    def read_one_time_token(chargify_token)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
-                                     '/payment_profiles.json',
+                                     '/one_time_tokens/{chargify_token}.json',
                                      Server::DEFAULT)
-                   .query_param(new_parameter(options['page'], key: 'page'))
-                   .query_param(new_parameter(options['per_page'], key: 'per_page'))
-                   .query_param(new_parameter(options['customer_id'], key: 'customer_id'))
+                   .template_param(new_parameter(chargify_token, key: 'chargify_token')
+                                    .is_required(true)
+                                    .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListPaymentProfilesResponse.method(:from_hash))
-                   .is_response_array(true))
+                   .deserialize_into(GetOneTimeTokenRequest.method(:from_hash))
+                   .local_error('404',
+                                'Not Found',
+                                ErrorListResponseException))
         .execute
     end
 
@@ -398,7 +478,7 @@ module AdvancedBilling
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -465,130 +545,11 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
                    .deserialize_into(UpdatePaymentProfileResponse.method(:from_hash)))
-        .execute
-    end
-
-    # Deletes an unused payment profile.
-    # If the payment profile is in use by one or more subscriptions or groups, a
-    # 422 and error message will be returned.
-    # @param [String] payment_profile_id Required parameter: The Chargify id of
-    # the payment profile
-    # @return [void] response from the API call
-    def delete_unused_payment_profile(payment_profile_id)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::DELETE,
-                                     '/payment_profiles/{payment_profile_id}.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(payment_profile_id, key: 'payment_profile_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
-        .execute
-    end
-
-    # This will delete a payment profile belonging to the customer on the
-    # subscription.
-    # + If the customer has multiple subscriptions, the payment profile will be
-    # removed from all of them.
-    # + If you delete the default payment profile for a subscription, you will
-    # need to specify another payment profile to be the default through the api,
-    # or either prompt the user to enter a card in the billing portal or on the
-    # self-service page, or visit the Payment Details tab on the subscription in
-    # the Admin UI and use the “Add New Credit Card” or “Make Active Payment
-    # Method” link, (depending on whether there are other cards present).
-    # @param [String] subscription_id Required parameter: The Chargify id of the
-    # subscription
-    # @param [String] payment_profile_id Required parameter: The Chargify id of
-    # the payment profile
-    # @return [void] response from the API call
-    def delete_subscriptions_payment_profile(subscription_id,
-                                             payment_profile_id)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::DELETE,
-                                     '/subscriptions/{subscription_id}/payment_profiles/{payment_profile_id}.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .template_param(new_parameter(payment_profile_id, key: 'payment_profile_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true))
-        .execute
-    end
-
-    # Submit the two small deposit amounts the customer received in their bank
-    # account in order to verify the bank account. (Stripe only)
-    # @param [Integer] bank_account_id Required parameter: Identifier of the
-    # bank account in the system.
-    # @param [BankAccountVerificationRequest] body Optional parameter:
-    # Example:
-    # @return [BankAccountResponse] response from the API call
-    def verify_bank_account(bank_account_id,
-                            body: nil)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::PUT,
-                                     '/bank_accounts/{bank_account_id}/verification.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(bank_account_id, key: 'bank_account_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'Content-Type'))
-                   .body_param(new_parameter(body))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(BankAccountResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
-        .execute
-    end
-
-    # This will delete a Payment Profile belonging to a Subscription Group.
-    # **Note**: If the Payment Profile belongs to multiple Subscription Groups
-    # and/or Subscriptions, it will be removed from all of them.
-    # @param [String] uid Required parameter: The uid of the subscription
-    # group
-    # @param [String] payment_profile_id Required parameter: The Chargify id of
-    # the payment profile
-    # @return [void] response from the API call
-    def delete_subscription_group_payment_profile(uid,
-                                                  payment_profile_id)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::DELETE,
-                                     '/subscription_groups/{uid}/payment_profiles/{payment_profile_id}.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(uid, key: 'uid')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .template_param(new_parameter(payment_profile_id, key: 'payment_profile_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true))
         .execute
     end
 
@@ -614,7 +575,7 @@ module AdvancedBilling
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -649,7 +610,7 @@ module AdvancedBilling
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -660,32 +621,71 @@ module AdvancedBilling
         .execute
     end
 
-    # One Time Tokens aka Chargify Tokens house the credit card or ACH
-    # (Authorize.Net or Stripe only) data for a customer.
-    # You can use One Time Tokens while creating a subscription or payment
-    # profile instead of passing all bank account or credit card data directly
-    # to a given API endpoint.
-    # To obtain a One Time Token you have to use
-    # [chargify.js](https://developers.chargify.com/docs/developer-docs/ZG9jOjE0
-    # NjAzNDI0-overview).
-    # @param [String] chargify_token Required parameter: Chargify Token
-    # @return [GetOneTimeTokenRequest] response from the API call
-    def read_one_time_token(chargify_token)
+    # This method will return all of the active `payment_profiles` for a Site,
+    # or for one Customer within a site.  If no payment profiles are found, this
+    # endpoint will return an empty array, not a 404.
+    # @param [Integer] page Optional parameter: Result records are organized in
+    # pages. By default, the first page of results is displayed. The page
+    # parameter specifies a page number of results to fetch. You can start
+    # navigating through the pages to consume the results. You do this by
+    # passing in a page parameter. Retrieve the next page by adding ?page=2 to
+    # the query string. If there are no results to return, then an empty result
+    # set will be returned. Use in query `page=1`.
+    # @param [Integer] per_page Optional parameter: This parameter indicates how
+    # many records to fetch in each request. Default value is 20. The maximum
+    # allowed values is 200; any per_page value over 200 will be changed to 200.
+    # Use in query `per_page=200`.
+    # @param [Integer] customer_id Optional parameter: The ID of the customer
+    # for which you wish to list payment profiles
+    # @return [Array[ListPaymentProfilesResponse]] response from the API call
+    def list_payment_profiles(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
-                                     '/one_time_tokens/{chargify_token}.json',
+                                     '/payment_profiles.json',
                                      Server::DEFAULT)
-                   .template_param(new_parameter(chargify_token, key: 'chargify_token')
-                                    .is_required(true)
-                                    .should_encode(true))
+                   .query_param(new_parameter(options['page'], key: 'page'))
+                   .query_param(new_parameter(options['per_page'], key: 'per_page'))
+                   .query_param(new_parameter(options['customer_id'], key: 'customer_id'))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(GetOneTimeTokenRequest.method(:from_hash))
+                   .deserialize_into(ListPaymentProfilesResponse.method(:from_hash))
+                   .is_response_array(true))
+        .execute
+    end
+
+    # Submit the two small deposit amounts the customer received in their bank
+    # account in order to verify the bank account. (Stripe only)
+    # @param [Integer] bank_account_id Required parameter: Identifier of the
+    # bank account in the system.
+    # @param [BankAccountVerificationRequest] body Optional parameter:
+    # Example:
+    # @return [BankAccountResponse] response from the API call
+    def verify_bank_account(bank_account_id,
+                            body: nil)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::PUT,
+                                     '/bank_accounts/{bank_account_id}/verification.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(bank_account_id, key: 'bank_account_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'Content-Type'))
+                   .body_param(new_parameter(body))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(BankAccountResponse.method(:from_hash))
                    .local_error('404',
                                 'Not Found',
+                                APIException)
+                   .local_error('422',
+                                'Unprocessable Entity (WebDAV)',
                                 ErrorListResponseException))
         .execute
     end
@@ -716,7 +716,7 @@ module AdvancedBilling
                    .template_param(new_parameter(subscription_id, key: 'subscription_id')
                                     .is_required(true)
                                     .should_encode(true))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .is_response_void(true)

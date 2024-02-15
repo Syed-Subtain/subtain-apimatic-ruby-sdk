@@ -6,6 +6,34 @@
 module AdvancedBilling
   # SubscriptionInvoiceAccountController
   class SubscriptionInvoiceAccountController < BaseController
+    # Credit will be added to the subscription in the amount specified in the
+    # request body. The credit is subsequently applied to the next generated
+    # invoice.
+    # @param [String] subscription_id Required parameter: The Chargify id of the
+    # subscription
+    # @param [IssueServiceCreditRequest] body Optional parameter: Example:
+    # @return [ServiceCredit] response from the API call
+    def issue_service_credit(subscription_id,
+                             body: nil)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/subscriptions/{subscription_id}/service_credits.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'Content-Type'))
+                   .body_param(new_parameter(body))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(ServiceCredit.method(:from_hash)))
+        .execute
+    end
+
     # Returns the `balance_in_cents` of the Subscription's Pending Discount,
     # Service Credit, and Prepayment accounts, as well as the sum of the
     # Subscription's open, payable invoices.
@@ -21,44 +49,11 @@ module AdvancedBilling
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
                    .deserialize_into(AccountBalances.method(:from_hash)))
-        .execute
-    end
-
-    # ## Create Prepayment
-    # In order to specify a prepayment made against a subscription, specify the
-    # `amount, memo, details, method`.
-    # When the `method` specified is `"credit_card_on_file"`, the prepayment
-    # amount will be collected using the default credit card payment profile and
-    # applied to the prepayment account balance.  This is especially useful for
-    # manual replenishment of prepaid subscriptions.
-    # Please note that you **can't** pass `amount_in_cents`.
-    # @param [String] subscription_id Required parameter: The Chargify id of the
-    # subscription
-    # @param [CreatePrepaymentRequest] body Optional parameter: Example:
-    # @return [CreatePrepaymentResponse] response from the API call
-    def create_prepayment(subscription_id,
-                          body: nil)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/subscriptions/{subscription_id}/prepayments.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'Content-Type'))
-                   .body_param(new_parameter(body))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CreatePrepaymentResponse.method(:from_hash)))
         .execute
     end
 
@@ -104,7 +99,7 @@ module AdvancedBilling
                    .query_param(new_parameter(options['filter_start_date'], key: 'filter[start_date]'))
                    .query_param(new_parameter(options['filter_end_date'], key: 'filter[end_date]'))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -118,34 +113,6 @@ module AdvancedBilling
                    .local_error('404',
                                 'Not Found',
                                 APIException))
-        .execute
-    end
-
-    # Credit will be added to the subscription in the amount specified in the
-    # request body. The credit is subsequently applied to the next generated
-    # invoice.
-    # @param [String] subscription_id Required parameter: The Chargify id of the
-    # subscription
-    # @param [IssueServiceCreditRequest] body Optional parameter: Example:
-    # @return [ServiceCredit] response from the API call
-    def issue_service_credit(subscription_id,
-                             body: nil)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/subscriptions/{subscription_id}/service_credits.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'Content-Type'))
-                   .body_param(new_parameter(body))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ServiceCredit.method(:from_hash)))
         .execute
     end
 
@@ -168,13 +135,46 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'Content-Type'))
                    .body_param(new_parameter(body))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .is_response_void(true)
                    .local_error('422',
                                 'Unprocessable Entity (WebDAV)',
                                 ErrorListResponseException))
+        .execute
+    end
+
+    # ## Create Prepayment
+    # In order to specify a prepayment made against a subscription, specify the
+    # `amount, memo, details, method`.
+    # When the `method` specified is `"credit_card_on_file"`, the prepayment
+    # amount will be collected using the default credit card payment profile and
+    # applied to the prepayment account balance.  This is especially useful for
+    # manual replenishment of prepaid subscriptions.
+    # Please note that you **can't** pass `amount_in_cents`.
+    # @param [String] subscription_id Required parameter: The Chargify id of the
+    # subscription
+    # @param [CreatePrepaymentRequest] body Optional parameter: Example:
+    # @return [CreatePrepaymentResponse] response from the API call
+    def create_prepayment(subscription_id,
+                          body: nil)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/subscriptions/{subscription_id}/prepayments.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'Content-Type'))
+                   .body_param(new_parameter(body))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(CreatePrepaymentResponse.method(:from_hash)))
         .execute
     end
 
@@ -206,7 +206,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))

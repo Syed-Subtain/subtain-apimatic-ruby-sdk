@@ -6,6 +6,47 @@
 module AdvancedBilling
   # WebhooksController
   class WebhooksController < BaseController
+    # Posting to the replay endpoint does not immediately resend the webhooks.
+    # They are added to a queue and will be sent as soon as possible, depending
+    # on available system resources.
+    # You may submit an array of up to 1000 webhook IDs to replay in the
+    # request.
+    # @param [ReplayWebhooksRequest] body Optional parameter: Example:
+    # @return [ReplayWebhooksResponse] response from the API call
+    def replay_webhooks(body: nil)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/webhooks/replay.json',
+                                     Server::DEFAULT)
+                   .header_param(new_parameter('application/json', key: 'Content-Type'))
+                   .body_param(new_parameter(body))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(ReplayWebhooksResponse.method(:from_hash)))
+        .execute
+    end
+
+    # This method returns created endpoints for site.
+    # @return [Array[Endpoint]] response from the API call
+    def list_endpoints
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::GET,
+                                     '/endpoints.json',
+                                     Server::DEFAULT)
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(Endpoint.method(:from_hash))
+                   .is_response_array(true))
+        .execute
+    end
+
     # ## Webhooks Intro
     # The Webhooks API allows you to view a list of all webhooks and to
     # selectively resend individual or groups of webhooks. Webhooks will be sent
@@ -66,7 +107,7 @@ module AdvancedBilling
                    .query_param(new_parameter(options['order'], key: 'order'))
                    .query_param(new_parameter(options['subscription'], key: 'subscription'))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -87,35 +128,11 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
                    .deserialize_into(EnableWebhooksResponse.method(:from_hash)))
-        .execute
-    end
-
-    # Posting to the replay endpoint does not immediately resend the webhooks.
-    # They are added to a queue and will be sent as soon as possible, depending
-    # on available system resources.
-    # You may submit an array of up to 1000 webhook IDs to replay in the
-    # request.
-    # @param [ReplayWebhooksRequest] body Optional parameter: Example:
-    # @return [ReplayWebhooksResponse] response from the API call
-    def replay_webhooks(body: nil)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/webhooks/replay.json',
-                                     Server::DEFAULT)
-                   .header_param(new_parameter('application/json', key: 'Content-Type'))
-                   .body_param(new_parameter(body))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ReplayWebhooksResponse.method(:from_hash)))
         .execute
     end
 
@@ -136,7 +153,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -144,23 +161,6 @@ module AdvancedBilling
                    .local_error('422',
                                 'Unprocessable Entity (WebDAV)',
                                 ErrorListResponseException))
-        .execute
-    end
-
-    # This method returns created endpoints for site.
-    # @return [Array[Endpoint]] response from the API call
-    def list_endpoints
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::GET,
-                                     '/endpoints.json',
-                                     Server::DEFAULT)
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(Endpoint.method(:from_hash))
-                   .is_response_array(true))
         .execute
     end
 
@@ -193,7 +193,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))

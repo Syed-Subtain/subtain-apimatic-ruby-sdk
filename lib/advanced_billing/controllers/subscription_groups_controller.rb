@@ -6,40 +6,6 @@
 module AdvancedBilling
   # SubscriptionGroupsController
   class SubscriptionGroupsController < BaseController
-    # Create multiple subscriptions at once under the same customer and
-    # consolidate them into a subscription group.
-    # You must provide one and only one of the
-    # `payer_id`/`payer_reference`/`payer_attributes` for the customer attached
-    # to the group.
-    # You must provide one and only one of the
-    # `payment_profile_id`/`credit_card_attributes`/`bank_account_attributes`
-    # for the payment profile attached to the group.
-    # Only one of the `subscriptions` can have `"primary": true` attribute set.
-    # When passing product to a subscription you can use either `product_id` or
-    # `product_handle` or `offer_id`. You can also use `custom_price` instead.
-    # @param [SubscriptionGroupSignupRequest] body Optional parameter:
-    # Example:
-    # @return [SubscriptionGroupSignupResponse] response from the API call
-    def signup_with_subscription_group(body: nil)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/subscription_groups/signup.json',
-                                     Server::DEFAULT)
-                   .header_param(new_parameter('application/json', key: 'Content-Type'))
-                   .body_param(new_parameter(body))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionGroupSignupResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                SubscriptionGroupSignupErrorResponseException))
-        .execute
-    end
-
     # Creates a subscription group with given members.
     # @param [CreateSubscriptionGroupRequest] body Optional parameter:
     # Example:
@@ -53,7 +19,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -61,45 +27,6 @@ module AdvancedBilling
                    .local_error('422',
                                 'Unprocessable Entity (WebDAV)',
                                 SingleStringErrorResponseException))
-        .execute
-    end
-
-    # Returns an array of subscription groups for the site. The response is
-    # paginated and will return a `meta` key with pagination information.
-    # #### Account Balance Information
-    # Account balance information for the subscription groups is not returned by
-    # default. If this information is desired, the `include[]=account_balances`
-    # parameter must be provided with the request.
-    # @param [Integer] page Optional parameter: Result records are organized in
-    # pages. By default, the first page of results is displayed. The page
-    # parameter specifies a page number of results to fetch. You can start
-    # navigating through the pages to consume the results. You do this by
-    # passing in a page parameter. Retrieve the next page by adding ?page=2 to
-    # the query string. If there are no results to return, then an empty result
-    # set will be returned. Use in query `page=1`.
-    # @param [Integer] per_page Optional parameter: This parameter indicates how
-    # many records to fetch in each request. Default value is 20. The maximum
-    # allowed values is 200; any per_page value over 200 will be changed to 200.
-    # Use in query `per_page=200`.
-    # @param [String] include Optional parameter: A list of additional
-    # information to include in the response. The following values are
-    # supported:  - `account_balances`: Account balance information for the
-    # subscription groups. Use in query: `include[]=account_balances`
-    # @return [ListSubscriptionGroupsResponse] response from the API call
-    def list_subscription_groups(options = {})
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::GET,
-                                     '/subscription_groups.json',
-                                     Server::DEFAULT)
-                   .query_param(new_parameter(options['page'], key: 'page'))
-                   .query_param(new_parameter(options['per_page'], key: 'per_page'))
-                   .query_param(new_parameter(options['include'], key: 'include'))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListSubscriptionGroupsResponse.method(:from_hash)))
         .execute
     end
 
@@ -121,7 +48,7 @@ module AdvancedBilling
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -129,37 +56,33 @@ module AdvancedBilling
         .execute
     end
 
-    # Use this endpoint to update subscription group members.
-    # `"member_ids": []` should contain an array of both subscription IDs to set
-    # as group members and subscription IDs already present in the groups. Not
-    # including them will result in removing them from subscription group. To
-    # clean up members, just leave the array empty.
-    # @param [String] uid Required parameter: The uid of the subscription
-    # group
-    # @param [UpdateSubscriptionGroupRequest] body Optional parameter:
-    # Example:
-    # @return [SubscriptionGroupResponse] response from the API call
-    def update_subscription_group_members(uid,
-                                          body: nil)
+    # For sites making use of the [Relationship
+    # Billing](https://chargify.zendesk.com/hc/en-us/articles/4407737494171) and
+    # [Customer
+    # Hierarchy](https://chargify.zendesk.com/hc/en-us/articles/4407746683291)
+    # features, it is possible to remove existing subscription from subscription
+    # group.
+    # @param [String] subscription_id Required parameter: The Chargify id of the
+    # subscription
+    # @return [void] response from the API call
+    def remove_subscription_from_group(subscription_id)
       new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::PUT,
-                                     '/subscription_groups/{uid}.json',
+        .request(new_request_builder(HttpMethodEnum::DELETE,
+                                     '/subscriptions/{subscription_id}/group.json',
                                      Server::DEFAULT)
-                   .template_param(new_parameter(uid, key: 'uid')
+                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
                                     .is_required(true)
                                     .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'Content-Type'))
-                   .body_param(new_parameter(body))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionGroupResponse.method(:from_hash))
+                   .is_response_void(true)
+                   .local_error('404',
+                                'Not Found',
+                                APIException)
                    .local_error('422',
                                 'Unprocessable Entity (WebDAV)',
-                                SubscriptionGroupUpdateErrorResponseException))
+                                ErrorListResponseException))
         .execute
     end
 
@@ -177,7 +100,7 @@ module AdvancedBilling
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -201,7 +124,7 @@ module AdvancedBilling
                    .query_param(new_parameter(subscription_id, key: 'subscription_id')
                                  .is_required(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -259,7 +182,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -267,33 +190,110 @@ module AdvancedBilling
         .execute
     end
 
-    # For sites making use of the [Relationship
-    # Billing](https://chargify.zendesk.com/hc/en-us/articles/4407737494171) and
-    # [Customer
-    # Hierarchy](https://chargify.zendesk.com/hc/en-us/articles/4407746683291)
-    # features, it is possible to remove existing subscription from subscription
-    # group.
-    # @param [String] subscription_id Required parameter: The Chargify id of the
-    # subscription
-    # @return [void] response from the API call
-    def remove_subscription_from_group(subscription_id)
+    # Create multiple subscriptions at once under the same customer and
+    # consolidate them into a subscription group.
+    # You must provide one and only one of the
+    # `payer_id`/`payer_reference`/`payer_attributes` for the customer attached
+    # to the group.
+    # You must provide one and only one of the
+    # `payment_profile_id`/`credit_card_attributes`/`bank_account_attributes`
+    # for the payment profile attached to the group.
+    # Only one of the `subscriptions` can have `"primary": true` attribute set.
+    # When passing product to a subscription you can use either `product_id` or
+    # `product_handle` or `offer_id`. You can also use `custom_price` instead.
+    # @param [SubscriptionGroupSignupRequest] body Optional parameter:
+    # Example:
+    # @return [SubscriptionGroupSignupResponse] response from the API call
+    def signup_with_subscription_group(body: nil)
       new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::DELETE,
-                                     '/subscriptions/{subscription_id}/group.json',
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/subscription_groups/signup.json',
                                      Server::DEFAULT)
-                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .auth(Single.new('global')))
+                   .header_param(new_parameter('application/json', key: 'Content-Type'))
+                   .body_param(new_parameter(body))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(SubscriptionGroupSignupResponse.method(:from_hash))
                    .local_error('422',
                                 'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                                SubscriptionGroupSignupErrorResponseException))
+        .execute
+    end
+
+    # Returns an array of subscription groups for the site. The response is
+    # paginated and will return a `meta` key with pagination information.
+    # #### Account Balance Information
+    # Account balance information for the subscription groups is not returned by
+    # default. If this information is desired, the `include[]=account_balances`
+    # parameter must be provided with the request.
+    # @param [Integer] page Optional parameter: Result records are organized in
+    # pages. By default, the first page of results is displayed. The page
+    # parameter specifies a page number of results to fetch. You can start
+    # navigating through the pages to consume the results. You do this by
+    # passing in a page parameter. Retrieve the next page by adding ?page=2 to
+    # the query string. If there are no results to return, then an empty result
+    # set will be returned. Use in query `page=1`.
+    # @param [Integer] per_page Optional parameter: This parameter indicates how
+    # many records to fetch in each request. Default value is 20. The maximum
+    # allowed values is 200; any per_page value over 200 will be changed to 200.
+    # Use in query `per_page=200`.
+    # @param [String] include Optional parameter: A list of additional
+    # information to include in the response. The following values are
+    # supported:  - `account_balances`: Account balance information for the
+    # subscription groups. Use in query: `include[]=account_balances`
+    # @return [ListSubscriptionGroupsResponse] response from the API call
+    def list_subscription_groups(options = {})
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::GET,
+                                     '/subscription_groups.json',
+                                     Server::DEFAULT)
+                   .query_param(new_parameter(options['page'], key: 'page'))
+                   .query_param(new_parameter(options['per_page'], key: 'per_page'))
+                   .query_param(new_parameter(options['include'], key: 'include'))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(ListSubscriptionGroupsResponse.method(:from_hash)))
+        .execute
+    end
+
+    # Use this endpoint to update subscription group members.
+    # `"member_ids": []` should contain an array of both subscription IDs to set
+    # as group members and subscription IDs already present in the groups. Not
+    # including them will result in removing them from subscription group. To
+    # clean up members, just leave the array empty.
+    # @param [String] uid Required parameter: The uid of the subscription
+    # group
+    # @param [UpdateSubscriptionGroupRequest] body Optional parameter:
+    # Example:
+    # @return [SubscriptionGroupResponse] response from the API call
+    def update_subscription_group_members(uid,
+                                          body: nil)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::PUT,
+                                     '/subscription_groups/{uid}.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(uid, key: 'uid')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'Content-Type'))
+                   .body_param(new_parameter(body))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(SubscriptionGroupResponse.method(:from_hash))
+                   .local_error('422',
+                                'Unprocessable Entity (WebDAV)',
+                                SubscriptionGroupUpdateErrorResponseException))
         .execute
     end
   end

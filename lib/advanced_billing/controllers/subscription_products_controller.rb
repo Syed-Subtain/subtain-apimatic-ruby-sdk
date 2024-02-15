@@ -6,6 +6,43 @@
 module AdvancedBilling
   # SubscriptionProductsController
   class SubscriptionProductsController < BaseController
+    # ## Previewing a future date
+    # It is also possible to preview the migration for a date in the future, as
+    # long as it's still within the subscription's current billing period, by
+    # passing a `proration_date` along with the request (eg: `"proration_date":
+    # "2020-12-18T18:25:43.511Z"`).
+    # This will calculate the prorated adjustment, charge, payment and credit
+    # applied values assuming the migration is done at that date in the future
+    # as opposed to right now.
+    # @param [String] subscription_id Required parameter: The Chargify id of the
+    # subscription
+    # @param [SubscriptionMigrationPreviewRequest] body Optional parameter:
+    # Example:
+    # @return [SubscriptionMigrationPreviewResponse] response from the API call
+    def preview_subscription_product_migration(subscription_id,
+                                               body: nil)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/subscriptions/{subscription_id}/migrations/preview.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'Content-Type'))
+                   .body_param(new_parameter(body))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(SubscriptionMigrationPreviewResponse.method(:from_hash))
+                   .local_error('422',
+                                'Unprocessable Entity (WebDAV)',
+                                ErrorListResponseException))
+        .execute
+    end
+
     # In order to create a migration, you must pass the `product_id` or
     # `product_handle` in the object when you send a POST request. You may also
     # pass either a `product_price_point_id` or `product_price_point_handle` to
@@ -115,48 +152,11 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
                    .deserialize_into(SubscriptionResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
-        .execute
-    end
-
-    # ## Previewing a future date
-    # It is also possible to preview the migration for a date in the future, as
-    # long as it's still within the subscription's current billing period, by
-    # passing a `proration_date` along with the request (eg: `"proration_date":
-    # "2020-12-18T18:25:43.511Z"`).
-    # This will calculate the prorated adjustment, charge, payment and credit
-    # applied values assuming the migration is done at that date in the future
-    # as opposed to right now.
-    # @param [String] subscription_id Required parameter: The Chargify id of the
-    # subscription
-    # @param [SubscriptionMigrationPreviewRequest] body Optional parameter:
-    # Example:
-    # @return [SubscriptionMigrationPreviewResponse] response from the API call
-    def preview_subscription_product_migration(subscription_id,
-                                               body: nil)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/subscriptions/{subscription_id}/migrations/preview.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'Content-Type'))
-                   .body_param(new_parameter(body))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionMigrationPreviewResponse.method(:from_hash))
                    .local_error('422',
                                 'Unprocessable Entity (WebDAV)',
                                 ErrorListResponseException))

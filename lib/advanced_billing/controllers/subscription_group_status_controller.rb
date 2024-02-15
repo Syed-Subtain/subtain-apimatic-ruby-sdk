@@ -6,67 +6,6 @@
 module AdvancedBilling
   # SubscriptionGroupStatusController
   class SubscriptionGroupStatusController < BaseController
-    # This endpoint will immediately cancel all subscriptions within the
-    # specified group. The group is identified by it's `uid` passed in the URL.
-    # To successfully cancel the group, the primary subscription must be on
-    # automatic billing. The group members as well must be on automatic billing
-    # or they must be prepaid.
-    # In order to cancel a subscription group while also charging for any
-    # unbilled usage on metered or prepaid components, the
-    # `charge_unbilled_usage=true` parameter must be included in the request.
-    # @param [String] uid Required parameter: The uid of the subscription
-    # group
-    # @param [CancelGroupedSubscriptionsRequest] body Optional parameter:
-    # Example:
-    # @return [void] response from the API call
-    def cancel_subscriptions_in_group(uid,
-                                      body: nil)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/subscription_groups/{uid}/cancel.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(uid, key: 'uid')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'Content-Type'))
-                   .body_param(new_parameter(body))
-                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
-        .execute
-    end
-
-    # This endpoint will schedule all subscriptions within the specified group
-    # to be canceled at the end of their billing period. The group is identified
-    # by it's uid passed in the URL.
-    # All subscriptions in the group must be on automatic billing in order to
-    # successfully cancel them, and the group must not be in a "past_due" state.
-    # @param [String] uid Required parameter: The uid of the subscription
-    # group
-    # @return [void] response from the API call
-    def initiate_delayed_cancellation_for_group(uid)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/subscription_groups/{uid}/delayed_cancel.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(uid, key: 'uid')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
-        .execute
-    end
-
     # Removing the delayed cancellation on a subscription group will ensure that
     # the subscriptions do not get canceled at the end of the period. The
     # request will reset the `cancel_at_end_of_period` flag to false on each
@@ -82,7 +21,7 @@ module AdvancedBilling
                    .template_param(new_parameter(uid, key: 'uid')
                                     .is_required(true)
                                     .should_encode(true))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .is_response_void(true)
@@ -143,11 +82,72 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
                    .deserialize_into(ReactivateSubscriptionGroupResponse.method(:from_hash))
+                   .local_error('422',
+                                'Unprocessable Entity (WebDAV)',
+                                ErrorListResponseException))
+        .execute
+    end
+
+    # This endpoint will schedule all subscriptions within the specified group
+    # to be canceled at the end of their billing period. The group is identified
+    # by it's uid passed in the URL.
+    # All subscriptions in the group must be on automatic billing in order to
+    # successfully cancel them, and the group must not be in a "past_due" state.
+    # @param [String] uid Required parameter: The uid of the subscription
+    # group
+    # @return [void] response from the API call
+    def initiate_delayed_cancellation_for_group(uid)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/subscription_groups/{uid}/delayed_cancel.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(uid, key: 'uid')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .is_response_void(true)
+                   .local_error('422',
+                                'Unprocessable Entity (WebDAV)',
+                                ErrorListResponseException))
+        .execute
+    end
+
+    # This endpoint will immediately cancel all subscriptions within the
+    # specified group. The group is identified by it's `uid` passed in the URL.
+    # To successfully cancel the group, the primary subscription must be on
+    # automatic billing. The group members as well must be on automatic billing
+    # or they must be prepaid.
+    # In order to cancel a subscription group while also charging for any
+    # unbilled usage on metered or prepaid components, the
+    # `charge_unbilled_usage=true` parameter must be included in the request.
+    # @param [String] uid Required parameter: The uid of the subscription
+    # group
+    # @param [CancelGroupedSubscriptionsRequest] body Optional parameter:
+    # Example:
+    # @return [void] response from the API call
+    def cancel_subscriptions_in_group(uid,
+                                      body: nil)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/subscription_groups/{uid}/cancel.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(uid, key: 'uid')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'Content-Type'))
+                   .body_param(new_parameter(body))
+                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .is_response_void(true)
                    .local_error('422',
                                 'Unprocessable Entity (WebDAV)',
                                 ErrorListResponseException))

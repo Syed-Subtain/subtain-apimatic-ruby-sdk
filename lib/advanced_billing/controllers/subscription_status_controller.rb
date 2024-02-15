@@ -24,7 +24,7 @@ module AdvancedBilling
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -54,7 +54,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -62,68 +62,6 @@ module AdvancedBilling
                    .local_error('404',
                                 'Not Found',
                                 APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
-        .execute
-    end
-
-    # Resume a paused (on-hold) subscription. If the normal next renewal date
-    # has not passed, the subscription will return to active and will renew on
-    # that date.  Otherwise, it will behave like a reactivation, setting the
-    # billing date to 'now' and charging the subscriber.
-    # @param [String] subscription_id Required parameter: The Chargify id of the
-    # subscription
-    # @param [ResumptionCharge] calendar_billing_resumption_charge Optional
-    # parameter: (For calendar billing subscriptions only) The way that the
-    # resumed subscription's charge should be handled
-    # @return [SubscriptionResponse] response from the API call
-    def resume_subscription(subscription_id,
-                            calendar_billing_resumption_charge: ResumptionCharge::PRORATED)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/subscriptions/{subscription_id}/resume.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .query_param(new_parameter(calendar_billing_resumption_charge, key: 'calendar_billing[\'resumption_charge\']'))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionResponse.method(:from_hash)))
-        .execute
-    end
-
-    # This will place the subscription in the on_hold state and it will not
-    # renew.
-    # ## Limitations
-    # You may not place a subscription on hold if the `next_billing` date is
-    # within 24 hours.
-    # @param [String] subscription_id Required parameter: The Chargify id of the
-    # subscription
-    # @param [PauseRequest] body Optional parameter: Example:
-    # @return [SubscriptionResponse] response from the API call
-    def pause_subscription(subscription_id,
-                           body: nil)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/subscriptions/{subscription_id}/hold.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'Content-Type'))
-                   .body_param(new_parameter(body))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionResponse.method(:from_hash))
                    .local_error('422',
                                 'Unprocessable Entity (WebDAV)',
                                 ErrorListResponseException))
@@ -154,11 +92,73 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
                    .deserialize_into(SubscriptionResponse.method(:from_hash)))
+        .execute
+    end
+
+    # Resume a paused (on-hold) subscription. If the normal next renewal date
+    # has not passed, the subscription will return to active and will renew on
+    # that date.  Otherwise, it will behave like a reactivation, setting the
+    # billing date to 'now' and charging the subscriber.
+    # @param [String] subscription_id Required parameter: The Chargify id of the
+    # subscription
+    # @param [ResumptionCharge] calendar_billing_resumption_charge Optional
+    # parameter: (For calendar billing subscriptions only) The way that the
+    # resumed subscription's charge should be handled
+    # @return [SubscriptionResponse] response from the API call
+    def resume_subscription(subscription_id,
+                            calendar_billing_resumption_charge: ResumptionCharge::PRORATED)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/subscriptions/{subscription_id}/resume.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .query_param(new_parameter(calendar_billing_resumption_charge, key: 'calendar_billing[\'resumption_charge\']'))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(SubscriptionResponse.method(:from_hash)))
+        .execute
+    end
+
+    # This will place the subscription in the on_hold state and it will not
+    # renew.
+    # ## Limitations
+    # You may not place a subscription on hold if the `next_billing` date is
+    # within 24 hours.
+    # @param [String] subscription_id Required parameter: The Chargify id of the
+    # subscription
+    # @param [PauseRequest] body Optional parameter: Example:
+    # @return [SubscriptionResponse] response from the API call
+    def pause_subscription(subscription_id,
+                           body: nil)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/subscriptions/{subscription_id}/hold.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'Content-Type'))
+                   .body_param(new_parameter(body))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(SubscriptionResponse.method(:from_hash))
+                   .local_error('422',
+                                'Unprocessable Entity (WebDAV)',
+                                ErrorListResponseException))
         .execute
     end
 
@@ -317,7 +317,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -325,69 +325,6 @@ module AdvancedBilling
                    .local_error('422',
                                 'Unprocessable Entity (WebDAV)',
                                 ErrorListResponseException))
-        .execute
-    end
-
-    # Chargify offers the ability to cancel a subscription at the end of the
-    # current billing period. This period is set by its current product.
-    # Requesting to cancel the subscription at the end of the period sets the
-    # `cancel_at_end_of_period` flag to true.
-    # Note that you cannot set `cancel_at_end_of_period` at subscription
-    # creation, or if the subscription is past due.
-    # @param [String] subscription_id Required parameter: The Chargify id of the
-    # subscription
-    # @param [CancellationRequest] body Optional parameter: Example:
-    # @return [DelayedCancellationResponse] response from the API call
-    def initiate_delayed_cancellation(subscription_id,
-                                      body: nil)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/subscriptions/{subscription_id}/delayed_cancel.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'Content-Type'))
-                   .body_param(new_parameter(body))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(DelayedCancellationResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
-        .execute
-    end
-
-    # Removing the delayed cancellation on a subscription will ensure that it
-    # doesn't get canceled at the end of the period that it is in. The request
-    # will reset the `cancel_at_end_of_period` flag to `false`.
-    # This endpoint is idempotent. If the subscription was not set to cancel in
-    # the future, removing the delayed cancellation has no effect and the call
-    # will be successful.
-    # @param [String] subscription_id Required parameter: The Chargify id of the
-    # subscription
-    # @return [DelayedCancellationResponse] response from the API call
-    def stop_delayed_cancellation(subscription_id)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::DELETE,
-                                     '/subscriptions/{subscription_id}/delayed_cancel.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(DelayedCancellationResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
         .execute
     end
 
@@ -405,7 +342,7 @@ module AdvancedBilling
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -462,11 +399,74 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
                    .deserialize_into(RenewalPreviewResponse.method(:from_hash)))
+        .execute
+    end
+
+    # Chargify offers the ability to cancel a subscription at the end of the
+    # current billing period. This period is set by its current product.
+    # Requesting to cancel the subscription at the end of the period sets the
+    # `cancel_at_end_of_period` flag to true.
+    # Note that you cannot set `cancel_at_end_of_period` at subscription
+    # creation, or if the subscription is past due.
+    # @param [String] subscription_id Required parameter: The Chargify id of the
+    # subscription
+    # @param [CancellationRequest] body Optional parameter: Example:
+    # @return [DelayedCancellationResponse] response from the API call
+    def initiate_delayed_cancellation(subscription_id,
+                                      body: nil)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/subscriptions/{subscription_id}/delayed_cancel.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'Content-Type'))
+                   .body_param(new_parameter(body))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(DelayedCancellationResponse.method(:from_hash))
+                   .local_error('404',
+                                'Not Found',
+                                APIException))
+        .execute
+    end
+
+    # Removing the delayed cancellation on a subscription will ensure that it
+    # doesn't get canceled at the end of the period that it is in. The request
+    # will reset the `cancel_at_end_of_period` flag to `false`.
+    # This endpoint is idempotent. If the subscription was not set to cancel in
+    # the future, removing the delayed cancellation has no effect and the call
+    # will be successful.
+    # @param [String] subscription_id Required parameter: The Chargify id of the
+    # subscription
+    # @return [DelayedCancellationResponse] response from the API call
+    def stop_delayed_cancellation(subscription_id)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::DELETE,
+                                     '/subscriptions/{subscription_id}/delayed_cancel.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(DelayedCancellationResponse.method(:from_hash))
+                   .local_error('404',
+                                'Not Found',
+                                APIException))
         .execute
     end
   end

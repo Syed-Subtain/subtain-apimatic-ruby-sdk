@@ -10,591 +10,23 @@ subscription_components_controller = client.subscription_components
 
 ## Methods
 
-* [Read Subscription Component](../../doc/controllers/subscription-components.md#read-subscription-component)
-* [List Subscription Components](../../doc/controllers/subscription-components.md#list-subscription-components)
-* [Update Subscription Components Price Points](../../doc/controllers/subscription-components.md#update-subscription-components-price-points)
-* [Reset Subscription Components Price Points](../../doc/controllers/subscription-components.md#reset-subscription-components-price-points)
-* [Allocate Component](../../doc/controllers/subscription-components.md#allocate-component)
-* [List Allocations](../../doc/controllers/subscription-components.md#list-allocations)
 * [Allocate Components](../../doc/controllers/subscription-components.md#allocate-components)
-* [Preview Allocations](../../doc/controllers/subscription-components.md#preview-allocations)
 * [Update Prepaid Usage Allocation](../../doc/controllers/subscription-components.md#update-prepaid-usage-allocation)
 * [Delete Prepaid Usage Allocation](../../doc/controllers/subscription-components.md#delete-prepaid-usage-allocation)
 * [Create Usage](../../doc/controllers/subscription-components.md#create-usage)
+* [Read Subscription Component](../../doc/controllers/subscription-components.md#read-subscription-component)
+* [List Subscription Components](../../doc/controllers/subscription-components.md#list-subscription-components)
+* [Reset Subscription Components Price Points](../../doc/controllers/subscription-components.md#reset-subscription-components-price-points)
+* [List Allocations](../../doc/controllers/subscription-components.md#list-allocations)
 * [List Usages](../../doc/controllers/subscription-components.md#list-usages)
 * [Activate Event Based Component](../../doc/controllers/subscription-components.md#activate-event-based-component)
+* [Allocate Component](../../doc/controllers/subscription-components.md#allocate-component)
+* [Preview Allocations](../../doc/controllers/subscription-components.md#preview-allocations)
 * [Deactivate Event Based Component](../../doc/controllers/subscription-components.md#deactivate-event-based-component)
-* [Record Event](../../doc/controllers/subscription-components.md#record-event)
+* [Update Subscription Components Price Points](../../doc/controllers/subscription-components.md#update-subscription-components-price-points)
 * [Record Events](../../doc/controllers/subscription-components.md#record-events)
 * [List Subscription Components for Site](../../doc/controllers/subscription-components.md#list-subscription-components-for-site)
-
-
-# Read Subscription Component
-
-This request will list information regarding a specific component owned by a subscription.
-
-```ruby
-def read_subscription_component(subscription_id,
-                                component_id)
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
-| `component_id` | `Integer` | Template, Required | The Chargify id of the component. Alternatively, the component's handle prefixed by `handle:` |
-
-## Response Type
-
-[`SubscriptionComponentResponse`](../../doc/models/subscription-component-response.md)
-
-## Example Usage
-
-```ruby
-subscription_id = 'subscription_id0'
-
-component_id = 222
-
-result = subscription_components_controller.read_subscription_component(
-  subscription_id,
-  component_id
-)
-```
-
-## Example Response *(as JSON)*
-
-```json
-{
-  "component": {
-    "component_id": 193028,
-    "subscription_id": 14593192,
-    "allocated_quantity": 1,
-    "pricing_scheme": "per_unit",
-    "name": "Users",
-    "kind": "quantity_based_component",
-    "unit_name": "Users",
-    "price_point_id": 1,
-    "price_point_handle": "top-tier",
-    "enabled": true
-  }
-}
-```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 404 | Not Found | `APIException` |
-
-
-# List Subscription Components
-
-This request will list a subscription's applied components.
-
-## Archived Components
-
-When requesting to list components for a given subscription, if the subscription contains **archived** components they will be listed in the server response.
-
-```ruby
-def list_subscription_components(options = {})
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
-| `date_field` | [`SubscriptionListDateField`](../../doc/models/subscription-list-date-field.md) | Query, Optional | The type of filter you'd like to apply to your search. Use in query `date_field=updated_at`. |
-| `direction` | [Sorting direction](../../doc/models/sorting-direction.md) \| nil | Query, Optional | This is a container for one-of cases. |
-| `end_date` | `String` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
-| `end_datetime` | `String` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of end_date. |
-| `price_point_ids` | [`IncludeNotNull`](../../doc/models/include-not-null.md) | Query, Optional | Allows fetching components allocation only if price point id is present. Use in query `price_point_ids=not_null`. |
-| `product_family_ids` | `Array<Integer>` | Query, Optional | Allows fetching components allocation with matching product family id based on provided ids. Use in query `product_family_ids=1,2,3`. |
-| `sort` | [`ListSubscriptionComponentsSort`](../../doc/models/list-subscription-components-sort.md) | Query, Optional | The attribute by which to sort. Use in query `sort=updated_at`. |
-| `start_date` | `String` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
-| `start_datetime` | `String` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of start_date. |
-| `include` | [`ListSubscriptionComponentsInclude`](../../doc/models/list-subscription-components-include.md) | Query, Optional | Allows including additional data in the response. Use in query `include=subscription`. |
-| `filter_use_site_exchange_rate` | `TrueClass \| FalseClass` | Query, Optional | Allows fetching components allocation with matching use_site_exchange_rate based on provided value. Use in query `filter[use_site_exchange_rate]=true`. |
-| `filter_currencies` | `Array<String>` | Query, Optional | Allows fetching components allocation with matching currency based on provided values. Use in query `filter[currencies]=EUR,USD`. |
-
-## Response Type
-
-[`Array<SubscriptionComponentResponse>`](../../doc/models/subscription-component-response.md)
-
-## Example Usage
-
-```ruby
-Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')collect = {
-  'subscription_id': 'subscription_id0',
-  'date_field': SubscriptionListDateField::UPDATED_AT,
-  'price_point_ids': IncludeNotNull::NOT_NULL,
-  'product_family_ids': [
-    1,
-    2,
-    3
-  ],
-  'sort': ListSubscriptionComponentsSort::UPDATED_AT,
-  'include': ListSubscriptionComponentsInclude::SUBSCRIPTION
-}
-
-result = subscription_components_controller.list_subscription_components(collect)
-```
-
-## Example Response *(as JSON)*
-
-```json
-[
-  {
-    "component": {
-      "component_id": 0,
-      "subscription_id": 0,
-      "allocated_quantity": 0,
-      "pricing_scheme": "string",
-      "name": "string",
-      "kind": "string",
-      "unit_name": "string",
-      "price_point_id": 0,
-      "price_point_handle": "string",
-      "price_point_type": "default",
-      "price_point_name": "string",
-      "enabled": true,
-      "unit_balance": 0,
-      "id": 0,
-      "created_at": "string",
-      "updated_at": "string",
-      "component_handle": "string",
-      "archived_at": "string"
-    }
-  }
-]
-```
-
-
-# Update Subscription Components Price Points
-
-Updates the price points on one or more of a subscription's components.
-
-The `price_point` key can take either a:
-
-1. Price point id (integer)
-2. Price point handle (string)
-3. `"_default"` string, which will reset the price point to the component's current default price point.
-
-```ruby
-def update_subscription_components_price_points(subscription_id,
-                                                body: nil)
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
-| `body` | [`BulkComponentSPricePointAssignment`](../../doc/models/bulk-component-s-price-point-assignment.md) | Body, Optional | - |
-
-## Response Type
-
-[`BulkComponentSPricePointAssignment`](../../doc/models/bulk-component-s-price-point-assignment.md)
-
-## Example Usage
-
-```ruby
-subscription_id = 'subscription_id0'
-
-body = BulkComponentSPricePointAssignment.new(
-  [
-    ComponentSPricePointAssignment.new(
-      997,
-      1022
-    ),
-    ComponentSPricePointAssignment.new(
-      998,
-      'wholesale-handle'
-    ),
-    ComponentSPricePointAssignment.new(
-      999,
-      '_default'
-    )
-  ]
-)
-
-result = subscription_components_controller.update_subscription_components_price_points(
-  subscription_id,
-  body: body
-)
-```
-
-## Example Response *(as JSON)*
-
-```json
-{
-  "components": [
-    {
-      "component_id": 123,
-      "price_point": 456
-    },
-    {
-      "component_id": 789,
-      "price_point": 987
-    }
-  ]
-}
-```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ComponentPricePointErrorException`](../../doc/models/component-price-point-error-exception.md) |
-
-
-# Reset Subscription Components Price Points
-
-Resets all of a subscription's components to use the current default.
-
-**Note**: this will update the price point for all of the subscription's components, even ones that have not been allocated yet.
-
-```ruby
-def reset_subscription_components_price_points(subscription_id)
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
-
-## Response Type
-
-[`SubscriptionResponse`](../../doc/models/subscription-response.md)
-
-## Example Usage
-
-```ruby
-subscription_id = 'subscription_id0'
-
-result = subscription_components_controller.reset_subscription_components_price_points(subscription_id)
-```
-
-## Example Response *(as JSON)*
-
-```json
-{
-  "subscription": {
-    "id": -80293620,
-    "state": "mollit exercitation ipsum",
-    "trial_started_at": null,
-    "trial_ended_at": null,
-    "activated_at": "nostrud nulla et",
-    "created_at": "qui L",
-    "updated_at": "in veniam aute in",
-    "expires_at": null,
-    "balance_in_cents": 50504234,
-    "current_period_ends_at": "Lorem anim eu",
-    "next_assessment_at": "adipisicing ullamco",
-    "canceled_at": null,
-    "cancellation_message": "lorem ipsum",
-    "next_product_id": null,
-    "cancel_at_end_of_period": false,
-    "payment_collection_method": "remittance",
-    "snap_day": null,
-    "cancellation_method": "dunning",
-    "current_period_started_at": "Ut quis non",
-    "previous_state": "occaecat proident sunt cillum ",
-    "signup_payment_id": -45156092,
-    "signup_revenue": "do aliquip ea",
-    "delayed_cancel_at": null,
-    "coupon_code": null,
-    "total_revenue_in_cents": -49740952,
-    "product_price_in_cents": 87617888,
-    "product_version_number": 13656635,
-    "payment_type": null,
-    "referral_code": null,
-    "coupon_use_count": null,
-    "coupon_uses_allowed": null,
-    "reason_code": null,
-    "automatically_resume_at": null,
-    "current_billing_amount_in_cents": -26151968,
-    "customer": {
-      "id": 15208337,
-      "first_name": "ipsum culpa in labore eiusmod",
-      "last_name": "esse",
-      "organization": null,
-      "email": "ex eiusmod",
-      "created_at": "ad occaecat cillum",
-      "updated_at": "ut aute proident est",
-      "reference": "laboris ea cupidatat",
-      "address": null,
-      "address_2": null,
-      "city": "id eiusmod proident",
-      "state": "magna eiusmod anim non",
-      "zip": null,
-      "country": null,
-      "phone": null,
-      "portal_invite_last_sent_at": null,
-      "portal_invite_last_accepted_at": "reprehenderit labore voluptate",
-      "portal_customer_created_at": "nisi aute reprehenderit Excepteur Duis",
-      "cc_emails": "eiusmod sunt",
-      "tax_exempt": true
-    },
-    "product": {
-      "id": -74447756,
-      "name": "eu mollit nulla ut aute",
-      "handle": "esse dolor anim",
-      "description": "Lorem ut et non",
-      "accounting_code": "nisi",
-      "request_credit_card": false,
-      "expiration_interval": 1,
-      "expiration_interval_unit": "day",
-      "created_at": "officia sint",
-      "updated_at": "sed",
-      "price_in_cents": -4151649,
-      "interval": 20680876,
-      "interval_unit": "day",
-      "initial_charge_in_cents": null,
-      "trial_price_in_cents": null,
-      "trial_interval": null,
-      "trial_interval_unit": "day",
-      "archived_at": null,
-      "require_credit_card": true,
-      "return_params": "magna eu",
-      "taxable": true,
-      "update_return_url": "exercitation in",
-      "tax_code": "Excepteur aliqua sunt in",
-      "initial_charge_after_trial": true,
-      "version_number": 41642597,
-      "update_return_params": "dolore labore",
-      "product_family": {
-        "id": -5356997,
-        "name": "officia amet Lorem proident enim",
-        "description": "Duis",
-        "handle": "ea dolore dolore sunt",
-        "accounting_code": null
-      },
-      "public_signup_pages": []
-    }
-  }
-}
-```
-
-
-# Allocate Component
-
-This endpoint creates a new allocation, setting the current allocated quantity for the Component and recording a memo.
-
-**Notice**: Allocations can only be updated for Quantity, On/Off, and Prepaid Components.
-
-## Allocations Documentation
-
-Full documentation on how to record Allocations in the Chargify UI can be located [here](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997). It is focused on how allocations operate within the Chargify UI.It goes into greater detail on how the user interface will react when recording allocations.
-
-This documentation also goes into greater detail on how proration is taken into consideration when applying component allocations.
-
-## Proration Schemes
-
-Changing the allocated quantity of a component mid-period can result in either a Charge or Credit being applied to the subscription. When creating an allocation via the API, you can pass the `upgrade_charge`, `downgrade_credit`, and `accrue_charge` to be applied.
-
-**Notice:** These proration and accural fields will be ignored for Prepaid Components since this component type always generate charges immediately without proration.
-
-For background information on prorated components and upgrade/downgrade schemes, see [Setting Component Allocations.](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997#proration-upgrades-vs-downgrades).
-See the tables below for valid values.
-
-| upgrade_charge | Definition                                                        |
-|----------------|-------------------------------------------------------------------|
-| `full`         | A charge is added for the full price of the component.            |
-| `prorated`     | A charge is added for the prorated price of the component change. |
-| `none`         | No charge is added.                                               |
-
-| downgrade_credit | Definition                                        |
-|------------------|---------------------------------------------------|
-| `full`           | A full price credit is added for the amount owed. |
-| `prorated`       | A prorated credit is added for the amount owed.   |
-| `none`           | No charge is added.                               |
-
-| accrue_charge | Definition                                                                                                 |
-|---------------|------------------------------------------------------------------------------------------------------------|
-| `true`        | Attempt to charge the customer at next renewal.                                                            |
-| `false`       | Attempt to charge the customer right away. If it fails, the charge will be accrued until the next renewal. |
-
-### Order of Resolution for upgrade_charge and downgrade_credit
-
-1. Per allocation in API call (within a single allocation of the `allocations` array)
-2. [Component-level default value](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997-Component-Allocations#component-allocations-0-0)
-3. Allocation API call top level (outside of the `allocations` array)
-4. [Site-level default value](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997#proration-schemes)
-
-### Order of Resolution for accrue charge
-
-1. Allocation API call top level (outside of the `allocations` array)
-2. [Site-level default value](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997#proration-schemes)
-
-**NOTE: Proration uses the current price of the component as well as the current tax rates. Changes to either may cause the prorated charge/credit to be wrong.**
-
-```ruby
-def allocate_component(subscription_id,
-                       component_id,
-                       body: nil)
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
-| `component_id` | `Integer` | Template, Required | The Chargify id of the component |
-| `body` | [`CreateAllocationRequest`](../../doc/models/create-allocation-request.md) | Body, Optional | - |
-
-## Response Type
-
-[`AllocationResponse`](../../doc/models/allocation-response.md)
-
-## Example Usage
-
-```ruby
-subscription_id = 'subscription_id0'
-
-component_id = 222
-
-body = CreateAllocationRequest.new(
-  CreateAllocation.new(
-    5,
-    nil,
-    'Recoding component purchase of Acme Support'
-  )
-)
-
-result = subscription_components_controller.allocate_component(
-  subscription_id,
-  component_id,
-  body: body
-)
-```
-
-## Example Response *(as JSON)*
-
-```json
-{
-  "allocation": {
-    "component_id": 4034995,
-    "subscription_id": 23737320,
-    "quantity": 3,
-    "previous_quantity": 2,
-    "memo": "dolore cupidatat elit",
-    "timestamp": "ex proident dolor i",
-    "proration_upgrade_scheme": "laboris ipsum dolore",
-    "proration_downgrade_scheme": "eiusmod dolore",
-    "price_point_id": -69720370,
-    "previous_price_point_id": -76493052,
-    "accrue_charge": true,
-    "upgrade_charge": "full",
-    "downgrade_credit": "full",
-    "payment": {
-      "id": -44566528,
-      "amount_in_cents": 123,
-      "success": false,
-      "memo": "aliqua"
-    }
-  }
-}
-```
-
-
-# List Allocations
-
-This endpoint returns the 50 most recent Allocations, ordered by most recent first.
-
-## On/Off Components
-
-When a subscription's on/off component has been toggled to on (`1`) or off (`0`), usage will be logged in this response.
-
-## Querying data via Chargify gem
-
-You can also query the current quantity via the [official Chargify Gem.](http://github.com/chargify/chargify_api_ares)
-
-```# First way
-component = Chargify::Subscription::Component.find(1, :params => {:subscription_id => 7})
-puts component.allocated_quantity
-# => 23
-
-# Second way
-component = Chargify::Subscription.find(7).component(1)
-puts component.allocated_quantity
-# => 23
-```
-
-```ruby
-def list_allocations(subscription_id,
-                     component_id,
-                     page: 1)
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
-| `component_id` | `Integer` | Template, Required | The Chargify id of the component |
-| `page` | `Integer` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-
-## Response Type
-
-[`Array<AllocationResponse>`](../../doc/models/allocation-response.md)
-
-## Example Usage
-
-```ruby
-subscription_id = 'subscription_id0'
-
-component_id = 222
-
-page = 2
-
-result = subscription_components_controller.list_allocations(
-  subscription_id,
-  component_id,
-  page: page
-)
-```
-
-## Example Response *(as JSON)*
-
-```json
-[
-  {
-    "allocation": {
-      "memo": "moving to 7",
-      "timestamp": "2012-11-20T22:00:37Z",
-      "quantity": 7,
-      "previous_quantity": 3,
-      "component_id": 11960,
-      "subscription_id": 2585595,
-      "proration_upgrade_scheme": "no-prorate",
-      "proration_downgrade_scheme": "no-prorate"
-    }
-  },
-  {
-    "allocation": {
-      "memo": null,
-      "timestamp": "2012-11-20T21:48:09Z",
-      "quantity": 3,
-      "previous_quantity": 0,
-      "component_id": 11960,
-      "subscription_id": 2585595,
-      "proration_upgrade_scheme": "no-prorate",
-      "proration_downgrade_scheme": "no-prorate"
-    }
-  }
-]
-```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 401 | Unauthorized | `APIException` |
-| 404 | Not Found | `APIException` |
-| 422 | Unprocessable Entity (WebDAV) | `APIException` |
+* [Record Event](../../doc/controllers/subscription-components.md#record-event)
 
 
 # Allocate Components
@@ -703,170 +135,6 @@ result = subscription_components_controller.allocate_components(
 | 401 | Unauthorized | `APIException` |
 | 404 | Not Found | `APIException` |
 | 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
-
-
-# Preview Allocations
-
-Chargify offers the ability to preview a potential subscription's **quantity-based** or **on/off** component allocation in the middle of the current billing period.  This is useful if you want users to be able to see the effect of a component operation before actually doing it.
-
-## Fine-grained Component Control: Use with multiple `upgrade_charge`s or `downgrade_credits`
-
-When the allocation uses multiple different types of `upgrade_charge`s or `downgrade_credit`s, the Allocation is viewed as an Allocation which uses "Fine-Grained Component Control". As a result, the response will not include `direction` and `proration` within the `allocation_preview` at the `line_items` and `allocations` level respectfully.
-
-See example below for Fine-Grained Component Control response.
-
-```ruby
-def preview_allocations(subscription_id,
-                        body: nil)
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
-| `body` | [`PreviewAllocationsRequest`](../../doc/models/preview-allocations-request.md) | Body, Optional | - |
-
-## Response Type
-
-[`AllocationPreviewResponse`](../../doc/models/allocation-preview-response.md)
-
-## Example Usage
-
-```ruby
-subscription_id = 'subscription_id0'
-
-body = PreviewAllocationsRequest.new(
-  [
-    CreateAllocation.new(
-      10,
-      554108,
-      'NOW',
-      'prorate',
-      'prorate-attempt-capture',
-      nil,
-      nil,
-      nil,
-      325826
-    )
-  ],
-  '2023-11-01'
-)
-
-result = subscription_components_controller.preview_allocations(
-  subscription_id,
-  body: body
-)
-```
-
-## Example Response *(as JSON)*
-
-```json
-{
-  "allocation_preview": {
-    "start_date": "2019-05-02T15:26:46Z",
-    "end_date": "2019-05-08T15:26:46Z",
-    "period_type": "prorated",
-    "total_in_cents": 150,
-    "total_discount_in_cents": 0,
-    "total_tax_in_cents": 0,
-    "subtotal_in_cents": 150,
-    "existing_balance_in_cents": 0,
-    "accrue_charge": true,
-    "line_items": [
-      {
-        "direction": "upgrade",
-        "transaction_type": "charge",
-        "kind": "quantity_based_component",
-        "amount_in_cents": 100,
-        "taxable_amount_in_cents": 0,
-        "discount_amount_in_cents": 0,
-        "memo": "Foo: 0 to 10 foo",
-        "component_id": 123,
-        "component_handle": "foo"
-      },
-      {
-        "direction": "downgrade",
-        "transaction_type": "credit",
-        "kind": "quantity_based_component",
-        "amount_in_cents": -20,
-        "taxable_amount_in_cents": 0,
-        "discount_amount_in_cents": 0,
-        "memo": "Foo: 10 to 5 bar",
-        "component_id": 456,
-        "component_handle": "bar"
-      },
-      {
-        "direction": "upgrade",
-        "transaction_type": "credit",
-        "kind": "quantity_based_component",
-        "amount_in_cents": 70,
-        "taxable_amount_in_cents": 0,
-        "discount_amount_in_cents": 0,
-        "memo": "Foo: 0 to 10 baz",
-        "component_id": 789,
-        "component_handle": "baz"
-      }
-    ],
-    "allocations": [
-      {
-        "accrue_charge": true,
-        "upgrade_charge": "prorated",
-        "downgrade_credit": "full",
-        "component_handle": "foo",
-        "component_id": 123,
-        "memo": "foo",
-        "previous_price_point_id": 123,
-        "previous_quantity": 0,
-        "price_point_id": 123,
-        "proration_downgrade_scheme": "full",
-        "proration_upgrade_scheme": "prorate-delay-capture",
-        "quantity": 10,
-        "subscription_id": 123456,
-        "timestamp": null
-      },
-      {
-        "accrue_charge": true,
-        "upgrade_charge": "full",
-        "downgrade_credit": "prorated",
-        "component_handle": "bar",
-        "component_id": 456,
-        "memo": "foo",
-        "previous_price_point_id": 456,
-        "previous_quantity": 10,
-        "price_point_id": 456,
-        "proration_downgrade_scheme": "prorate",
-        "proration_upgrade_scheme": "full-price-delay-capture",
-        "quantity": 5,
-        "subscription_id": 123456,
-        "timestamp": null
-      },
-      {
-        "accrue_charge": true,
-        "upgrade_charge": "full",
-        "downgrade_credit": "none",
-        "component_handle": "baz",
-        "component_id": 789,
-        "memo": "foo",
-        "previous_price_point_id": 789,
-        "previous_quantity": 0,
-        "price_point_id": 789,
-        "proration_downgrade_scheme": "no-prorate",
-        "proration_upgrade_scheme": "full-price-delay-capture",
-        "quantity": 10,
-        "subscription_id": 123456,
-        "timestamp": null
-      }
-    ]
-  }
-}
-```
-
-## Errors
-
-| HTTP Status Code | Error Description | Exception Class |
-|  --- | --- | --- |
-| 422 | Unprocessable Entity (WebDAV) | [`ComponentAllocationErrorException`](../../doc/models/component-allocation-error-exception.md) |
 
 
 # Update Prepaid Usage Allocation
@@ -1116,6 +384,375 @@ result = subscription_components_controller.create_usage(
 | 422 | Unprocessable Entity (WebDAV) | [`ErrorListResponseException`](../../doc/models/error-list-response-exception.md) |
 
 
+# Read Subscription Component
+
+This request will list information regarding a specific component owned by a subscription.
+
+```ruby
+def read_subscription_component(subscription_id,
+                                component_id)
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
+| `component_id` | `Integer` | Template, Required | The Chargify id of the component. Alternatively, the component's handle prefixed by `handle:` |
+
+## Response Type
+
+[`SubscriptionComponentResponse`](../../doc/models/subscription-component-response.md)
+
+## Example Usage
+
+```ruby
+subscription_id = 'subscription_id0'
+
+component_id = 222
+
+result = subscription_components_controller.read_subscription_component(
+  subscription_id,
+  component_id
+)
+```
+
+## Example Response *(as JSON)*
+
+```json
+{
+  "component": {
+    "component_id": 193028,
+    "subscription_id": 14593192,
+    "allocated_quantity": 1,
+    "pricing_scheme": "per_unit",
+    "name": "Users",
+    "kind": "quantity_based_component",
+    "unit_name": "Users",
+    "price_point_id": 1,
+    "price_point_handle": "top-tier",
+    "enabled": true
+  }
+}
+```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 404 | Not Found | `APIException` |
+
+
+# List Subscription Components
+
+This request will list a subscription's applied components.
+
+## Archived Components
+
+When requesting to list components for a given subscription, if the subscription contains **archived** components they will be listed in the server response.
+
+```ruby
+def list_subscription_components(options = {})
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
+| `date_field` | [`SubscriptionListDateField`](../../doc/models/subscription-list-date-field.md) | Query, Optional | The type of filter you'd like to apply to your search. Use in query `date_field=updated_at`. |
+| `direction` | [Sorting direction](../../doc/models/sorting-direction.md) \| nil | Query, Optional | This is a container for one-of cases. |
+| `end_date` | `String` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. |
+| `end_datetime` | `String` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of end_date. |
+| `price_point_ids` | [`IncludeNotNull`](../../doc/models/include-not-null.md) | Query, Optional | Allows fetching components allocation only if price point id is present. Use in query `price_point_ids=not_null`. |
+| `product_family_ids` | `Array<Integer>` | Query, Optional | Allows fetching components allocation with matching product family id based on provided ids. Use in query `product_family_ids=1,2,3`. |
+| `sort` | [`ListSubscriptionComponentsSort`](../../doc/models/list-subscription-components-sort.md) | Query, Optional | The attribute by which to sort. Use in query `sort=updated_at`. |
+| `start_date` | `String` | Query, Optional | The start date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp at or after midnight (12:00:00 AM) in your site’s time zone on the date specified. |
+| `start_datetime` | `String` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of start_date. |
+| `include` | [`ListSubscriptionComponentsInclude`](../../doc/models/list-subscription-components-include.md) | Query, Optional | Allows including additional data in the response. Use in query `include=subscription`. |
+| `filter_use_site_exchange_rate` | `TrueClass \| FalseClass` | Query, Optional | Allows fetching components allocation with matching use_site_exchange_rate based on provided value. Use in query `filter[use_site_exchange_rate]=true`. |
+| `filter_currencies` | `Array<String>` | Query, Optional | Allows fetching components allocation with matching currency based on provided values. Use in query `filter[currencies]=EUR,USD`. |
+
+## Response Type
+
+[`Array<SubscriptionComponentResponse>`](../../doc/models/subscription-component-response.md)
+
+## Example Usage
+
+```ruby
+Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')collect = {
+  'subscription_id': 'subscription_id0',
+  'date_field': SubscriptionListDateField::UPDATED_AT,
+  'price_point_ids': IncludeNotNull::NOT_NULL,
+  'product_family_ids': [
+    1,
+    2,
+    3
+  ],
+  'sort': ListSubscriptionComponentsSort::UPDATED_AT,
+  'include': ListSubscriptionComponentsInclude::SUBSCRIPTION
+}
+
+result = subscription_components_controller.list_subscription_components(collect)
+```
+
+## Example Response *(as JSON)*
+
+```json
+[
+  {
+    "component": {
+      "component_id": 0,
+      "subscription_id": 0,
+      "allocated_quantity": 0,
+      "pricing_scheme": "string",
+      "name": "string",
+      "kind": "string",
+      "unit_name": "string",
+      "price_point_id": 0,
+      "price_point_handle": "string",
+      "price_point_type": "default",
+      "price_point_name": "string",
+      "enabled": true,
+      "unit_balance": 0,
+      "id": 0,
+      "created_at": "string",
+      "updated_at": "string",
+      "component_handle": "string",
+      "archived_at": "string"
+    }
+  }
+]
+```
+
+
+# Reset Subscription Components Price Points
+
+Resets all of a subscription's components to use the current default.
+
+**Note**: this will update the price point for all of the subscription's components, even ones that have not been allocated yet.
+
+```ruby
+def reset_subscription_components_price_points(subscription_id)
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
+
+## Response Type
+
+[`SubscriptionResponse`](../../doc/models/subscription-response.md)
+
+## Example Usage
+
+```ruby
+subscription_id = 'subscription_id0'
+
+result = subscription_components_controller.reset_subscription_components_price_points(subscription_id)
+```
+
+## Example Response *(as JSON)*
+
+```json
+{
+  "subscription": {
+    "id": -80293620,
+    "state": "mollit exercitation ipsum",
+    "trial_started_at": null,
+    "trial_ended_at": null,
+    "activated_at": "nostrud nulla et",
+    "created_at": "qui L",
+    "updated_at": "in veniam aute in",
+    "expires_at": null,
+    "balance_in_cents": 50504234,
+    "current_period_ends_at": "Lorem anim eu",
+    "next_assessment_at": "adipisicing ullamco",
+    "canceled_at": null,
+    "cancellation_message": "lorem ipsum",
+    "next_product_id": null,
+    "cancel_at_end_of_period": false,
+    "payment_collection_method": "remittance",
+    "snap_day": null,
+    "cancellation_method": "dunning",
+    "current_period_started_at": "Ut quis non",
+    "previous_state": "occaecat proident sunt cillum ",
+    "signup_payment_id": -45156092,
+    "signup_revenue": "do aliquip ea",
+    "delayed_cancel_at": null,
+    "coupon_code": null,
+    "total_revenue_in_cents": -49740952,
+    "product_price_in_cents": 87617888,
+    "product_version_number": 13656635,
+    "payment_type": null,
+    "referral_code": null,
+    "coupon_use_count": null,
+    "coupon_uses_allowed": null,
+    "reason_code": null,
+    "automatically_resume_at": null,
+    "current_billing_amount_in_cents": -26151968,
+    "customer": {
+      "id": 15208337,
+      "first_name": "ipsum culpa in labore eiusmod",
+      "last_name": "esse",
+      "organization": null,
+      "email": "ex eiusmod",
+      "created_at": "ad occaecat cillum",
+      "updated_at": "ut aute proident est",
+      "reference": "laboris ea cupidatat",
+      "address": null,
+      "address_2": null,
+      "city": "id eiusmod proident",
+      "state": "magna eiusmod anim non",
+      "zip": null,
+      "country": null,
+      "phone": null,
+      "portal_invite_last_sent_at": null,
+      "portal_invite_last_accepted_at": "reprehenderit labore voluptate",
+      "portal_customer_created_at": "nisi aute reprehenderit Excepteur Duis",
+      "cc_emails": "eiusmod sunt",
+      "tax_exempt": true
+    },
+    "product": {
+      "id": -74447756,
+      "name": "eu mollit nulla ut aute",
+      "handle": "esse dolor anim",
+      "description": "Lorem ut et non",
+      "accounting_code": "nisi",
+      "request_credit_card": false,
+      "expiration_interval": 1,
+      "expiration_interval_unit": "day",
+      "created_at": "officia sint",
+      "updated_at": "sed",
+      "price_in_cents": -4151649,
+      "interval": 20680876,
+      "interval_unit": "day",
+      "initial_charge_in_cents": null,
+      "trial_price_in_cents": null,
+      "trial_interval": null,
+      "trial_interval_unit": "day",
+      "archived_at": null,
+      "require_credit_card": true,
+      "return_params": "magna eu",
+      "taxable": true,
+      "update_return_url": "exercitation in",
+      "tax_code": "Excepteur aliqua sunt in",
+      "initial_charge_after_trial": true,
+      "version_number": 41642597,
+      "update_return_params": "dolore labore",
+      "product_family": {
+        "id": -5356997,
+        "name": "officia amet Lorem proident enim",
+        "description": "Duis",
+        "handle": "ea dolore dolore sunt",
+        "accounting_code": null
+      },
+      "public_signup_pages": []
+    }
+  }
+}
+```
+
+
+# List Allocations
+
+This endpoint returns the 50 most recent Allocations, ordered by most recent first.
+
+## On/Off Components
+
+When a subscription's on/off component has been toggled to on (`1`) or off (`0`), usage will be logged in this response.
+
+## Querying data via Chargify gem
+
+You can also query the current quantity via the [official Chargify Gem.](http://github.com/chargify/chargify_api_ares)
+
+```# First way
+component = Chargify::Subscription::Component.find(1, :params => {:subscription_id => 7})
+puts component.allocated_quantity
+# => 23
+
+# Second way
+component = Chargify::Subscription.find(7).component(1)
+puts component.allocated_quantity
+# => 23
+```
+
+```ruby
+def list_allocations(subscription_id,
+                     component_id,
+                     page: 1)
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
+| `component_id` | `Integer` | Template, Required | The Chargify id of the component |
+| `page` | `Integer` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+
+## Response Type
+
+[`Array<AllocationResponse>`](../../doc/models/allocation-response.md)
+
+## Example Usage
+
+```ruby
+subscription_id = 'subscription_id0'
+
+component_id = 222
+
+page = 2
+
+result = subscription_components_controller.list_allocations(
+  subscription_id,
+  component_id,
+  page: page
+)
+```
+
+## Example Response *(as JSON)*
+
+```json
+[
+  {
+    "allocation": {
+      "memo": "moving to 7",
+      "timestamp": "2012-11-20T22:00:37Z",
+      "quantity": 7,
+      "previous_quantity": 3,
+      "component_id": 11960,
+      "subscription_id": 2585595,
+      "proration_upgrade_scheme": "no-prorate",
+      "proration_downgrade_scheme": "no-prorate"
+    }
+  },
+  {
+    "allocation": {
+      "memo": null,
+      "timestamp": "2012-11-20T21:48:09Z",
+      "quantity": 3,
+      "previous_quantity": 0,
+      "component_id": 11960,
+      "subscription_id": 2585595,
+      "proration_upgrade_scheme": "no-prorate",
+      "proration_downgrade_scheme": "no-prorate"
+    }
+  }
+]
+```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 401 | Unauthorized | `APIException` |
+| 404 | Not Found | `APIException` |
+| 422 | Unprocessable Entity (WebDAV) | `APIException` |
+
+
 # List Usages
 
 This request will return a list of the usages associated with a subscription for a particular metered component. This will display the previously recorded components for a subscription.
@@ -1148,8 +785,8 @@ def list_usages(options = {})
 | `max_id` | `Integer` | Query, Optional | Returns usages with an id less than or equal to the one specified |
 | `since_date` | `String` | Query, Optional | Returns usages with a created_at date greater than or equal to midnight (12:00 AM) on the date specified. |
 | `until_date` | `String` | Query, Optional | Returns usages with a created_at date less than or equal to midnight (12:00 AM) on the date specified. |
-| `page` | `Integer` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `per_page` | `Integer` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `Integer` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `per_page` | `Integer` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 
 ## Response Type
 
@@ -1240,6 +877,291 @@ subscription_components_controller.activate_event_based_component(
 ```
 
 
+# Allocate Component
+
+This endpoint creates a new allocation, setting the current allocated quantity for the Component and recording a memo.
+
+**Notice**: Allocations can only be updated for Quantity, On/Off, and Prepaid Components.
+
+## Allocations Documentation
+
+Full documentation on how to record Allocations in the Chargify UI can be located [here](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997). It is focused on how allocations operate within the Chargify UI.It goes into greater detail on how the user interface will react when recording allocations.
+
+This documentation also goes into greater detail on how proration is taken into consideration when applying component allocations.
+
+## Proration Schemes
+
+Changing the allocated quantity of a component mid-period can result in either a Charge or Credit being applied to the subscription. When creating an allocation via the API, you can pass the `upgrade_charge`, `downgrade_credit`, and `accrue_charge` to be applied.
+
+**Notice:** These proration and accural fields will be ignored for Prepaid Components since this component type always generate charges immediately without proration.
+
+For background information on prorated components and upgrade/downgrade schemes, see [Setting Component Allocations.](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997#proration-upgrades-vs-downgrades).
+See the tables below for valid values.
+
+| upgrade_charge | Definition                                                        |
+|----------------|-------------------------------------------------------------------|
+| `full`         | A charge is added for the full price of the component.            |
+| `prorated`     | A charge is added for the prorated price of the component change. |
+| `none`         | No charge is added.                                               |
+
+| downgrade_credit | Definition                                        |
+|------------------|---------------------------------------------------|
+| `full`           | A full price credit is added for the amount owed. |
+| `prorated`       | A prorated credit is added for the amount owed.   |
+| `none`           | No charge is added.                               |
+
+| accrue_charge | Definition                                                                                                 |
+|---------------|------------------------------------------------------------------------------------------------------------|
+| `true`        | Attempt to charge the customer at next renewal.                                                            |
+| `false`       | Attempt to charge the customer right away. If it fails, the charge will be accrued until the next renewal. |
+
+### Order of Resolution for upgrade_charge and downgrade_credit
+
+1. Per allocation in API call (within a single allocation of the `allocations` array)
+2. [Component-level default value](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997-Component-Allocations#component-allocations-0-0)
+3. Allocation API call top level (outside of the `allocations` array)
+4. [Site-level default value](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997#proration-schemes)
+
+### Order of Resolution for accrue charge
+
+1. Allocation API call top level (outside of the `allocations` array)
+2. [Site-level default value](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997#proration-schemes)
+
+**NOTE: Proration uses the current price of the component as well as the current tax rates. Changes to either may cause the prorated charge/credit to be wrong.**
+
+```ruby
+def allocate_component(subscription_id,
+                       component_id,
+                       body: nil)
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
+| `component_id` | `Integer` | Template, Required | The Chargify id of the component |
+| `body` | [`CreateAllocationRequest`](../../doc/models/create-allocation-request.md) | Body, Optional | - |
+
+## Response Type
+
+[`AllocationResponse`](../../doc/models/allocation-response.md)
+
+## Example Usage
+
+```ruby
+subscription_id = 'subscription_id0'
+
+component_id = 222
+
+body = CreateAllocationRequest.new(
+  CreateAllocation.new(
+    5,
+    nil,
+    'Recoding component purchase of Acme Support'
+  )
+)
+
+result = subscription_components_controller.allocate_component(
+  subscription_id,
+  component_id,
+  body: body
+)
+```
+
+## Example Response *(as JSON)*
+
+```json
+{
+  "allocation": {
+    "component_id": 4034995,
+    "subscription_id": 23737320,
+    "quantity": 3,
+    "previous_quantity": 2,
+    "memo": "dolore cupidatat elit",
+    "timestamp": "ex proident dolor i",
+    "proration_upgrade_scheme": "laboris ipsum dolore",
+    "proration_downgrade_scheme": "eiusmod dolore",
+    "price_point_id": -69720370,
+    "previous_price_point_id": -76493052,
+    "accrue_charge": true,
+    "upgrade_charge": "full",
+    "downgrade_credit": "full",
+    "payment": {
+      "id": -44566528,
+      "amount_in_cents": 123,
+      "success": false,
+      "memo": "aliqua"
+    }
+  }
+}
+```
+
+
+# Preview Allocations
+
+Chargify offers the ability to preview a potential subscription's **quantity-based** or **on/off** component allocation in the middle of the current billing period.  This is useful if you want users to be able to see the effect of a component operation before actually doing it.
+
+## Fine-grained Component Control: Use with multiple `upgrade_charge`s or `downgrade_credits`
+
+When the allocation uses multiple different types of `upgrade_charge`s or `downgrade_credit`s, the Allocation is viewed as an Allocation which uses "Fine-Grained Component Control". As a result, the response will not include `direction` and `proration` within the `allocation_preview` at the `line_items` and `allocations` level respectfully.
+
+See example below for Fine-Grained Component Control response.
+
+```ruby
+def preview_allocations(subscription_id,
+                        body: nil)
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
+| `body` | [`PreviewAllocationsRequest`](../../doc/models/preview-allocations-request.md) | Body, Optional | - |
+
+## Response Type
+
+[`AllocationPreviewResponse`](../../doc/models/allocation-preview-response.md)
+
+## Example Usage
+
+```ruby
+subscription_id = 'subscription_id0'
+
+body = PreviewAllocationsRequest.new(
+  [
+    CreateAllocation.new(
+      10,
+      554108,
+      'NOW',
+      'prorate',
+      'prorate-attempt-capture',
+      nil,
+      nil,
+      nil,
+      325826
+    )
+  ],
+  '2023-11-01'
+)
+
+result = subscription_components_controller.preview_allocations(
+  subscription_id,
+  body: body
+)
+```
+
+## Example Response *(as JSON)*
+
+```json
+{
+  "allocation_preview": {
+    "start_date": "2019-05-02T15:26:46Z",
+    "end_date": "2019-05-08T15:26:46Z",
+    "period_type": "prorated",
+    "total_in_cents": 150,
+    "total_discount_in_cents": 0,
+    "total_tax_in_cents": 0,
+    "subtotal_in_cents": 150,
+    "existing_balance_in_cents": 0,
+    "accrue_charge": true,
+    "line_items": [
+      {
+        "direction": "upgrade",
+        "transaction_type": "charge",
+        "kind": "quantity_based_component",
+        "amount_in_cents": 100,
+        "taxable_amount_in_cents": 0,
+        "discount_amount_in_cents": 0,
+        "memo": "Foo: 0 to 10 foo",
+        "component_id": 123,
+        "component_handle": "foo"
+      },
+      {
+        "direction": "downgrade",
+        "transaction_type": "credit",
+        "kind": "quantity_based_component",
+        "amount_in_cents": -20,
+        "taxable_amount_in_cents": 0,
+        "discount_amount_in_cents": 0,
+        "memo": "Foo: 10 to 5 bar",
+        "component_id": 456,
+        "component_handle": "bar"
+      },
+      {
+        "direction": "upgrade",
+        "transaction_type": "credit",
+        "kind": "quantity_based_component",
+        "amount_in_cents": 70,
+        "taxable_amount_in_cents": 0,
+        "discount_amount_in_cents": 0,
+        "memo": "Foo: 0 to 10 baz",
+        "component_id": 789,
+        "component_handle": "baz"
+      }
+    ],
+    "allocations": [
+      {
+        "accrue_charge": true,
+        "upgrade_charge": "prorated",
+        "downgrade_credit": "full",
+        "component_handle": "foo",
+        "component_id": 123,
+        "memo": "foo",
+        "previous_price_point_id": 123,
+        "previous_quantity": 0,
+        "price_point_id": 123,
+        "proration_downgrade_scheme": "full",
+        "proration_upgrade_scheme": "prorate-delay-capture",
+        "quantity": 10,
+        "subscription_id": 123456,
+        "timestamp": null
+      },
+      {
+        "accrue_charge": true,
+        "upgrade_charge": "full",
+        "downgrade_credit": "prorated",
+        "component_handle": "bar",
+        "component_id": 456,
+        "memo": "foo",
+        "previous_price_point_id": 456,
+        "previous_quantity": 10,
+        "price_point_id": 456,
+        "proration_downgrade_scheme": "prorate",
+        "proration_upgrade_scheme": "full-price-delay-capture",
+        "quantity": 5,
+        "subscription_id": 123456,
+        "timestamp": null
+      },
+      {
+        "accrue_charge": true,
+        "upgrade_charge": "full",
+        "downgrade_credit": "none",
+        "component_handle": "baz",
+        "component_id": 789,
+        "memo": "foo",
+        "previous_price_point_id": 789,
+        "previous_quantity": 0,
+        "price_point_id": 789,
+        "proration_downgrade_scheme": "no-prorate",
+        "proration_upgrade_scheme": "full-price-delay-capture",
+        "quantity": 10,
+        "subscription_id": 123456,
+        "timestamp": null
+      }
+    ]
+  }
+}
+```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ComponentAllocationErrorException`](../../doc/models/component-allocation-error-exception.md) |
+
+
 # Deactivate Event Based Component
 
 Use this endpoint to deactivate an event-based component for a single subscription. Deactivating the event-based component causes Chargify to ignore related events at subscription renewal.
@@ -1274,71 +1196,82 @@ subscription_components_controller.deactivate_event_based_component(
 ```
 
 
-# Record Event
+# Update Subscription Components Price Points
 
-## Documentation
+Updates the price points on one or more of a subscription's components.
 
-Events-Based Billing is an evolved form of metered billing that is based on data-rich events streamed in real-time from your system to Chargify.
+The `price_point` key can take either a:
 
-These events can then be transformed, enriched, or analyzed to form the computed totals of usage charges billed to your customers.
-
-This API allows you to stream events into the Chargify data ingestion engine.
-
-Learn more about the feature in general in the [Events-Based Billing help docs](https://chargify.zendesk.com/hc/en-us/articles/4407720613403).
-
-## Record Event
-
-Use this endpoint to record a single event.
-
-*Note: this endpoint differs from the standard Chargify endpoints in that the URL subdomain will be `events` and your site subdomain will be included in the URL path. For example:*
-
-```
-https://events.chargify.com/my-site-subdomain/events/my-stream-api-handle
-```
+1. Price point id (integer)
+2. Price point handle (string)
+3. `"_default"` string, which will reset the price point to the component's current default price point.
 
 ```ruby
-def record_event(subdomain,
-                 api_handle,
-                 store_uid: nil,
-                 body: nil)
+def update_subscription_components_price_points(subscription_id,
+                                                body: nil)
 ```
 
 ## Parameters
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `subdomain` | `String` | Template, Required | Your site's subdomain |
-| `api_handle` | `String` | Template, Required | Identifies the Stream for which the event should be published. |
-| `store_uid` | `String` | Query, Optional | If you've attached your own Keen project as a Chargify event data-store, use this parameter to indicate the data-store. |
-| `body` | [`EBBEvent`](../../doc/models/ebb-event.md) | Body, Optional | - |
+| `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
+| `body` | [`BulkComponentSPricePointAssignment`](../../doc/models/bulk-component-s-price-point-assignment.md) | Body, Optional | - |
 
 ## Response Type
 
-`void`
+[`BulkComponentSPricePointAssignment`](../../doc/models/bulk-component-s-price-point-assignment.md)
 
 ## Example Usage
 
 ```ruby
-subdomain = 'subdomain4'
+subscription_id = 'subscription_id0'
 
-api_handle = 'api_handle6'
-
-body = EBBEvent.new(
-  ChargifyEBB.new(
-    '2020-02-27T17:45:50-05:00',
-    nil,
-    nil,
-    nil,
-    1
-  )
+body = BulkComponentSPricePointAssignment.new(
+  [
+    ComponentSPricePointAssignment.new(
+      997,
+      1022
+    ),
+    ComponentSPricePointAssignment.new(
+      998,
+      'wholesale-handle'
+    ),
+    ComponentSPricePointAssignment.new(
+      999,
+      '_default'
+    )
+  ]
 )
 
-subscription_components_controller.record_event(
-  subdomain,
-  api_handle,
+result = subscription_components_controller.update_subscription_components_price_points(
+  subscription_id,
   body: body
 )
 ```
+
+## Example Response *(as JSON)*
+
+```json
+{
+  "components": [
+    {
+      "component_id": 123,
+      "price_point": 456
+    },
+    {
+      "component_id": 789,
+      "price_point": 987
+    }
+  ]
+}
+```
+
+## Errors
+
+| HTTP Status Code | Error Description | Exception Class |
+|  --- | --- | --- |
+| 422 | Unprocessable Entity (WebDAV) | [`ComponentPricePointErrorException`](../../doc/models/component-price-point-error-exception.md) |
 
 
 # Record Events
@@ -1408,8 +1341,8 @@ def list_subscription_components_for_site(options = {})
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `Integer` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
-| `per_page` | `Integer` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
+| `page` | `Integer` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `per_page` | `Integer` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
 | `sort` | [`ListSubscriptionComponentsSort`](../../doc/models/list-subscription-components-sort.md) | Query, Optional | The attribute by which to sort. Use in query: `sort=updated_at`. |
 | `direction` | [Sorting direction](../../doc/models/sorting-direction.md) \| nil | Query, Optional | This is a container for one-of cases. |
 | `date_field` | [`SubscriptionListDateField`](../../doc/models/subscription-list-date-field.md) | Query, Optional | The type of filter you'd like to apply to your search. Use in query: `date_field=updated_at`. |
@@ -1417,7 +1350,7 @@ def list_subscription_components_for_site(options = {})
 | `start_datetime` | `String` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of start_date. Use in query `start_datetime=2022-07-01 09:00:05`. |
 | `end_date` | `String` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. Use in query `end_date=2011-12-16`. |
 | `end_datetime` | `String` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of end_date. Use in query `end_datetime=2022-07-01 09:00:05`. |
-| `subscription_ids` | `Array<Integer>` | Query, Optional | Allows fetching components allocation with matching subscription id based on provided ids. Use in query `subscription_ids=1,2,3`.<br>**Constraints**: *Minimum Items*: `1`, *Maximum Items*: `200` |
+| `subscription_ids` | `Array<Integer>` | Query, Optional | Allows fetching components allocation with matching subscription id based on provided ids. Use in query `subscription_ids=1,2,3`. |
 | `price_point_ids` | [`IncludeNotNull`](../../doc/models/include-not-null.md) | Query, Optional | Allows fetching components allocation only if price point id is present. Use in query `price_point_ids=not_null`. |
 | `product_family_ids` | `Array<Integer>` | Query, Optional | Allows fetching components allocation with matching product family id based on provided ids. Use in query `product_family_ids=1,2,3`. |
 | `include` | [`ListSubscriptionComponentsInclude`](../../doc/models/list-subscription-components-include.md) | Query, Optional | Allows including additional data in the response. Use in query `include=subscription`. |
@@ -1457,5 +1390,72 @@ Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot 
 }
 
 result = subscription_components_controller.list_subscription_components_for_site(collect)
+```
+
+
+# Record Event
+
+## Documentation
+
+Events-Based Billing is an evolved form of metered billing that is based on data-rich events streamed in real-time from your system to Chargify.
+
+These events can then be transformed, enriched, or analyzed to form the computed totals of usage charges billed to your customers.
+
+This API allows you to stream events into the Chargify data ingestion engine.
+
+Learn more about the feature in general in the [Events-Based Billing help docs](https://chargify.zendesk.com/hc/en-us/articles/4407720613403).
+
+## Record Event
+
+Use this endpoint to record a single event.
+
+*Note: this endpoint differs from the standard Chargify endpoints in that the URL subdomain will be `events` and your site subdomain will be included in the URL path. For example:*
+
+```
+https://events.chargify.com/my-site-subdomain/events/my-stream-api-handle
+```
+
+```ruby
+def record_event(subdomain,
+                 api_handle,
+                 store_uid: nil,
+                 body: nil)
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `subdomain` | `String` | Template, Required | Your site's subdomain |
+| `api_handle` | `String` | Template, Required | Identifies the Stream for which the event should be published. |
+| `store_uid` | `String` | Query, Optional | If you've attached your own Keen project as a Chargify event data-store, use this parameter to indicate the data-store. |
+| `body` | [`EBBEvent`](../../doc/models/ebb-event.md) | Body, Optional | - |
+
+## Response Type
+
+`void`
+
+## Example Usage
+
+```ruby
+subdomain = 'subdomain4'
+
+api_handle = 'api_handle6'
+
+body = EBBEvent.new(
+  ChargifyEBB.new(
+    '2020-02-27T17:45:50-05:00',
+    nil,
+    nil,
+    nil,
+    1
+  )
+)
+
+subscription_components_controller.record_event(
+  subdomain,
+  api_handle,
+  body: body
+)
 ```
 

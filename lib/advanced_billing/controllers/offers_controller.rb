@@ -31,7 +31,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -50,7 +50,7 @@ module AdvancedBilling
                                      '/offers.json',
                                      Server::DEFAULT)
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -72,34 +72,11 @@ module AdvancedBilling
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
                    .deserialize_into(OfferResponse.method(:from_hash))
-                   .local_error('401',
-                                'Unauthorized',
-                                APIException))
-        .execute
-    end
-
-    # Archive an existing offer. Please provide an `offer_id` in order to
-    # archive the correct item.
-    # @param [Integer] offer_id Required parameter: The Chargify id of the
-    # offer
-    # @return [void] response from the API call
-    def archive_offer(offer_id)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::PUT,
-                                     '/offers/{offer_id}/archive.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(offer_id, key: 'offer_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
                    .local_error('401',
                                 'Unauthorized',
                                 APIException))
@@ -119,7 +96,30 @@ module AdvancedBilling
                    .template_param(new_parameter(offer_id, key: 'offer_id')
                                     .is_required(true)
                                     .should_encode(true))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .is_response_void(true)
+                   .local_error('401',
+                                'Unauthorized',
+                                APIException))
+        .execute
+    end
+
+    # Archive an existing offer. Please provide an `offer_id` in order to
+    # archive the correct item.
+    # @param [Integer] offer_id Required parameter: The Chargify id of the
+    # offer
+    # @return [void] response from the API call
+    def archive_offer(offer_id)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::PUT,
+                                     '/offers/{offer_id}/archive.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(offer_id, key: 'offer_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .is_response_void(true)

@@ -6,341 +6,6 @@
 module AdvancedBilling
   # SubscriptionComponentsController
   class SubscriptionComponentsController < BaseController
-    # This request will list information regarding a specific component owned by
-    # a subscription.
-    # @param [String] subscription_id Required parameter: The Chargify id of the
-    # subscription
-    # @param [Integer] component_id Required parameter: The Chargify id of the
-    # component. Alternatively, the component's handle prefixed by `handle:`
-    # @return [SubscriptionComponentResponse] response from the API call
-    def read_subscription_component(subscription_id,
-                                    component_id)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::GET,
-                                     '/subscriptions/{subscription_id}/components/{component_id}.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .template_param(new_parameter(component_id, key: 'component_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionComponentResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
-        .execute
-    end
-
-    # This request will list a subscription's applied components.
-    # ## Archived Components
-    # When requesting to list components for a given subscription, if the
-    # subscription contains **archived** components they will be listed in the
-    # server response.
-    # @param [String] subscription_id Required parameter: The Chargify id of the
-    # subscription
-    # @param [SubscriptionListDateField] date_field Optional parameter: The type
-    # of filter you'd like to apply to your search. Use in query
-    # `date_field=updated_at`.
-    # @param [SortingDirection | nil] direction Optional parameter: Controls the
-    # order in which results are returned. Use in query `direction=asc`.
-    # @param [String] end_date Optional parameter: The end date (format
-    # YYYY-MM-DD) with which to filter the date_field. Returns components with a
-    # timestamp up to and including 11:59:59PM in your site’s time zone on the
-    # date specified.
-    # @param [String] end_datetime Optional parameter: The end date and time
-    # (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns
-    # components with a timestamp at or before exact time provided in query. You
-    # can specify timezone in query - otherwise your site''s time zone will be
-    # used. If provided, this parameter will be used instead of end_date.
-    # @param [IncludeNotNull] price_point_ids Optional parameter: Allows
-    # fetching components allocation only if price point id is present. Use in
-    # query `price_point_ids=not_null`.
-    # @param [Array[Integer]] product_family_ids Optional parameter: Allows
-    # fetching components allocation with matching product family id based on
-    # provided ids. Use in query `product_family_ids=1,2,3`.
-    # @param [ListSubscriptionComponentsSort] sort Optional parameter: The
-    # attribute by which to sort. Use in query `sort=updated_at`.
-    # @param [String] start_date Optional parameter: The start date (format
-    # YYYY-MM-DD) with which to filter the date_field. Returns components with a
-    # timestamp at or after midnight (12:00:00 AM) in your site’s time zone on
-    # the date specified.
-    # @param [String] start_datetime Optional parameter: The start date and time
-    # (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns
-    # components with a timestamp at or after exact time provided in query. You
-    # can specify timezone in query - otherwise your site''s time zone will be
-    # used. If provided, this parameter will be used instead of start_date.
-    # @param [ListSubscriptionComponentsInclude] include Optional parameter:
-    # Allows including additional data in the response. Use in query
-    # `include=subscription`.
-    # @param [TrueClass | FalseClass] filter_use_site_exchange_rate Optional
-    # parameter: Allows fetching components allocation with matching
-    # use_site_exchange_rate based on provided value. Use in query
-    # `filter[use_site_exchange_rate]=true`.
-    # @param [Array[String]] filter_currencies Optional parameter: Allows
-    # fetching components allocation with matching currency based on provided
-    # values. Use in query `filter[currencies]=EUR,USD`.
-    # @return [Array[SubscriptionComponentResponse]] response from the API call
-    def list_subscription_components(options = {})
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::GET,
-                                     '/subscriptions/{subscription_id}/components.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(options['subscription_id'], key: 'subscription_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .query_param(new_parameter(options['date_field'], key: 'date_field'))
-                   .query_param(new_parameter(options['direction'], key: 'direction')
-                                 .validator(proc do |value|
-                                   UnionTypeLookUp.get(:ListSubscriptionComponentsInputDirection)
-                                                  .validate(value)
-                                 end))
-                   .query_param(new_parameter(options['end_date'], key: 'end_date'))
-                   .query_param(new_parameter(options['end_datetime'], key: 'end_datetime'))
-                   .query_param(new_parameter(options['price_point_ids'], key: 'price_point_ids'))
-                   .query_param(new_parameter(options['product_family_ids'], key: 'product_family_ids'))
-                   .query_param(new_parameter(options['sort'], key: 'sort'))
-                   .query_param(new_parameter(options['start_date'], key: 'start_date'))
-                   .query_param(new_parameter(options['start_datetime'], key: 'start_datetime'))
-                   .query_param(new_parameter(options['include'], key: 'include'))
-                   .query_param(new_parameter(options['filter_use_site_exchange_rate'], key: 'filter[use_site_exchange_rate]'))
-                   .query_param(new_parameter(options['filter_currencies'], key: 'filter[currencies]'))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global'))
-
-                   .array_serialization_format(ArraySerializationFormat::CSV))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionComponentResponse.method(:from_hash))
-                   .is_response_array(true))
-        .execute
-    end
-
-    # Updates the price points on one or more of a subscription's components.
-    # The `price_point` key can take either a:
-    # 1. Price point id (integer)
-    # 2. Price point handle (string)
-    # 3. `"_default"` string, which will reset the price point to the
-    # component's current default price point.
-    # @param [String] subscription_id Required parameter: The Chargify id of the
-    # subscription
-    # @param [BulkComponentSPricePointAssignment] body Optional parameter:
-    # Example:
-    # @return [BulkComponentSPricePointAssignment] response from the API call
-    def update_subscription_components_price_points(subscription_id,
-                                                    body: nil)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/subscriptions/{subscription_id}/price_points.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'Content-Type'))
-                   .body_param(new_parameter(body))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(BulkComponentSPricePointAssignment.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ComponentPricePointErrorException))
-        .execute
-    end
-
-    # Resets all of a subscription's components to use the current default.
-    # **Note**: this will update the price point for all of the subscription's
-    # components, even ones that have not been allocated yet.
-    # @param [String] subscription_id Required parameter: The Chargify id of the
-    # subscription
-    # @return [SubscriptionResponse] response from the API call
-    def reset_subscription_components_price_points(subscription_id)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/subscriptions/{subscription_id}/price_points/reset.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionResponse.method(:from_hash)))
-        .execute
-    end
-
-    # This endpoint creates a new allocation, setting the current allocated
-    # quantity for the Component and recording a memo.
-    # **Notice**: Allocations can only be updated for Quantity, On/Off, and
-    # Prepaid Components.
-    # ## Allocations Documentation
-    # Full documentation on how to record Allocations in the Chargify UI can be
-    # located
-    # [here](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997)
-    # . It is focused on how allocations operate within the Chargify UI.It goes
-    # into greater detail on how the user interface will react when recording
-    # allocations.
-    # This documentation also goes into greater detail on how proration is taken
-    # into consideration when applying component allocations.
-    # ## Proration Schemes
-    # Changing the allocated quantity of a component mid-period can result in
-    # either a Charge or Credit being applied to the subscription. When creating
-    # an allocation via the API, you can pass the `upgrade_charge`,
-    # `downgrade_credit`, and `accrue_charge` to be applied.
-    # **Notice:** These proration and accural fields will be ignored for Prepaid
-    # Components since this component type always generate charges immediately
-    # without proration.
-    # For background information on prorated components and upgrade/downgrade
-    # schemes, see [Setting Component
-    # Allocations.](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527
-    # 849997#proration-upgrades-vs-downgrades).
-    # See the tables below for valid values.
-    # | upgrade_charge | Definition
-    #            |
-    # |----------------|--------------------------------------------------------
-    # -----------|
-    # | `full`         | A charge is added for the full price of the component.
-    #            |
-    # | `prorated`     | A charge is added for the prorated price of the
-    # component change. |
-    # | `none`         | No charge is added.
-    #           |
-    # | downgrade_credit | Definition                                        |
-    # |------------------|---------------------------------------------------|
-    # | `full`           | A full price credit is added for the amount owed. |
-    # | `prorated`       | A prorated credit is added for the amount owed.   |
-    # | `none`           | No charge is added.                               |
-    # | accrue_charge | Definition
-    #                                                   |
-    # |---------------|---------------------------------------------------------
-    # ---------------------------------------------------|
-    # | `true`        | Attempt to charge the customer at next renewal.
-    #                                                   |
-    # | `false`       | Attempt to charge the customer right away. If it fails,
-    # the charge will be accrued until the next renewal. |
-    # ### Order of Resolution for upgrade_charge and downgrade_credit
-    # 1. Per allocation in API call (within a single allocation of the
-    # `allocations` array)
-    # 2. [Component-level default
-    # value](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997-
-    # Component-Allocations#component-allocations-0-0)
-    # 3. Allocation API call top level (outside of the `allocations` array)
-    # 4. [Site-level default
-    # value](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997#
-    # proration-schemes)
-    # ### Order of Resolution for accrue charge
-    # 1. Allocation API call top level (outside of the `allocations` array)
-    # 2. [Site-level default
-    # value](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997#
-    # proration-schemes)
-    # **NOTE: Proration uses the current price of the component as well as the
-    # current tax rates. Changes to either may cause the prorated charge/credit
-    # to be wrong.**
-    # @param [String] subscription_id Required parameter: The Chargify id of the
-    # subscription
-    # @param [Integer] component_id Required parameter: The Chargify id of the
-    # component
-    # @param [CreateAllocationRequest] body Optional parameter: Example:
-    # @return [AllocationResponse] response from the API call
-    def allocate_component(subscription_id,
-                           component_id,
-                           body: nil)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/subscriptions/{subscription_id}/components/{component_id}/allocations.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .template_param(new_parameter(component_id, key: 'component_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'Content-Type'))
-                   .body_param(new_parameter(body))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(AllocationResponse.method(:from_hash)))
-        .execute
-    end
-
-    # This endpoint returns the 50 most recent Allocations, ordered by most
-    # recent first.
-    # ## On/Off Components
-    # When a subscription's on/off component has been toggled to on (`1`) or off
-    # (`0`), usage will be logged in this response.
-    # ## Querying data via Chargify gem
-    # You can also query the current quantity via the [official Chargify
-    # Gem.](http://github.com/chargify/chargify_api_ares)
-    # ```# First way
-    # component = Chargify::Subscription::Component.find(1, :params =>
-    # {:subscription_id => 7})
-    # puts component.allocated_quantity
-    # # => 23
-    # # Second way
-    # component = Chargify::Subscription.find(7).component(1)
-    # puts component.allocated_quantity
-    # # => 23
-    # ```
-    # @param [String] subscription_id Required parameter: The Chargify id of the
-    # subscription
-    # @param [Integer] component_id Required parameter: The Chargify id of the
-    # component
-    # @param [Integer] page Optional parameter: Result records are organized in
-    # pages. By default, the first page of results is displayed. The page
-    # parameter specifies a page number of results to fetch. You can start
-    # navigating through the pages to consume the results. You do this by
-    # passing in a page parameter. Retrieve the next page by adding ?page=2 to
-    # the query string. If there are no results to return, then an empty result
-    # set will be returned. Use in query `page=1`.
-    # @return [Array[AllocationResponse]] response from the API call
-    def list_allocations(subscription_id,
-                         component_id,
-                         page: 1)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::GET,
-                                     '/subscriptions/{subscription_id}/components/{component_id}/allocations.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .template_param(new_parameter(component_id, key: 'component_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .query_param(new_parameter(page, key: 'page'))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(AllocationResponse.method(:from_hash))
-                   .is_response_array(true)
-                   .local_error('401',
-                                'Unauthorized',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                APIException))
-        .execute
-    end
-
     # Creates multiple allocations, setting the current allocated quantity for
     # each of the components and recording a memo. The charges and/or credits
     # that are created will be rolled up into a single total which is used to
@@ -365,7 +30,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -380,46 +45,6 @@ module AdvancedBilling
                    .local_error('422',
                                 'Unprocessable Entity (WebDAV)',
                                 ErrorListResponseException))
-        .execute
-    end
-
-    # Chargify offers the ability to preview a potential subscription's
-    # **quantity-based** or **on/off** component allocation in the middle of the
-    # current billing period.  This is useful if you want users to be able to
-    # see the effect of a component operation before actually doing it.
-    # ## Fine-grained Component Control: Use with multiple `upgrade_charge`s or
-    # `downgrade_credits`
-    # When the allocation uses multiple different types of `upgrade_charge`s or
-    # `downgrade_credit`s, the Allocation is viewed as an Allocation which uses
-    # "Fine-Grained Component Control". As a result, the response will not
-    # include `direction` and `proration` within the `allocation_preview` at the
-    # `line_items` and `allocations` level respectfully.
-    # See example below for Fine-Grained Component Control response.
-    # @param [String] subscription_id Required parameter: The Chargify id of the
-    # subscription
-    # @param [PreviewAllocationsRequest] body Optional parameter: Example:
-    # @return [AllocationPreviewResponse] response from the API call
-    def preview_allocations(subscription_id,
-                            body: nil)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/subscriptions/{subscription_id}/allocations/preview.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'Content-Type'))
-                   .body_param(new_parameter(body))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(AllocationPreviewResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ComponentAllocationErrorException))
         .execute
     end
 
@@ -466,7 +91,7 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'Content-Type'))
                    .body_param(new_parameter(body))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .is_response_void(true)
@@ -519,7 +144,7 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'Content-Type'))
                    .body_param(new_parameter(body))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .is_response_void(true)
@@ -620,7 +245,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -628,6 +253,207 @@ module AdvancedBilling
                    .local_error('422',
                                 'Unprocessable Entity (WebDAV)',
                                 ErrorListResponseException))
+        .execute
+    end
+
+    # This request will list information regarding a specific component owned by
+    # a subscription.
+    # @param [String] subscription_id Required parameter: The Chargify id of the
+    # subscription
+    # @param [Integer] component_id Required parameter: The Chargify id of the
+    # component. Alternatively, the component's handle prefixed by `handle:`
+    # @return [SubscriptionComponentResponse] response from the API call
+    def read_subscription_component(subscription_id,
+                                    component_id)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::GET,
+                                     '/subscriptions/{subscription_id}/components/{component_id}.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .template_param(new_parameter(component_id, key: 'component_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(SubscriptionComponentResponse.method(:from_hash))
+                   .local_error('404',
+                                'Not Found',
+                                APIException))
+        .execute
+    end
+
+    # This request will list a subscription's applied components.
+    # ## Archived Components
+    # When requesting to list components for a given subscription, if the
+    # subscription contains **archived** components they will be listed in the
+    # server response.
+    # @param [String] subscription_id Required parameter: The Chargify id of the
+    # subscription
+    # @param [SubscriptionListDateField] date_field Optional parameter: The type
+    # of filter you'd like to apply to your search. Use in query
+    # `date_field=updated_at`.
+    # @param [SortingDirection | nil] direction Optional parameter: Controls the
+    # order in which results are returned. Use in query `direction=asc`.
+    # @param [String] end_date Optional parameter: The end date (format
+    # YYYY-MM-DD) with which to filter the date_field. Returns components with a
+    # timestamp up to and including 11:59:59PM in your site’s time zone on the
+    # date specified.
+    # @param [String] end_datetime Optional parameter: The end date and time
+    # (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns
+    # components with a timestamp at or before exact time provided in query. You
+    # can specify timezone in query - otherwise your site''s time zone will be
+    # used. If provided, this parameter will be used instead of end_date.
+    # @param [IncludeNotNull] price_point_ids Optional parameter: Allows
+    # fetching components allocation only if price point id is present. Use in
+    # query `price_point_ids=not_null`.
+    # @param [Array[Integer]] product_family_ids Optional parameter: Allows
+    # fetching components allocation with matching product family id based on
+    # provided ids. Use in query `product_family_ids=1,2,3`.
+    # @param [ListSubscriptionComponentsSort] sort Optional parameter: The
+    # attribute by which to sort. Use in query `sort=updated_at`.
+    # @param [String] start_date Optional parameter: The start date (format
+    # YYYY-MM-DD) with which to filter the date_field. Returns components with a
+    # timestamp at or after midnight (12:00:00 AM) in your site’s time zone on
+    # the date specified.
+    # @param [String] start_datetime Optional parameter: The start date and time
+    # (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns
+    # components with a timestamp at or after exact time provided in query. You
+    # can specify timezone in query - otherwise your site''s time zone will be
+    # used. If provided, this parameter will be used instead of start_date.
+    # @param [ListSubscriptionComponentsInclude] include Optional parameter:
+    # Allows including additional data in the response. Use in query
+    # `include=subscription`.
+    # @param [TrueClass | FalseClass] filter_use_site_exchange_rate Optional
+    # parameter: Allows fetching components allocation with matching
+    # use_site_exchange_rate based on provided value. Use in query
+    # `filter[use_site_exchange_rate]=true`.
+    # @param [Array[String]] filter_currencies Optional parameter: Allows
+    # fetching components allocation with matching currency based on provided
+    # values. Use in query `filter[currencies]=EUR,USD`.
+    # @return [Array[SubscriptionComponentResponse]] response from the API call
+    def list_subscription_components(options = {})
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::GET,
+                                     '/subscriptions/{subscription_id}/components.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(options['subscription_id'], key: 'subscription_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .query_param(new_parameter(options['date_field'], key: 'date_field'))
+                   .query_param(new_parameter(options['direction'], key: 'direction')
+                                 .validator(proc do |value|
+                                   UnionTypeLookUp.get(:ListSubscriptionComponentsInputDirection)
+                                                  .validate(value)
+                                 end))
+                   .query_param(new_parameter(options['end_date'], key: 'end_date'))
+                   .query_param(new_parameter(options['end_datetime'], key: 'end_datetime'))
+                   .query_param(new_parameter(options['price_point_ids'], key: 'price_point_ids'))
+                   .query_param(new_parameter(options['product_family_ids'], key: 'product_family_ids'))
+                   .query_param(new_parameter(options['sort'], key: 'sort'))
+                   .query_param(new_parameter(options['start_date'], key: 'start_date'))
+                   .query_param(new_parameter(options['start_datetime'], key: 'start_datetime'))
+                   .query_param(new_parameter(options['include'], key: 'include'))
+                   .query_param(new_parameter(options['filter_use_site_exchange_rate'], key: 'filter[use_site_exchange_rate]'))
+                   .query_param(new_parameter(options['filter_currencies'], key: 'filter[currencies]'))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth'))
+                   .array_serialization_format(ArraySerializationFormat::CSV))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(SubscriptionComponentResponse.method(:from_hash))
+                   .is_response_array(true))
+        .execute
+    end
+
+    # Resets all of a subscription's components to use the current default.
+    # **Note**: this will update the price point for all of the subscription's
+    # components, even ones that have not been allocated yet.
+    # @param [String] subscription_id Required parameter: The Chargify id of the
+    # subscription
+    # @return [SubscriptionResponse] response from the API call
+    def reset_subscription_components_price_points(subscription_id)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/subscriptions/{subscription_id}/price_points/reset.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(SubscriptionResponse.method(:from_hash)))
+        .execute
+    end
+
+    # This endpoint returns the 50 most recent Allocations, ordered by most
+    # recent first.
+    # ## On/Off Components
+    # When a subscription's on/off component has been toggled to on (`1`) or off
+    # (`0`), usage will be logged in this response.
+    # ## Querying data via Chargify gem
+    # You can also query the current quantity via the [official Chargify
+    # Gem.](http://github.com/chargify/chargify_api_ares)
+    # ```# First way
+    # component = Chargify::Subscription::Component.find(1, :params =>
+    # {:subscription_id => 7})
+    # puts component.allocated_quantity
+    # # => 23
+    # # Second way
+    # component = Chargify::Subscription.find(7).component(1)
+    # puts component.allocated_quantity
+    # # => 23
+    # ```
+    # @param [String] subscription_id Required parameter: The Chargify id of the
+    # subscription
+    # @param [Integer] component_id Required parameter: The Chargify id of the
+    # component
+    # @param [Integer] page Optional parameter: Result records are organized in
+    # pages. By default, the first page of results is displayed. The page
+    # parameter specifies a page number of results to fetch. You can start
+    # navigating through the pages to consume the results. You do this by
+    # passing in a page parameter. Retrieve the next page by adding ?page=2 to
+    # the query string. If there are no results to return, then an empty result
+    # set will be returned. Use in query `page=1`.
+    # @return [Array[AllocationResponse]] response from the API call
+    def list_allocations(subscription_id,
+                         component_id,
+                         page: 1)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::GET,
+                                     '/subscriptions/{subscription_id}/components/{component_id}/allocations.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .template_param(new_parameter(component_id, key: 'component_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .query_param(new_parameter(page, key: 'page'))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(AllocationResponse.method(:from_hash))
+                   .is_response_array(true)
+                   .local_error('401',
+                                'Unauthorized',
+                                APIException)
+                   .local_error('404',
+                                'Not Found',
+                                APIException)
+                   .local_error('422',
+                                'Unprocessable Entity (WebDAV)',
+                                APIException))
         .execute
     end
 
@@ -691,7 +517,7 @@ module AdvancedBilling
                    .query_param(new_parameter(options['page'], key: 'page'))
                    .query_param(new_parameter(options['per_page'], key: 'per_page'))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -730,10 +556,148 @@ module AdvancedBilling
                    .template_param(new_parameter(component_id, key: 'component_id')
                                     .is_required(true)
                                     .should_encode(true))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .is_response_void(true))
+        .execute
+    end
+
+    # This endpoint creates a new allocation, setting the current allocated
+    # quantity for the Component and recording a memo.
+    # **Notice**: Allocations can only be updated for Quantity, On/Off, and
+    # Prepaid Components.
+    # ## Allocations Documentation
+    # Full documentation on how to record Allocations in the Chargify UI can be
+    # located
+    # [here](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997)
+    # . It is focused on how allocations operate within the Chargify UI.It goes
+    # into greater detail on how the user interface will react when recording
+    # allocations.
+    # This documentation also goes into greater detail on how proration is taken
+    # into consideration when applying component allocations.
+    # ## Proration Schemes
+    # Changing the allocated quantity of a component mid-period can result in
+    # either a Charge or Credit being applied to the subscription. When creating
+    # an allocation via the API, you can pass the `upgrade_charge`,
+    # `downgrade_credit`, and `accrue_charge` to be applied.
+    # **Notice:** These proration and accural fields will be ignored for Prepaid
+    # Components since this component type always generate charges immediately
+    # without proration.
+    # For background information on prorated components and upgrade/downgrade
+    # schemes, see [Setting Component
+    # Allocations.](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527
+    # 849997#proration-upgrades-vs-downgrades).
+    # See the tables below for valid values.
+    # | upgrade_charge | Definition
+    #            |
+    # |----------------|--------------------------------------------------------
+    # -----------|
+    # | `full`         | A charge is added for the full price of the component.
+    #            |
+    # | `prorated`     | A charge is added for the prorated price of the
+    # component change. |
+    # | `none`         | No charge is added.
+    #           |
+    # | downgrade_credit | Definition                                        |
+    # |------------------|---------------------------------------------------|
+    # | `full`           | A full price credit is added for the amount owed. |
+    # | `prorated`       | A prorated credit is added for the amount owed.   |
+    # | `none`           | No charge is added.                               |
+    # | accrue_charge | Definition
+    #                                                   |
+    # |---------------|---------------------------------------------------------
+    # ---------------------------------------------------|
+    # | `true`        | Attempt to charge the customer at next renewal.
+    #                                                   |
+    # | `false`       | Attempt to charge the customer right away. If it fails,
+    # the charge will be accrued until the next renewal. |
+    # ### Order of Resolution for upgrade_charge and downgrade_credit
+    # 1. Per allocation in API call (within a single allocation of the
+    # `allocations` array)
+    # 2. [Component-level default
+    # value](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997-
+    # Component-Allocations#component-allocations-0-0)
+    # 3. Allocation API call top level (outside of the `allocations` array)
+    # 4. [Site-level default
+    # value](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997#
+    # proration-schemes)
+    # ### Order of Resolution for accrue charge
+    # 1. Allocation API call top level (outside of the `allocations` array)
+    # 2. [Site-level default
+    # value](https://maxio-chargify.zendesk.com/hc/en-us/articles/5404527849997#
+    # proration-schemes)
+    # **NOTE: Proration uses the current price of the component as well as the
+    # current tax rates. Changes to either may cause the prorated charge/credit
+    # to be wrong.**
+    # @param [String] subscription_id Required parameter: The Chargify id of the
+    # subscription
+    # @param [Integer] component_id Required parameter: The Chargify id of the
+    # component
+    # @param [CreateAllocationRequest] body Optional parameter: Example:
+    # @return [AllocationResponse] response from the API call
+    def allocate_component(subscription_id,
+                           component_id,
+                           body: nil)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/subscriptions/{subscription_id}/components/{component_id}/allocations.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .template_param(new_parameter(component_id, key: 'component_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'Content-Type'))
+                   .body_param(new_parameter(body))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(AllocationResponse.method(:from_hash)))
+        .execute
+    end
+
+    # Chargify offers the ability to preview a potential subscription's
+    # **quantity-based** or **on/off** component allocation in the middle of the
+    # current billing period.  This is useful if you want users to be able to
+    # see the effect of a component operation before actually doing it.
+    # ## Fine-grained Component Control: Use with multiple `upgrade_charge`s or
+    # `downgrade_credits`
+    # When the allocation uses multiple different types of `upgrade_charge`s or
+    # `downgrade_credit`s, the Allocation is viewed as an Allocation which uses
+    # "Fine-Grained Component Control". As a result, the response will not
+    # include `direction` and `proration` within the `allocation_preview` at the
+    # `line_items` and `allocations` level respectfully.
+    # See example below for Fine-Grained Component Control response.
+    # @param [String] subscription_id Required parameter: The Chargify id of the
+    # subscription
+    # @param [PreviewAllocationsRequest] body Optional parameter: Example:
+    # @return [AllocationPreviewResponse] response from the API call
+    def preview_allocations(subscription_id,
+                            body: nil)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/subscriptions/{subscription_id}/allocations/preview.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'Content-Type'))
+                   .body_param(new_parameter(body))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(AllocationPreviewResponse.method(:from_hash))
+                   .local_error('422',
+                                'Unprocessable Entity (WebDAV)',
+                                ComponentAllocationErrorException))
         .execute
     end
 
@@ -757,60 +721,45 @@ module AdvancedBilling
                    .template_param(new_parameter(component_id, key: 'component_id')
                                     .is_required(true)
                                     .should_encode(true))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .is_response_void(true))
         .execute
     end
 
-    # ## Documentation
-    # Events-Based Billing is an evolved form of metered billing that is based
-    # on data-rich events streamed in real-time from your system to Chargify.
-    # These events can then be transformed, enriched, or analyzed to form the
-    # computed totals of usage charges billed to your customers.
-    # This API allows you to stream events into the Chargify data ingestion
-    # engine.
-    # Learn more about the feature in general in the [Events-Based Billing help
-    # docs](https://chargify.zendesk.com/hc/en-us/articles/4407720613403).
-    # ## Record Event
-    # Use this endpoint to record a single event.
-    # *Note: this endpoint differs from the standard Chargify endpoints in that
-    # the URL subdomain will be `events` and your site subdomain will be
-    # included in the URL path. For example:*
-    # ```
-    # https://events.chargify.com/my-site-subdomain/events/my-stream-api-handle
-    # ```
-    # @param [String] subdomain Required parameter: Your site's subdomain
-    # @param [String] api_handle Required parameter: Identifies the Stream for
-    # which the event should be published.
-    # @param [String] store_uid Optional parameter: If you've attached your own
-    # Keen project as a Chargify event data-store, use this parameter to
-    # indicate the data-store.
-    # @param [EBBEvent] body Optional parameter: Example:
-    # @return [void] response from the API call
-    def record_event(subdomain,
-                     api_handle,
-                     store_uid: nil,
-                     body: nil)
+    # Updates the price points on one or more of a subscription's components.
+    # The `price_point` key can take either a:
+    # 1. Price point id (integer)
+    # 2. Price point handle (string)
+    # 3. `"_default"` string, which will reset the price point to the
+    # component's current default price point.
+    # @param [String] subscription_id Required parameter: The Chargify id of the
+    # subscription
+    # @param [BulkComponentSPricePointAssignment] body Optional parameter:
+    # Example:
+    # @return [BulkComponentSPricePointAssignment] response from the API call
+    def update_subscription_components_price_points(subscription_id,
+                                                    body: nil)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
-                                     '/{subdomain}/events/{api_handle}.json',
+                                     '/subscriptions/{subscription_id}/price_points.json',
                                      Server::DEFAULT)
-                   .template_param(new_parameter(subdomain, key: 'subdomain')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .template_param(new_parameter(api_handle, key: 'api_handle')
+                   .template_param(new_parameter(subscription_id, key: 'subscription_id')
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'Content-Type'))
-                   .query_param(new_parameter(store_uid, key: 'store_uid'))
                    .body_param(new_parameter(body))
+                   .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
-                   .is_response_void(true))
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(BulkComponentSPricePointAssignment.method(:from_hash))
+                   .local_error('422',
+                                'Unprocessable Entity (WebDAV)',
+                                ComponentPricePointErrorException))
         .execute
     end
 
@@ -846,7 +795,7 @@ module AdvancedBilling
                    .query_param(new_parameter(store_uid, key: 'store_uid'))
                    .body_param(new_parameter(body))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .is_response_void(true))
@@ -981,13 +930,62 @@ module AdvancedBilling
                    .query_param(new_parameter(options['filter_subscription_end_date'], key: 'filter[subscription][end_date]'))
                    .query_param(new_parameter(options['filter_subscription_end_datetime'], key: 'filter[subscription][end_datetime]'))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global'))
-
+                   .auth(Single.new('BasicAuth'))
                    .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
                    .deserialize_into(ListSubscriptionComponentsResponse.method(:from_hash)))
+        .execute
+    end
+
+    # ## Documentation
+    # Events-Based Billing is an evolved form of metered billing that is based
+    # on data-rich events streamed in real-time from your system to Chargify.
+    # These events can then be transformed, enriched, or analyzed to form the
+    # computed totals of usage charges billed to your customers.
+    # This API allows you to stream events into the Chargify data ingestion
+    # engine.
+    # Learn more about the feature in general in the [Events-Based Billing help
+    # docs](https://chargify.zendesk.com/hc/en-us/articles/4407720613403).
+    # ## Record Event
+    # Use this endpoint to record a single event.
+    # *Note: this endpoint differs from the standard Chargify endpoints in that
+    # the URL subdomain will be `events` and your site subdomain will be
+    # included in the URL path. For example:*
+    # ```
+    # https://events.chargify.com/my-site-subdomain/events/my-stream-api-handle
+    # ```
+    # @param [String] subdomain Required parameter: Your site's subdomain
+    # @param [String] api_handle Required parameter: Identifies the Stream for
+    # which the event should be published.
+    # @param [String] store_uid Optional parameter: If you've attached your own
+    # Keen project as a Chargify event data-store, use this parameter to
+    # indicate the data-store.
+    # @param [EBBEvent] body Optional parameter: Example:
+    # @return [void] response from the API call
+    def record_event(subdomain,
+                     api_handle,
+                     store_uid: nil,
+                     body: nil)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::POST,
+                                     '/{subdomain}/events/{api_handle}.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(subdomain, key: 'subdomain')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .template_param(new_parameter(api_handle, key: 'api_handle')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'Content-Type'))
+                   .query_param(new_parameter(store_uid, key: 'store_uid'))
+                   .body_param(new_parameter(body))
+                   .body_serializer(proc do |param| param.to_json unless param.nil? end)
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .is_response_void(true))
         .execute
     end
   end

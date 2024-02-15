@@ -51,7 +51,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -131,11 +131,53 @@ module AdvancedBilling
                    .query_param(new_parameter(options['end_datetime'], key: 'end_datetime'))
                    .query_param(new_parameter(options['q'], key: 'q'))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
                    .deserialize_into(CustomerResponse.method(:from_hash))
+                   .is_response_array(true))
+        .execute
+    end
+
+    # Use this method to return the customer object if you have the unique
+    # **Reference ID (Your App)** value handy. It will return a single match.
+    # @param [String] reference Required parameter: Customer reference
+    # @return [CustomerResponse] response from the API call
+    def read_customer_by_reference(reference)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::GET,
+                                     '/customers/lookup.json',
+                                     Server::DEFAULT)
+                   .query_param(new_parameter(reference, key: 'reference')
+                                 .is_required(true))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(CustomerResponse.method(:from_hash)))
+        .execute
+    end
+
+    # This method lists all subscriptions that belong to a customer.
+    # @param [Integer] customer_id Required parameter: The Chargify id of the
+    # customer
+    # @return [Array[SubscriptionResponse]] response from the API call
+    def list_customer_subscriptions(customer_id)
+      new_api_call_builder
+        .request(new_request_builder(HttpMethodEnum::GET,
+                                     '/customers/{customer_id}/subscriptions.json',
+                                     Server::DEFAULT)
+                   .template_param(new_parameter(customer_id, key: 'customer_id')
+                                    .is_required(true)
+                                    .should_encode(true))
+                   .header_param(new_parameter('application/json', key: 'accept'))
+                   .auth(Single.new('BasicAuth')))
+        .response(new_response_handler
+                   .is_nullify404(true)
+                   .deserializer(APIHelper.method(:custom_type_deserializer))
+                   .deserialize_into(SubscriptionResponse.method(:from_hash))
                    .is_response_array(true))
         .execute
     end
@@ -153,7 +195,7 @@ module AdvancedBilling
                                     .is_required(true)
                                     .should_encode(true))
                    .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -178,7 +220,7 @@ module AdvancedBilling
                    .body_param(new_parameter(body))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .deserializer(APIHelper.method(:custom_type_deserializer))
@@ -203,52 +245,10 @@ module AdvancedBilling
                    .template_param(new_parameter(id, key: 'id')
                                     .is_required(true)
                                     .should_encode(true))
-                   .auth(Single.new('global')))
+                   .auth(Single.new('BasicAuth')))
         .response(new_response_handler
                    .is_nullify404(true)
                    .is_response_void(true))
-        .execute
-    end
-
-    # Use this method to return the customer object if you have the unique
-    # **Reference ID (Your App)** value handy. It will return a single match.
-    # @param [String] reference Required parameter: Customer reference
-    # @return [CustomerResponse] response from the API call
-    def read_customer_by_reference(reference)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::GET,
-                                     '/customers/lookup.json',
-                                     Server::DEFAULT)
-                   .query_param(new_parameter(reference, key: 'reference')
-                                 .is_required(true))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CustomerResponse.method(:from_hash)))
-        .execute
-    end
-
-    # This method lists all subscriptions that belong to a customer.
-    # @param [Integer] customer_id Required parameter: The Chargify id of the
-    # customer
-    # @return [Array[SubscriptionResponse]] response from the API call
-    def list_customer_subscriptions(customer_id)
-      new_api_call_builder
-        .request(new_request_builder(HttpMethodEnum::GET,
-                                     '/customers/{customer_id}/subscriptions.json',
-                                     Server::DEFAULT)
-                   .template_param(new_parameter(customer_id, key: 'customer_id')
-                                    .is_required(true)
-                                    .should_encode(true))
-                   .header_param(new_parameter('application/json', key: 'accept'))
-                   .auth(Single.new('global')))
-        .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionResponse.method(:from_hash))
-                   .is_response_array(true))
         .execute
     end
   end

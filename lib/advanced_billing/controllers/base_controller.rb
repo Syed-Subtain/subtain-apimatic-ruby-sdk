@@ -9,7 +9,7 @@ module AdvancedBilling
     attr_accessor :config, :http_call_back
 
     def self.user_agent
-      'AB SDK Ruby:4.1.1 on OS {os-info}'
+      'AB SDK Ruby:2.2.89 on OS {os-info}'
     end
 
     def self.user_agent_parameters
