@@ -6,6 +6,7 @@
 module AdvancedBilling
   # Utility class for basic authorization.
   class BasicAuth < CoreLibrary::HeaderAuth
+    include CoreLibrary
     # Display error message on occurrence of authentication failure.
     # @returns [String] The oAuth error message.
     def error_message

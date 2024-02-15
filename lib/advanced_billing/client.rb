@@ -6,6 +6,7 @@
 module AdvancedBilling
   #  advanced_billing client class.
   class Client
+    include CoreLibrary
     attr_reader :config, :auth_managers
 
     # Access to api_exports controller.
