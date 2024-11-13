@@ -69,12 +69,8 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(street = SKIP,
-                   line2 = SKIP,
-                   city = SKIP,
-                   state = SKIP,
-                   zip = SKIP,
-                   country = SKIP)
+    def initialize(street = SKIP, line2 = SKIP, city = SKIP, state = SKIP,
+                   zip = SKIP, country = SKIP)
       @street = street unless street == SKIP
       @line2 = line2 unless line2 == SKIP
       @city = city unless city == SKIP
@@ -102,6 +98,16 @@ module AdvancedBilling
                          state,
                          zip,
                          country)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [BillingAddress | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

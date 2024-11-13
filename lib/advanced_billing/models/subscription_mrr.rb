@@ -42,8 +42,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(subscription_id = nil,
-                   mrr_amount_in_cents = nil,
+    def initialize(subscription_id = nil, mrr_amount_in_cents = nil,
                    breakouts = SKIP)
       @subscription_id = subscription_id
       @mrr_amount_in_cents = mrr_amount_in_cents

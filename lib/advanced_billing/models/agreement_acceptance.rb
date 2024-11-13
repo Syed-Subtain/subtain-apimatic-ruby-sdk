@@ -72,10 +72,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(ip_address = SKIP,
-                   terms_url = SKIP,
-                   privacy_policy_url = SKIP,
-                   return_refund_policy_url = SKIP,
+    def initialize(ip_address = SKIP, terms_url = SKIP,
+                   privacy_policy_url = SKIP, return_refund_policy_url = SKIP,
                    delivery_policy_url = SKIP,
                    secure_checkout_policy_url = SKIP)
       @ip_address = ip_address unless ip_address == SKIP
@@ -112,6 +110,16 @@ module AdvancedBilling
                               return_refund_policy_url,
                               delivery_policy_url,
                               secure_checkout_policy_url)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [AgreementAcceptance | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

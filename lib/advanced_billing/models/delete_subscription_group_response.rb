@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(uid = SKIP,
-                   deleted = SKIP)
+    def initialize(uid = SKIP, deleted = SKIP)
       @uid = uid unless uid == SKIP
       @deleted = deleted unless deleted == SKIP
     end

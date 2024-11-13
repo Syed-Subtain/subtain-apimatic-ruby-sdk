@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(capture_date = SKIP,
-                   invoices = SKIP)
+    def initialize(capture_date = SKIP, invoices = SKIP)
       @capture_date = capture_date unless capture_date == SKIP
       @invoices = invoices unless invoices == SKIP
     end
@@ -64,6 +63,16 @@ module AdvancedBilling
       # Create object from extracted values.
       InvoicePreviousBalance.new(capture_date,
                                  invoices)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [InvoicePreviousBalance | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

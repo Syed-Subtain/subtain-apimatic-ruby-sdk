@@ -146,21 +146,12 @@ module AdvancedBilling
       []
     end
 
-    def initialize(name = nil,
-                   unit_name = nil,
-                   pricing_scheme = nil,
-                   event_based_billing_metric_id = nil,
-                   description = SKIP,
-                   handle = SKIP,
-                   taxable = SKIP,
-                   prices = SKIP,
-                   upgrade_charge = SKIP,
-                   downgrade_credit = SKIP,
-                   price_points = SKIP,
-                   unit_price = SKIP,
-                   tax_code = SKIP,
-                   hide_date_range_on_invoice = SKIP,
-                   price_in_cents = SKIP)
+    def initialize(name = nil, unit_name = nil, pricing_scheme = nil,
+                   event_based_billing_metric_id = nil, description = SKIP,
+                   handle = SKIP, taxable = SKIP, prices = SKIP,
+                   upgrade_charge = SKIP, downgrade_credit = SKIP,
+                   price_points = SKIP, unit_price = SKIP, tax_code = SKIP,
+                   hide_date_range_on_invoice = SKIP, price_in_cents = SKIP)
       @name = name
       @unit_name = unit_name
       @description = description unless description == SKIP

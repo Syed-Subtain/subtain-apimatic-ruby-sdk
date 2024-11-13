@@ -64,11 +64,8 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(url = SKIP,
-                   fetch_count = SKIP,
-                   created_at = SKIP,
-                   new_link_available_at = SKIP,
-                   expires_at = SKIP,
+    def initialize(url = SKIP, fetch_count = SKIP, created_at = SKIP,
+                   new_link_available_at = SKIP, expires_at = SKIP,
                    last_invite_sent_at = SKIP)
       @url = url unless url == SKIP
       @fetch_count = fetch_count unless fetch_count == SKIP

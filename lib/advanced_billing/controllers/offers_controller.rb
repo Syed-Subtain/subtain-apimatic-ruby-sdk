@@ -21,7 +21,7 @@ module AdvancedBilling
     # `product_price_point_id` is not passed in, the product's default price
     # point will be used.
     # @param [CreateOfferRequest] body Optional parameter: Example:
-    # @return [OfferResponse] response from the API call
+    # @return [OfferResponse] response from the API call.
     def create_offer(body: nil)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -33,17 +33,17 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(OfferResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorMapResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(OfferResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorMapResponseException))
         .execute
     end
 
     # This endpoint will list offers for a site.
-    # @return [ListOffersResponse] response from the API call
+    # @return [ListOffersResponse] response from the API call.
     def list_offers
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -52,9 +52,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListOffersResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ListOffersResponse.method(:from_hash)))
         .execute
     end
 
@@ -62,7 +62,7 @@ module AdvancedBilling
     # different than list all offers for a site, as it requires an `offer_id`.
     # @param [Integer] offer_id Required parameter: The Chargify id of the
     # offer
-    # @return [OfferResponse] response from the API call
+    # @return [OfferResponse] response from the API call.
     def read_offers(offer_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -74,12 +74,12 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(OfferResponse.method(:from_hash))
-                   .local_error('401',
-                                'Unauthorized',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(OfferResponse.method(:from_hash))
+                    .local_error('401',
+                                 'Unauthorized',
+                                 APIException))
         .execute
     end
 
@@ -87,7 +87,7 @@ module AdvancedBilling
     # order to un-archive the correct item.
     # @param [Integer] offer_id Required parameter: The Chargify id of the
     # offer
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def unarchive_offer(offer_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::PUT,
@@ -98,11 +98,11 @@ module AdvancedBilling
                                     .should_encode(true))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('401',
-                                'Unauthorized',
-                                APIException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('401',
+                                 'Unauthorized',
+                                 APIException))
         .execute
     end
 
@@ -110,7 +110,7 @@ module AdvancedBilling
     # archive the correct item.
     # @param [Integer] offer_id Required parameter: The Chargify id of the
     # offer
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def archive_offer(offer_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::PUT,
@@ -121,11 +121,11 @@ module AdvancedBilling
                                     .should_encode(true))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('401',
-                                'Unauthorized',
-                                APIException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('401',
+                                 'Unauthorized',
+                                 APIException))
         .execute
     end
   end

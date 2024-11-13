@@ -80,15 +80,10 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   memo = SKIP,
-                   created_at = SKIP,
-                   price_point_id = SKIP,
-                   quantity = SKIP,
-                   overage_quantity = SKIP,
-                   component_id = SKIP,
-                   component_handle = SKIP,
-                   subscription_id = SKIP)
+    def initialize(id = SKIP, memo = SKIP, created_at = SKIP,
+                   price_point_id = SKIP, quantity = SKIP,
+                   overage_quantity = SKIP, component_id = SKIP,
+                   component_handle = SKIP, subscription_id = SKIP)
       @id = id unless id == SKIP
       @memo = memo unless memo == SKIP
       @created_at = created_at unless created_at == SKIP

@@ -65,12 +65,8 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(chargify_id = SKIP,
-                   first_name = SKIP,
-                   last_name = SKIP,
-                   organization = SKIP,
-                   email = SKIP,
-                   vat_number = SKIP)
+    def initialize(chargify_id = SKIP, first_name = SKIP, last_name = SKIP,
+                   organization = SKIP, email = SKIP, vat_number = SKIP)
       @chargify_id = chargify_id unless chargify_id == SKIP
       @first_name = first_name unless first_name == SKIP
       @last_name = last_name unless last_name == SKIP
@@ -98,6 +94,16 @@ module AdvancedBilling
                        organization,
                        email,
                        vat_number)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [InvoicePayer | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

@@ -56,11 +56,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(total_count = SKIP,
-                   current_page = SKIP,
-                   total_pages = SKIP,
-                   per_page = SKIP,
-                   metafields = SKIP)
+    def initialize(total_count = SKIP, current_page = SKIP, total_pages = SKIP,
+                   per_page = SKIP, metafields = SKIP)
       @total_count = total_count unless total_count == SKIP
       @current_page = current_page unless current_page == SKIP
       @total_pages = total_pages unless total_pages == SKIP

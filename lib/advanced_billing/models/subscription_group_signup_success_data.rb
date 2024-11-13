@@ -70,15 +70,10 @@ module AdvancedBilling
       []
     end
 
-    def initialize(uid = nil,
-                   scheme = nil,
-                   customer_id = nil,
-                   payment_profile_id = nil,
-                   subscription_ids = nil,
-                   primary_subscription_id = nil,
-                   next_assessment_at = nil,
-                   state = nil,
-                   cancel_at_end_of_period = nil)
+    def initialize(uid = nil, scheme = nil, customer_id = nil,
+                   payment_profile_id = nil, subscription_ids = nil,
+                   primary_subscription_id = nil, next_assessment_at = nil,
+                   state = nil, cancel_at_end_of_period = nil)
       @uid = uid
       @scheme = scheme
       @customer_id = customer_id
@@ -120,6 +115,56 @@ module AdvancedBilling
                                              next_assessment_at,
                                              state,
                                              cancel_at_end_of_period)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [SubscriptionGroupSignupSuccessData | Hash] The value against the validation is performed.
+    def self.validate(value)
+      if value.instance_of? self
+        return (
+          APIHelper.valid_type?(value.uid,
+                                ->(val) { val.instance_of? String }) and
+            APIHelper.valid_type?(value.scheme,
+                                  ->(val) { val.instance_of? Integer }) and
+            APIHelper.valid_type?(value.customer_id,
+                                  ->(val) { val.instance_of? Integer }) and
+            APIHelper.valid_type?(value.payment_profile_id,
+                                  ->(val) { val.instance_of? Integer }) and
+            APIHelper.valid_type?(value.subscription_ids,
+                                  ->(val) { val.instance_of? Integer }) and
+            APIHelper.valid_type?(value.primary_subscription_id,
+                                  ->(val) { val.instance_of? Integer }) and
+            APIHelper.valid_type?(value.next_assessment_at,
+                                  ->(val) { val.instance_of? String }) and
+            APIHelper.valid_type?(value.state,
+                                  ->(val) { val.instance_of? String }) and
+            APIHelper.valid_type?(value.cancel_at_end_of_period,
+                                  ->(val) { val.instance_of? TrueClass or val.instance_of? FalseClass })
+        )
+      end
+
+      return false unless value.instance_of? Hash
+
+      (
+        APIHelper.valid_type?(value['uid'],
+                              ->(val) { val.instance_of? String }) and
+          APIHelper.valid_type?(value['scheme'],
+                                ->(val) { val.instance_of? Integer }) and
+          APIHelper.valid_type?(value['customer_id'],
+                                ->(val) { val.instance_of? Integer }) and
+          APIHelper.valid_type?(value['payment_profile_id'],
+                                ->(val) { val.instance_of? Integer }) and
+          APIHelper.valid_type?(value['subscription_ids'],
+                                ->(val) { val.instance_of? Integer }) and
+          APIHelper.valid_type?(value['primary_subscription_id'],
+                                ->(val) { val.instance_of? Integer }) and
+          APIHelper.valid_type?(value['next_assessment_at'],
+                                ->(val) { val.instance_of? String }) and
+          APIHelper.valid_type?(value['state'],
+                                ->(val) { val.instance_of? String }) and
+          APIHelper.valid_type?(value['cancel_at_end_of_period'],
+                                ->(val) { val.instance_of? TrueClass or val.instance_of? FalseClass })
+      )
     end
   end
 end

@@ -161,25 +161,14 @@ module AdvancedBilling
       []
     end
 
-    def initialize(full_number = SKIP,
-                   expiration_month = SKIP,
-                   expiration_year = SKIP,
-                   chargify_token = SKIP,
-                   vault_token = SKIP,
-                   current_vault = SKIP,
-                   gateway_handle = SKIP,
-                   first_name = SKIP,
-                   last_name = SKIP,
-                   billing_address = SKIP,
-                   billing_address_2 = SKIP,
-                   billing_city = SKIP,
-                   billing_state = SKIP,
-                   billing_zip = SKIP,
-                   billing_country = SKIP,
-                   last_four = SKIP,
-                   card_type = SKIP,
-                   customer_vault_token = SKIP,
-                   cvv = SKIP,
+    def initialize(full_number = SKIP, expiration_month = SKIP,
+                   expiration_year = SKIP, chargify_token = SKIP,
+                   vault_token = SKIP, current_vault = SKIP,
+                   gateway_handle = SKIP, first_name = SKIP, last_name = SKIP,
+                   billing_address = SKIP, billing_address_2 = SKIP,
+                   billing_city = SKIP, billing_state = SKIP,
+                   billing_zip = SKIP, billing_country = SKIP, last_four = SKIP,
+                   card_type = SKIP, customer_vault_token = SKIP, cvv = SKIP,
                    payment_type = SKIP)
       @full_number = full_number unless full_number == SKIP
       @expiration_month = expiration_month unless expiration_month == SKIP

@@ -120,20 +120,11 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = SKIP,
-                   type = SKIP,
-                   default = SKIP,
-                   name = SKIP,
-                   pricing_scheme = SKIP,
-                   component_id = SKIP,
-                   handle = SKIP,
-                   archived_at = SKIP,
-                   created_at = SKIP,
-                   updated_at = SKIP,
-                   prices = SKIP,
-                   use_site_exchange_rate = true,
-                   subscription_id = SKIP,
-                   tax_included = SKIP)
+    def initialize(id = SKIP, type = SKIP, default = SKIP, name = SKIP,
+                   pricing_scheme = SKIP, component_id = SKIP, handle = SKIP,
+                   archived_at = SKIP, created_at = SKIP, updated_at = SKIP,
+                   prices = SKIP, use_site_exchange_rate = true,
+                   subscription_id = SKIP, tax_included = SKIP)
       @id = id unless id == SKIP
       @type = type unless type == SKIP
       @default = default unless default == SKIP

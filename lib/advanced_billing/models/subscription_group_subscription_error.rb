@@ -51,8 +51,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(product = SKIP,
-                   product_price_point_id = SKIP,
+    def initialize(product = SKIP, product_price_point_id = SKIP,
                    payment_profile = SKIP,
                    payment_profile_chargify_token = SKIP)
       @product = product unless product == SKIP

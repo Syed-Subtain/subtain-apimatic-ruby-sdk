@@ -37,8 +37,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(subscription_id = nil,
-                   member_ids = SKIP)
+    def initialize(subscription_id = nil, member_ids = SKIP)
       @subscription_id = subscription_id
       @member_ids = member_ids unless member_ids == SKIP
     end

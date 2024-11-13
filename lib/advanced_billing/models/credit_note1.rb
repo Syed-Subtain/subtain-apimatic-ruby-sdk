@@ -227,33 +227,17 @@ module AdvancedBilling
       []
     end
 
-    def initialize(uid = SKIP,
-                   site_id = SKIP,
-                   customer_id = SKIP,
-                   subscription_id = SKIP,
-                   number = SKIP,
-                   sequence_number = SKIP,
-                   issue_date = SKIP,
-                   applied_date = SKIP,
-                   status = SKIP,
-                   currency = SKIP,
-                   memo = SKIP,
-                   seller = SKIP,
-                   customer = SKIP,
-                   billing_address = SKIP,
-                   shipping_address = SKIP,
-                   subtotal_amount = SKIP,
-                   discount_amount = SKIP,
-                   tax_amount = SKIP,
-                   total_amount = SKIP,
-                   applied_amount = SKIP,
-                   remaining_amount = SKIP,
-                   line_items = SKIP,
-                   discounts = SKIP,
-                   taxes = SKIP,
-                   applications = SKIP,
-                   refunds = SKIP,
-                   origin_invoices = SKIP)
+    def initialize(uid = SKIP, site_id = SKIP, customer_id = SKIP,
+                   subscription_id = SKIP, number = SKIP,
+                   sequence_number = SKIP, issue_date = SKIP,
+                   applied_date = SKIP, status = SKIP, currency = SKIP,
+                   memo = SKIP, seller = SKIP, customer = SKIP,
+                   billing_address = SKIP, shipping_address = SKIP,
+                   subtotal_amount = SKIP, discount_amount = SKIP,
+                   tax_amount = SKIP, total_amount = SKIP,
+                   applied_amount = SKIP, remaining_amount = SKIP,
+                   line_items = SKIP, discounts = SKIP, taxes = SKIP,
+                   applications = SKIP, refunds = SKIP, origin_invoices = SKIP)
       @uid = uid unless uid == SKIP
       @site_id = site_id unless site_id == SKIP
       @customer_id = customer_id unless customer_id == SKIP
@@ -406,6 +390,16 @@ module AdvancedBilling
                       applications,
                       refunds,
                       origin_invoices)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [CreditNote1 | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

@@ -54,11 +54,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(name = nil,
-                   pricing_scheme = nil,
-                   prices = nil,
-                   handle = SKIP,
-                   use_site_exchange_rate = true)
+    def initialize(name = nil, pricing_scheme = nil, prices = nil,
+                   handle = SKIP, use_site_exchange_rate = true)
       @name = name
       @handle = handle unless handle == SKIP
       @pricing_scheme = pricing_scheme
@@ -105,7 +102,9 @@ module AdvancedBilling
             APIHelper.valid_type?(value.pricing_scheme,
                                   ->(val) { val.instance_of? String }) and
             APIHelper.valid_type?(value.prices,
-                                  ->(val) { Price.validate(val) })
+                                  ->(val) { Price.validate(val) },
+                                  is_model_hash: true,
+                                  is_inner_model_hash: true)
         )
       end
 
@@ -117,7 +116,9 @@ module AdvancedBilling
           APIHelper.valid_type?(value['pricing_scheme'],
                                 ->(val) { val.instance_of? String }) and
           APIHelper.valid_type?(value['prices'],
-                                ->(val) { Price.validate(val) })
+                                ->(val) { Price.validate(val) },
+                                is_model_hash: true,
+                                is_inner_model_hash: true)
       )
     end
   end

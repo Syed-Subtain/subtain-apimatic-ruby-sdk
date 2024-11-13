@@ -40,9 +40,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(dunner = nil,
-                   current_step = nil,
-                   next_step = nil)
+    def initialize(dunner = nil, current_step = nil, next_step = nil)
       @dunner = dunner
       @current_step = current_step
       @next_step = next_step
@@ -69,11 +67,14 @@ module AdvancedBilling
       if value.instance_of? self
         return (
           APIHelper.valid_type?(value.dunner,
-                                ->(val) { DunnerData.validate(val) }) and
+                                ->(val) { DunnerData.validate(val) },
+                                is_model_hash: true) and
             APIHelper.valid_type?(value.current_step,
-                                  ->(val) { DunningStepData.validate(val) }) and
+                                  ->(val) { DunningStepData.validate(val) },
+                                  is_model_hash: true) and
             APIHelper.valid_type?(value.next_step,
-                                  ->(val) { DunningStepData.validate(val) })
+                                  ->(val) { DunningStepData.validate(val) },
+                                  is_model_hash: true)
         )
       end
 
@@ -81,11 +82,14 @@ module AdvancedBilling
 
       (
         APIHelper.valid_type?(value['dunner'],
-                              ->(val) { DunnerData.validate(val) }) and
+                              ->(val) { DunnerData.validate(val) },
+                              is_model_hash: true) and
           APIHelper.valid_type?(value['current_step'],
-                                ->(val) { DunningStepData.validate(val) }) and
+                                ->(val) { DunningStepData.validate(val) },
+                                is_model_hash: true) and
           APIHelper.valid_type?(value['next_step'],
-                                ->(val) { DunningStepData.validate(val) })
+                                ->(val) { DunningStepData.validate(val) },
+                                is_model_hash: true)
       )
     end
   end

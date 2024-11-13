@@ -88,15 +88,9 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = SKIP,
-                   site_name = SKIP,
-                   subscription_url = SKIP,
-                   customer_name = SKIP,
-                   created_at = SKIP,
-                   mrr = SKIP,
-                   usage = SKIP,
-                   recurring = SKIP,
-                   last_payment = SKIP,
+    def initialize(id = SKIP, site_name = SKIP, subscription_url = SKIP,
+                   customer_name = SKIP, created_at = SKIP, mrr = SKIP,
+                   usage = SKIP, recurring = SKIP, last_payment = SKIP,
                    churn_date = SKIP)
       @id = id unless id == SKIP
       @site_name = site_name unless site_name == SKIP

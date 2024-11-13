@@ -53,8 +53,7 @@ module AdvancedBilling
     end
 
     def initialize(initial_funding_amount_in_cents = SKIP,
-                   replenish_to_amount_in_cents = SKIP,
-                   auto_replenish = SKIP,
+                   replenish_to_amount_in_cents = SKIP, auto_replenish = SKIP,
                    replenish_threshold_amount_in_cents = SKIP)
       unless initial_funding_amount_in_cents == SKIP
         @initial_funding_amount_in_cents =
@@ -90,6 +89,16 @@ module AdvancedBilling
                                      replenish_to_amount_in_cents,
                                      auto_replenish,
                                      replenish_threshold_amount_in_cents)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [UpsertPrepaidConfiguration | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

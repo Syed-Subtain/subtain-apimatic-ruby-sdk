@@ -11,7 +11,7 @@ module AdvancedBilling
     # don't have to save or reference the IDs we generate.
     # @param [String] handle Required parameter: The handle of the component to
     # find
-    # @return [ComponentResponse] response from the API call
+    # @return [ComponentResponse] response from the API call.
     def read_component_by_handle(handle)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -22,9 +22,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ComponentResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ComponentResponse.method(:from_hash)))
         .execute
     end
 
@@ -70,7 +70,7 @@ module AdvancedBilling
     # parameter: Allows fetching components with matching use_site_exchange_rate
     # based on provided value (refers to default price point). Use in query
     # `filter[use_site_exchange_rate]=true`.
-    # @return [Array[ComponentResponse]] response from the API call
+    # @return [Array[ComponentResponse]] response from the API call.
     def list_components(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -90,10 +90,10 @@ module AdvancedBilling
                    .auth(Single.new('BasicAuth'))
                    .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ComponentResponse.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ComponentResponse.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -105,7 +105,7 @@ module AdvancedBilling
     # the product family to which the component belongs
     # @param [String] component_id Required parameter: Either the Chargify id of
     # the component or the handle for the component prefixed with `handle:`
-    # @return [ComponentResponse] response from the API call
+    # @return [ComponentResponse] response from the API call.
     def read_component_by_id(product_family_id,
                              component_id)
       new_api_call_builder
@@ -121,9 +121,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ComponentResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ComponentResponse.method(:from_hash)))
         .execute
     end
 
@@ -135,7 +135,7 @@ module AdvancedBilling
     # @param [String] component_id Required parameter: Either the Chargify id of
     # the component or the handle for the component prefixed with `handle:`
     # @param [UpdateComponentRequest] body Optional parameter: Example:
-    # @return [ComponentResponse] response from the API call
+    # @return [ComponentResponse] response from the API call.
     def update_product_family_component(product_family_id,
                                         component_id,
                                         body: nil)
@@ -155,12 +155,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ComponentResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ComponentResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -194,7 +194,7 @@ module AdvancedBilling
     # @param [CreateMeteredComponent | CreateQuantityBasedComponent |
     # CreateOnOffComponent | CreatePrepaidComponent | CreateEBBComponent | nil]
     # body Optional parameter: Example:
-    # @return [ComponentResponse] response from the API call
+    # @return [ComponentResponse] response from the API call.
     def create_component(product_family_id,
                          component_kind,
                          body: nil)
@@ -218,12 +218,12 @@ module AdvancedBilling
                    .body_serializer(APIHelper.method(:json_serialize))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ComponentResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ComponentResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -234,7 +234,7 @@ module AdvancedBilling
     # the product family to which the component belongs
     # @param [String] component_id Required parameter: Either the Chargify id of
     # the component or the handle for the component prefixed with `handle:`
-    # @return [ComponentResponse] response from the API call
+    # @return [ComponentResponse] response from the API call.
     def archive_component(product_family_id,
                           component_id)
       new_api_call_builder
@@ -250,12 +250,12 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ComponentResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ComponentResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -273,7 +273,7 @@ module AdvancedBilling
     # price point
     # @param [UpdateComponentPricePointRequest] body Optional parameter:
     # Example:
-    # @return [ComponentPricePointResponse] response from the API call
+    # @return [ComponentPricePointResponse] response from the API call.
     def update_component_price_point(component_id,
                                      price_point_id,
                                      body: nil)
@@ -293,9 +293,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ComponentPricePointResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ComponentPricePointResponse.method(:from_hash)))
         .execute
     end
 
@@ -306,7 +306,7 @@ module AdvancedBilling
     # component to which the price point belongs
     # @param [Integer] price_point_id Required parameter: The Chargify id of the
     # price point
-    # @return [ComponentPricePointResponse] response from the API call
+    # @return [ComponentPricePointResponse] response from the API call.
     def archive_component_price_point(component_id,
                                       price_point_id)
       new_api_call_builder
@@ -322,9 +322,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ComponentPricePointResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ComponentPricePointResponse.method(:from_hash)))
         .execute
     end
 
@@ -334,7 +334,7 @@ module AdvancedBilling
     # component
     # @param [CreateComponentPricePointRequest] body Optional parameter:
     # Example:
-    # @return [ComponentPricePointResponse] response from the API call
+    # @return [ComponentPricePointResponse] response from the API call.
     def create_component_price_point(component_id,
                                      body: nil)
       new_api_call_builder
@@ -350,9 +350,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ComponentPricePointResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ComponentPricePointResponse.method(:from_hash)))
         .execute
     end
 
@@ -369,7 +369,7 @@ module AdvancedBilling
     # component to which the price point belongs
     # @param [Integer] price_point_id Required parameter: The Chargify id of the
     # price point
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def update_default_price_point_for_component(component_id,
                                                  price_point_id)
       new_api_call_builder
@@ -384,8 +384,8 @@ module AdvancedBilling
                                     .should_encode(true))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true))
+                    .is_nullify404(true)
+                    .is_response_void(true))
         .execute
     end
 
@@ -395,7 +395,7 @@ module AdvancedBilling
     # @param [String] component_id Required parameter: The id or handle of the
     # component
     # @param [UpdateComponentRequest] body Optional parameter: Example:
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def update_component(component_id,
                          body: nil)
       new_api_call_builder
@@ -410,8 +410,8 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true))
+                    .is_nullify404(true)
+                    .is_response_void(true))
         .execute
     end
 
@@ -443,7 +443,7 @@ module AdvancedBilling
     # Use in query `per_page=200`.
     # @param [Array[PricePointType]] filter_type Optional parameter: Use in
     # query: `filter[type]=catalog,default`.
-    # @return [ComponentPricePointsResponse] response from the API call
+    # @return [ComponentPricePointsResponse] response from the API call.
     def list_component_price_points(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -460,9 +460,9 @@ module AdvancedBilling
                    .auth(Single.new('BasicAuth'))
                    .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ComponentPricePointsResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ComponentPricePointsResponse.method(:from_hash)))
         .execute
     end
 
@@ -516,7 +516,7 @@ module AdvancedBilling
     # @param [IncludeNotNull] filter_archived_at Optional parameter: Allows
     # fetching price points only if archived_at is present or not. Use in query:
     # `filter[archived_at]=not_null`.
-    # @return [ListComponentsPricePointsResponse] response from the API call
+    # @return [ListComponentsPricePointsResponse] response from the API call.
     def list_all_component_price_points(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -542,12 +542,12 @@ module AdvancedBilling
                    .auth(Single.new('BasicAuth'))
                    .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListComponentsPricePointsResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ListComponentsPricePointsResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -597,7 +597,7 @@ module AdvancedBilling
     # parameter: Allows fetching components with matching use_site_exchange_rate
     # based on provided value (refers to default price point). Use in query
     # `filter[use_site_exchange_rate]=true`.
-    # @return [Array[ComponentResponse]] response from the API call
+    # @return [Array[ComponentResponse]] response from the API call.
     def list_components_for_product_family(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -620,10 +620,10 @@ module AdvancedBilling
                    .auth(Single.new('BasicAuth'))
                    .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ComponentResponse.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ComponentResponse.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -633,7 +633,7 @@ module AdvancedBilling
     # component for which you want to fetch price points.
     # @param [CreateComponentPricePointsRequest] body Optional parameter:
     # Example:
-    # @return [ComponentPricePointsResponse] response from the API call
+    # @return [ComponentPricePointsResponse] response from the API call.
     def create_component_price_points(component_id,
                                       body: nil)
       new_api_call_builder
@@ -649,9 +649,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ComponentPricePointsResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ComponentPricePointsResponse.method(:from_hash)))
         .execute
     end
 
@@ -660,7 +660,7 @@ module AdvancedBilling
     # component to which the price point belongs
     # @param [Integer] price_point_id Required parameter: The Chargify id of the
     # price point
-    # @return [ComponentPricePointResponse] response from the API call
+    # @return [ComponentPricePointResponse] response from the API call.
     def unarchive_component_price_point(component_id,
                                         price_point_id)
       new_api_call_builder
@@ -676,9 +676,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ComponentPricePointResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ComponentPricePointResponse.method(:from_hash)))
         .execute
     end
 
@@ -692,7 +692,7 @@ module AdvancedBilling
     # @param [Integer] price_point_id Required parameter: The Chargify id of the
     # price point
     # @param [CreateCurrencyPricesRequest] body Optional parameter: Example:
-    # @return [Array[CurrencyPrice]] response from the API call
+    # @return [Array[CurrencyPrice]] response from the API call.
     def create_currency_prices(price_point_id,
                                body: nil)
       new_api_call_builder
@@ -708,10 +708,10 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CurrencyPrice.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CurrencyPrice.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -721,7 +721,7 @@ module AdvancedBilling
     # @param [Integer] price_point_id Required parameter: The Chargify id of the
     # price point
     # @param [UpdateCurrencyPricesRequest] body Optional parameter: Example:
-    # @return [Array[CurrencyPrice]] response from the API call
+    # @return [Array[CurrencyPrice]] response from the API call.
     def update_currency_prices(price_point_id,
                                body: nil)
       new_api_call_builder
@@ -737,10 +737,10 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CurrencyPrice.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CurrencyPrice.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
   end

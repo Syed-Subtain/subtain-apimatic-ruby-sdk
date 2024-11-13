@@ -60,11 +60,8 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = SKIP,
-                   finished_at = SKIP,
-                   row_count = SKIP,
-                   created_at = SKIP,
-                   completed = SKIP)
+    def initialize(id = SKIP, finished_at = SKIP, row_count = SKIP,
+                   created_at = SKIP, completed = SKIP)
       @id = id unless id == SKIP
       @finished_at = finished_at unless finished_at == SKIP
       @row_count = row_count unless row_count == SKIP

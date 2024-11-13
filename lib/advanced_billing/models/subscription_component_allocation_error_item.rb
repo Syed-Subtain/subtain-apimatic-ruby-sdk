@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(kind = SKIP,
-                   message = SKIP)
+    def initialize(kind = SKIP, message = SKIP)
       @kind = kind unless kind == SKIP
       @message = message unless message == SKIP
     end

@@ -35,8 +35,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(previous_value = nil,
-                   current_value = nil)
+    def initialize(previous_value = nil, current_value = nil)
       @previous_value = previous_value
       @current_value = current_value
     end

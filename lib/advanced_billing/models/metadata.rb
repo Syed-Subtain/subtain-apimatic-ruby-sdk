@@ -64,12 +64,8 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = SKIP,
-                   value = SKIP,
-                   resource_id = SKIP,
-                   name = SKIP,
-                   deleted_at = SKIP,
-                   metafield_id = SKIP)
+    def initialize(id = SKIP, value = SKIP, resource_id = SKIP, name = SKIP,
+                   deleted_at = SKIP, metafield_id = SKIP)
       @id = id unless id == SKIP
       @value = value unless value == SKIP
       @resource_id = resource_id unless resource_id == SKIP

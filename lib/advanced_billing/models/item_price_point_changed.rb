@@ -55,11 +55,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(item_id = nil,
-                   item_type = nil,
-                   item_handle = nil,
-                   item_name = nil,
-                   previous_price_point = nil,
+    def initialize(item_id = nil, item_type = nil, item_handle = nil,
+                   item_name = nil, previous_price_point = nil,
                    current_price_point = nil)
       @item_id = item_id
       @item_type = item_type
@@ -106,9 +103,11 @@ module AdvancedBilling
             APIHelper.valid_type?(value.item_name,
                                   ->(val) { val.instance_of? String }) and
             APIHelper.valid_type?(value.previous_price_point,
-                                  ->(val) { ItemPricePointData.validate(val) }) and
+                                  ->(val) { ItemPricePointData.validate(val) },
+                                  is_model_hash: true) and
             APIHelper.valid_type?(value.current_price_point,
-                                  ->(val) { ItemPricePointData.validate(val) })
+                                  ->(val) { ItemPricePointData.validate(val) },
+                                  is_model_hash: true)
         )
       end
 
@@ -124,9 +123,11 @@ module AdvancedBilling
           APIHelper.valid_type?(value['item_name'],
                                 ->(val) { val.instance_of? String }) and
           APIHelper.valid_type?(value['previous_price_point'],
-                                ->(val) { ItemPricePointData.validate(val) }) and
+                                ->(val) { ItemPricePointData.validate(val) },
+                                is_model_hash: true) and
           APIHelper.valid_type?(value['current_price_point'],
-                                ->(val) { ItemPricePointData.validate(val) })
+                                ->(val) { ItemPricePointData.validate(val) },
+                                is_model_hash: true)
       )
     end
   end

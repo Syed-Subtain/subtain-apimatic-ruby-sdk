@@ -56,11 +56,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(name = SKIP,
-                   handle = SKIP,
-                   pricing_scheme = SKIP,
-                   prices = SKIP,
-                   overage_pricing = SKIP)
+    def initialize(name = SKIP, handle = SKIP, pricing_scheme = SKIP,
+                   prices = SKIP, overage_pricing = SKIP)
       @name = name unless name == SKIP
       @handle = handle unless handle == SKIP
       @pricing_scheme = pricing_scheme unless pricing_scheme == SKIP
@@ -96,6 +93,16 @@ module AdvancedBilling
                                      pricing_scheme,
                                      prices,
                                      overage_pricing)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [PrepaidComponentPricePoint | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

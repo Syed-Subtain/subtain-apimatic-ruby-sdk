@@ -80,16 +80,9 @@ module AdvancedBilling
       []
     end
 
-    def initialize(uid = nil,
-                   number = nil,
-                   role = nil,
-                   delivery_date = nil,
-                   created_at = nil,
-                   due_amount = nil,
-                   paid_amount = nil,
-                   tax_amount = nil,
-                   total_amount = nil,
-                   product_name = nil,
+    def initialize(uid = nil, number = nil, role = nil, delivery_date = nil,
+                   created_at = nil, due_amount = nil, paid_amount = nil,
+                   tax_amount = nil, total_amount = nil, product_name = nil,
                    line_items = nil)
       @uid = uid
       @number = number
@@ -170,7 +163,9 @@ module AdvancedBilling
             APIHelper.valid_type?(value.product_name,
                                   ->(val) { val.instance_of? String }) and
             APIHelper.valid_type?(value.line_items,
-                                  ->(val) { InvoiceLineItemEventData.validate(val) })
+                                  ->(val) { InvoiceLineItemEventData.validate(val) },
+                                  is_model_hash: true,
+                                  is_inner_model_hash: true)
         )
       end
 
@@ -198,7 +193,9 @@ module AdvancedBilling
           APIHelper.valid_type?(value['product_name'],
                                 ->(val) { val.instance_of? String }) and
           APIHelper.valid_type?(value['line_items'],
-                                ->(val) { InvoiceLineItemEventData.validate(val) })
+                                ->(val) { InvoiceLineItemEventData.validate(val) },
+                                is_model_hash: true,
+                                is_inner_model_hash: true)
       )
     end
   end

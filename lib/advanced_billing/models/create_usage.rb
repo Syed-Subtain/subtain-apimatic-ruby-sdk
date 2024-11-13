@@ -47,9 +47,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(quantity = SKIP,
-                   price_point_id = SKIP,
-                   memo = SKIP)
+    def initialize(quantity = SKIP, price_point_id = SKIP, memo = SKIP)
       @quantity = quantity unless quantity == SKIP
       @price_point_id = price_point_id unless price_point_id == SKIP
       @memo = memo unless memo == SKIP

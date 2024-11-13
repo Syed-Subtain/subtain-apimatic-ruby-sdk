@@ -52,10 +52,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(debit_note_number = SKIP,
-                   debit_note_uid = SKIP,
-                   original_amount = SKIP,
-                   applied_amount = SKIP)
+    def initialize(debit_note_number = SKIP, debit_note_uid = SKIP,
+                   original_amount = SKIP, applied_amount = SKIP)
       @debit_note_number = debit_note_number unless debit_note_number == SKIP
       @debit_note_uid = debit_note_uid unless debit_note_uid == SKIP
       @original_amount = original_amount unless original_amount == SKIP

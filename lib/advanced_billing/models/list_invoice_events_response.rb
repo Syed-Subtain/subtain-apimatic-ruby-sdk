@@ -50,9 +50,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(events = SKIP,
-                   page = SKIP,
-                   per_page = SKIP,
+    def initialize(events = SKIP, page = SKIP, per_page = SKIP,
                    total_pages = SKIP)
       @events = events unless events == SKIP
       @page = page unless page == SKIP

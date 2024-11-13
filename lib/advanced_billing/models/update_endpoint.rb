@@ -35,8 +35,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(url = nil,
-                   webhook_subscriptions = nil)
+    def initialize(url = nil, webhook_subscriptions = nil)
       @url = url
       @webhook_subscriptions = webhook_subscriptions
     end

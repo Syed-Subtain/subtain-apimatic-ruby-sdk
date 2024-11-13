@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(per_page = SKIP,
-                   price_point = SKIP)
+    def initialize(per_page = SKIP, price_point = SKIP)
       @per_page = per_page unless per_page == SKIP
       @price_point = price_point unless price_point == SKIP
     end

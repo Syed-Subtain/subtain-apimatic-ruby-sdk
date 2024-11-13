@@ -9,7 +9,7 @@ module AdvancedBilling
     # Use this endpoint to retrieve the details for an invoice.
     # @param [String] uid Required parameter: The unique identifier for the
     # invoice, this does not refer to the public facing invoice number.
-    # @return [Invoice] response from the API call
+    # @return [Invoice] response from the API call.
     def read_invoice(uid)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -21,9 +21,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(Invoice.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(Invoice.method(:from_hash)))
         .execute
     end
 
@@ -56,7 +56,7 @@ module AdvancedBilling
     # refunds data
     # @param [TrueClass | FalseClass] applications Optional parameter: Include
     # applications data
-    # @return [ListCreditNotesResponse] response from the API call
+    # @return [ListCreditNotesResponse] response from the API call.
     def list_credit_notes(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -73,16 +73,16 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListCreditNotesResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ListCreditNotesResponse.method(:from_hash)))
         .execute
     end
 
     # Use this endpoint to retrieve the details for a credit note.
     # @param [String] uid Required parameter: The unique identifier of the
     # credit note
-    # @return [CreditNote] response from the API call
+    # @return [CreditNote] response from the API call.
     def read_credit_note(uid)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -94,9 +94,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CreditNote.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CreditNote.method(:from_hash)))
         .execute
     end
 
@@ -111,7 +111,7 @@ module AdvancedBilling
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
     # @param [RecordPaymentRequest] body Optional parameter: Example:
-    # @return [PaymentResponse] response from the API call
+    # @return [PaymentResponse] response from the API call.
     def record_payment_for_subscription(subscription_id,
                                         body: nil)
       new_api_call_builder
@@ -127,12 +127,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(PaymentResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(PaymentResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -142,7 +142,7 @@ module AdvancedBilling
     # @param [String] uid Required parameter: The unique identifier for the
     # invoice, this does not refer to the public facing invoice number.
     # @param [VoidInvoiceRequest] body Optional parameter: Example:
-    # @return [Invoice] response from the API call
+    # @return [Invoice] response from the API call.
     def void_invoice(uid,
                      body: nil)
       new_api_call_builder
@@ -158,15 +158,15 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(Invoice.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(Invoice.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -188,7 +188,7 @@ module AdvancedBilling
     # Use in query `per_page=200`.
     # @param [Direction] direction Optional parameter: Sort direction of the
     # returned segments.
-    # @return [ConsolidatedInvoice] response from the API call
+    # @return [ConsolidatedInvoice] response from the API call.
     def list_invoice_segments(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -203,9 +203,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ConsolidatedInvoice.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ConsolidatedInvoice.method(:from_hash)))
         .execute
     end
 
@@ -219,7 +219,7 @@ module AdvancedBilling
     # @param [String] uid Required parameter: The unique identifier for the
     # invoice, this does not refer to the public facing invoice number.
     # @param [RefundInvoiceRequest] body Optional parameter: Example:
-    # @return [Invoice] response from the API call
+    # @return [Invoice] response from the API call.
     def refund_invoice(uid,
                        body: nil)
       new_api_call_builder
@@ -235,9 +235,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(Invoice.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(Invoice.method(:from_hash)))
         .execute
     end
 
@@ -291,7 +291,7 @@ module AdvancedBilling
     # @param [String] uid Required parameter: The unique identifier for the
     # invoice, this does not refer to the public facing invoice number.
     # @param [CreateInvoicePaymentRequest] body Optional parameter: Example:
-    # @return [Invoice] response from the API call
+    # @return [Invoice] response from the API call.
     def record_payment_for_invoice(uid,
                                    body: nil)
       new_api_call_builder
@@ -307,9 +307,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(Invoice.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(Invoice.method(:from_hash)))
         .execute
     end
 
@@ -341,7 +341,7 @@ module AdvancedBilling
     # must be greater or equal to invoices payment amount sum.
     # @param [CreateMultiInvoicePaymentRequest] body Optional parameter:
     # Example:
-    # @return [MultiInvoicePaymentResponse] response from the API call
+    # @return [MultiInvoicePaymentResponse] response from the API call.
     def record_external_payment_for_invoices(body: nil)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -353,12 +353,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(MultiInvoicePaymentResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(MultiInvoicePaymentResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -382,7 +382,7 @@ module AdvancedBilling
     # also be reopened.
     # @param [String] uid Required parameter: The unique identifier for the
     # invoice, this does not refer to the public facing invoice number.
-    # @return [Invoice] response from the API call
+    # @return [Invoice] response from the API call.
     def reopen_invoice(uid)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -394,15 +394,15 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(Invoice.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(Invoice.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -481,7 +481,7 @@ module AdvancedBilling
     # Use in query `product_ids=23,34`.
     # @param [InvoiceSortField] sort Optional parameter: Allows specification of
     # the order of the returned list. Use in query `sort=total_amount`.
-    # @return [ListInvoicesResponse] response from the API call
+    # @return [ListInvoicesResponse] response from the API call.
     def list_invoices(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -513,9 +513,9 @@ module AdvancedBilling
                    .auth(Single.new('BasicAuth'))
                    .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListInvoicesResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ListInvoicesResponse.method(:from_hash)))
         .execute
     end
 
@@ -567,7 +567,7 @@ module AdvancedBilling
     # @param [Array[InvoiceEventType]] event_types Optional parameter: Filter
     # results by event_type. Supply a comma separated list of event types
     # (listed above). Use in query: `event_types=void_invoice,void_remainder`.
-    # @return [ListInvoiceEventsResponse] response from the API call
+    # @return [ListInvoiceEventsResponse] response from the API call.
     def list_invoice_events(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -584,9 +584,9 @@ module AdvancedBilling
                    .auth(Single.new('BasicAuth'))
                    .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListInvoiceEventsResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ListInvoiceEventsResponse.method(:from_hash)))
         .execute
     end
 
@@ -598,7 +598,7 @@ module AdvancedBilling
     # differences are calculated on the application side.
     # @param [String] uid Required parameter: The unique identifier for the
     # invoice, this does not refer to the public facing invoice number.
-    # @return [Invoice] response from the API call
+    # @return [Invoice] response from the API call.
     def update_customer_information(uid)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::PUT,
@@ -610,15 +610,15 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(Invoice.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                ErrorListResponseException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(Invoice.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 ErrorListResponseException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -789,7 +789,7 @@ module AdvancedBilling
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
     # @param [CreateInvoiceRequest] body Optional parameter: Example:
-    # @return [InvoiceResponse] response from the API call
+    # @return [InvoiceResponse] response from the API call.
     def create_invoice(subscription_id,
                        body: nil)
       new_api_call_builder
@@ -805,15 +805,15 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(InvoiceResponse.method(:from_hash))
-                   .local_error('401',
-                                'Unauthorized',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                NestedErrorResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(InvoiceResponse.method(:from_hash))
+                    .local_error('401',
+                                 'Unauthorized',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 NestedErrorResponseException))
         .execute
     end
 
@@ -847,7 +847,7 @@ module AdvancedBilling
     # @param [String] uid Required parameter: The unique identifier for the
     # invoice, this does not refer to the public facing invoice number.
     # @param [IssueInvoiceRequest] body Optional parameter: Example:
-    # @return [Invoice] response from the API call
+    # @return [Invoice] response from the API call.
     def issue_invoice(uid,
                       body: nil)
       new_api_call_builder
@@ -863,18 +863,18 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(Invoice.method(:from_hash))
-                   .local_error('401',
-                                'Unauthorized',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(Invoice.method(:from_hash))
+                    .local_error('401',
+                                 'Unauthorized',
+                                 APIException)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -895,7 +895,7 @@ module AdvancedBilling
     # @param [String] uid Required parameter: The unique identifier for the
     # invoice, this does not refer to the public facing invoice number.
     # @param [SendInvoiceRequest] body Optional parameter: Example:
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def send_invoice(uid,
                      body: nil)
       new_api_call_builder
@@ -910,11 +910,11 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -926,7 +926,7 @@ module AdvancedBilling
     # differences are calculated on the application side.
     # @param [String] uid Required parameter: The unique identifier for the
     # invoice, this does not refer to the public facing invoice number.
-    # @return [CustomerChangesPreviewResponse] response from the API call
+    # @return [CustomerChangesPreviewResponse] response from the API call.
     def preview_customer_information_changes(uid)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -938,15 +938,15 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CustomerChangesPreviewResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                ErrorListResponseException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CustomerChangesPreviewResponse.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 ErrorListResponseException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
   end

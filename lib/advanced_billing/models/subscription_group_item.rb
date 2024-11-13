@@ -90,15 +90,10 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = SKIP,
-                   reference = SKIP,
-                   product_id = SKIP,
-                   product_handle = SKIP,
-                   product_price_point_id = SKIP,
-                   product_price_point_handle = SKIP,
-                   currency = SKIP,
-                   coupon_code = SKIP,
-                   total_revenue_in_cents = SKIP,
+    def initialize(id = SKIP, reference = SKIP, product_id = SKIP,
+                   product_handle = SKIP, product_price_point_id = SKIP,
+                   product_price_point_handle = SKIP, currency = SKIP,
+                   coupon_code = SKIP, total_revenue_in_cents = SKIP,
                    balance_in_cents = SKIP)
       @id = id unless id == SKIP
       @reference = reference unless reference == SKIP

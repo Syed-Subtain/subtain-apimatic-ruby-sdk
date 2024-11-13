@@ -63,12 +63,8 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(event_type = nil,
-                   metafield_name = nil,
-                   metafield_id = nil,
-                   old_value = nil,
-                   new_value = nil,
-                   resource_type = nil,
+    def initialize(event_type = nil, metafield_name = nil, metafield_id = nil,
+                   old_value = nil, new_value = nil, resource_type = nil,
                    resource_id = nil)
       @event_type = event_type
       @metafield_name = metafield_name

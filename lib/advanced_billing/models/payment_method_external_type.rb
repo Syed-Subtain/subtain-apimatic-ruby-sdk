@@ -50,10 +50,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(details = SKIP,
-                   kind = SKIP,
-                   memo = SKIP,
-                   type = 'external')
+    def initialize(details = SKIP, kind = SKIP, memo = SKIP, type = 'external')
       @details = details unless details == SKIP
       @kind = kind unless kind == SKIP
       @memo = memo unless memo == SKIP

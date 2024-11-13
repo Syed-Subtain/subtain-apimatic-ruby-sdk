@@ -213,26 +213,15 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(uid = SKIP,
-                   title = SKIP,
-                   description = SKIP,
-                   quantity = SKIP,
-                   unit_price = SKIP,
-                   subtotal_amount = SKIP,
-                   discount_amount = SKIP,
-                   tax_amount = SKIP,
-                   total_amount = SKIP,
-                   tiered_unit_price = SKIP,
-                   period_range_start = SKIP,
-                   period_range_end = SKIP,
-                   transaction_id = SKIP,
-                   product_id = SKIP,
-                   product_version = SKIP,
-                   component_id = SKIP,
-                   price_point_id = SKIP,
-                   hide = SKIP,
-                   component_cost_data = SKIP,
-                   product_price_point_id = SKIP,
+    def initialize(uid = SKIP, title = SKIP, description = SKIP,
+                   quantity = SKIP, unit_price = SKIP, subtotal_amount = SKIP,
+                   discount_amount = SKIP, tax_amount = SKIP,
+                   total_amount = SKIP, tiered_unit_price = SKIP,
+                   period_range_start = SKIP, period_range_end = SKIP,
+                   transaction_id = SKIP, product_id = SKIP,
+                   product_version = SKIP, component_id = SKIP,
+                   price_point_id = SKIP, hide = SKIP,
+                   component_cost_data = SKIP, product_price_point_id = SKIP,
                    custom_item = SKIP)
       @uid = uid unless uid == SKIP
       @title = title unless title == SKIP

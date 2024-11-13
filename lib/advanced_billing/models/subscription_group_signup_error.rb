@@ -68,11 +68,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(subscriptions = SKIP,
-                   payer_reference = SKIP,
-                   payer = SKIP,
-                   subscription_group = SKIP,
-                   payment_profile_id = SKIP,
+    def initialize(subscriptions = SKIP, payer_reference = SKIP, payer = SKIP,
+                   subscription_group = SKIP, payment_profile_id = SKIP,
                    payer_id = SKIP)
       @subscriptions = subscriptions unless subscriptions == SKIP
       @payer_reference = payer_reference unless payer_reference == SKIP

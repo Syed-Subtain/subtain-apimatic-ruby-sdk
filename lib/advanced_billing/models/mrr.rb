@@ -62,11 +62,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(amount_in_cents = SKIP,
-                   amount_formatted = SKIP,
-                   currency = SKIP,
-                   currency_symbol = SKIP,
-                   breakouts = SKIP,
+    def initialize(amount_in_cents = SKIP, amount_formatted = SKIP,
+                   currency = SKIP, currency_symbol = SKIP, breakouts = SKIP,
                    at_time = SKIP)
       @amount_in_cents = amount_in_cents unless amount_in_cents == SKIP
       @amount_formatted = amount_formatted unless amount_formatted == SKIP

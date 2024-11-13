@@ -146,21 +146,14 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(credit_card_attributes = SKIP,
-                   product_handle = SKIP,
-                   product_id = SKIP,
-                   product_change_delayed = false,
-                   next_product_id = SKIP,
-                   next_product_price_point_id = SKIP,
-                   snap_day = SKIP,
-                   next_billing_at = SKIP,
+    def initialize(credit_card_attributes = SKIP, product_handle = SKIP,
+                   product_id = SKIP, product_change_delayed = false,
+                   next_product_id = SKIP, next_product_price_point_id = SKIP,
+                   snap_day = SKIP, next_billing_at = SKIP,
                    payment_collection_method = SKIP,
-                   receives_invoice_emails = SKIP,
-                   net_terms = SKIP,
-                   stored_credential_transaction_id = SKIP,
-                   reference = SKIP,
-                   custom_price = SKIP,
-                   components = SKIP,
+                   receives_invoice_emails = SKIP, net_terms = SKIP,
+                   stored_credential_transaction_id = SKIP, reference = SKIP,
+                   custom_price = SKIP, components = SKIP,
                    dunning_communication_delay_enabled = false,
                    dunning_communication_delay_time_zone = SKIP)
       @credit_card_attributes = credit_card_attributes unless credit_card_attributes == SKIP

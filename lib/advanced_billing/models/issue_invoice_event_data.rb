@@ -73,11 +73,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(consolidation_level = SKIP,
-                   from_status = SKIP,
-                   to_status = SKIP,
-                   due_amount = SKIP,
-                   total_amount = SKIP)
+    def initialize(consolidation_level = SKIP, from_status = SKIP,
+                   to_status = SKIP, due_amount = SKIP, total_amount = SKIP)
       @consolidation_level = consolidation_level unless consolidation_level == SKIP
       @from_status = from_status unless from_status == SKIP
       @to_status = to_status unless to_status == SKIP

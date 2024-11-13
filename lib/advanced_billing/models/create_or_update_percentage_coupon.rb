@@ -119,15 +119,9 @@ module AdvancedBilling
       []
     end
 
-    def initialize(name = nil,
-                   code = nil,
-                   percentage = nil,
-                   description = SKIP,
-                   allow_negative_balance = SKIP,
-                   recurring = SKIP,
-                   end_date = SKIP,
-                   product_family_id = SKIP,
-                   stackable = SKIP,
+    def initialize(name = nil, code = nil, percentage = nil, description = SKIP,
+                   allow_negative_balance = SKIP, recurring = SKIP,
+                   end_date = SKIP, product_family_id = SKIP, stackable = SKIP,
                    compounding_strategy = SKIP,
                    exclude_mid_period_allocations = SKIP,
                    apply_on_cancel_at_end_of_period = SKIP)

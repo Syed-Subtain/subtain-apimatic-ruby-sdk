@@ -62,11 +62,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   name = SKIP,
-                   scope = SKIP,
-                   input_type = MetafieldInput::TEXT,
-                   enum = SKIP)
+    def initialize(id = SKIP, name = SKIP, scope = SKIP,
+                   input_type = MetafieldInput::TEXT, enum = SKIP)
       @id = id unless id == SKIP
       @name = name unless name == SKIP
       @scope = scope unless scope == SKIP

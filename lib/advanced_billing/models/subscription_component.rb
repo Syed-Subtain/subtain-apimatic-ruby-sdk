@@ -256,35 +256,19 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = SKIP,
-                   name = SKIP,
-                   kind = SKIP,
-                   unit_name = SKIP,
-                   enabled = SKIP,
-                   unit_balance = SKIP,
-                   currency = SKIP,
-                   allocated_quantity = SKIP,
-                   pricing_scheme = SKIP,
-                   component_id = SKIP,
-                   component_handle = SKIP,
-                   subscription_id = SKIP,
-                   recurring = SKIP,
-                   upgrade_charge = SKIP,
-                   downgrade_credit = SKIP,
-                   archived_at = SKIP,
-                   price_point_id = SKIP,
-                   price_point_handle = SKIP,
-                   price_point_type = SKIP,
-                   price_point_name = SKIP,
-                   product_family_id = SKIP,
-                   product_family_handle = SKIP,
-                   created_at = SKIP,
-                   updated_at = SKIP,
-                   use_site_exchange_rate = SKIP,
-                   description = SKIP,
-                   allow_fractional_quantities = SKIP,
-                   subscription = SKIP,
-                   display_on_hosted_page = SKIP)
+    def initialize(id = SKIP, name = SKIP, kind = SKIP, unit_name = SKIP,
+                   enabled = SKIP, unit_balance = SKIP, currency = SKIP,
+                   allocated_quantity = SKIP, pricing_scheme = SKIP,
+                   component_id = SKIP, component_handle = SKIP,
+                   subscription_id = SKIP, recurring = SKIP,
+                   upgrade_charge = SKIP, downgrade_credit = SKIP,
+                   archived_at = SKIP, price_point_id = SKIP,
+                   price_point_handle = SKIP, price_point_type = SKIP,
+                   price_point_name = SKIP, product_family_id = SKIP,
+                   product_family_handle = SKIP, created_at = SKIP,
+                   updated_at = SKIP, use_site_exchange_rate = SKIP,
+                   description = SKIP, allow_fractional_quantities = SKIP,
+                   subscription = SKIP, display_on_hosted_page = SKIP)
       @id = id unless id == SKIP
       @name = name unless name == SKIP
       @kind = kind unless kind == SKIP

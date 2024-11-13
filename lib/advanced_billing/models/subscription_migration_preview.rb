@@ -53,10 +53,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(prorated_adjustment_in_cents = SKIP,
-                   charge_in_cents = SKIP,
-                   payment_due_in_cents = SKIP,
-                   credit_applied_in_cents = SKIP)
+    def initialize(prorated_adjustment_in_cents = SKIP, charge_in_cents = SKIP,
+                   payment_due_in_cents = SKIP, credit_applied_in_cents = SKIP)
       unless prorated_adjustment_in_cents == SKIP
         @prorated_adjustment_in_cents =
           prorated_adjustment_in_cents

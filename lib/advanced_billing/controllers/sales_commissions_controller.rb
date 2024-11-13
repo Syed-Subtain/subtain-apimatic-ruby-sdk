@@ -41,7 +41,7 @@ module AdvancedBilling
     # set will be returned. Use in query `page=1`.
     # @param [Integer] per_page Optional parameter: This parameter indicates how
     # many records to fetch in each request. Default value is 100.
-    # @return [Array[ListSaleRepItem]] response from the API call
+    # @return [Array[ListSaleRepItem]] response from the API call.
     def list_sales_reps(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -57,10 +57,10 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListSaleRepItem.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ListSaleRepItem.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -101,7 +101,7 @@ module AdvancedBilling
     # set will be returned. Use in query `page=1`.
     # @param [Integer] per_page Optional parameter: This parameter indicates how
     # many records to fetch in each request. Default value is 100.
-    # @return [SaleRep] response from the API call
+    # @return [SaleRep] response from the API call.
     def read_sales_rep(seller_id,
                        sales_rep_id,
                        authorization: 'Bearer <<apiKey>>',
@@ -125,9 +125,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SaleRep.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SaleRep.method(:from_hash)))
         .execute
     end
 
@@ -166,7 +166,7 @@ module AdvancedBilling
     # set will be returned. Use in query `page=1`.
     # @param [Integer] per_page Optional parameter: This parameter indicates how
     # many records to fetch in each request. Default value is 100.
-    # @return [Array[SaleRepSettings]] response from the API call
+    # @return [Array[SaleRepSettings]] response from the API call.
     def list_sales_commission_settings(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -182,10 +182,10 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SaleRepSettings.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SaleRepSettings.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
   end

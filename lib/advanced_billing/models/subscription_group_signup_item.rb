@@ -114,19 +114,12 @@ module AdvancedBilling
       []
     end
 
-    def initialize(product_handle = SKIP,
-                   product_id = SKIP,
+    def initialize(product_handle = SKIP, product_id = SKIP,
                    product_price_point_id = SKIP,
-                   product_price_point_handle = SKIP,
-                   offer_id = SKIP,
-                   reference = SKIP,
-                   primary = SKIP,
-                   currency = SKIP,
-                   coupon_codes = SKIP,
-                   components = SKIP,
-                   custom_price = SKIP,
-                   calendar_billing = SKIP,
-                   metafields = SKIP)
+                   product_price_point_handle = SKIP, offer_id = SKIP,
+                   reference = SKIP, primary = SKIP, currency = SKIP,
+                   coupon_codes = SKIP, components = SKIP, custom_price = SKIP,
+                   calendar_billing = SKIP, metafields = SKIP)
       @product_handle = product_handle unless product_handle == SKIP
       @product_id = product_id unless product_id == SKIP
       @product_price_point_id = product_price_point_id unless product_price_point_id == SKIP
@@ -192,6 +185,16 @@ module AdvancedBilling
                                       custom_price,
                                       calendar_billing,
                                       metafields)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [SubscriptionGroupSignupItem | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

@@ -44,9 +44,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   handle = SKIP,
-                   name = SKIP)
+    def initialize(id = SKIP, handle = SKIP, name = SKIP)
       @id = id unless id == SKIP
       @handle = handle unless handle == SKIP
       @name = name unless name == SKIP
@@ -65,6 +63,16 @@ module AdvancedBilling
       ItemPricePointData.new(id,
                              handle,
                              name)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [ItemPricePointData | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

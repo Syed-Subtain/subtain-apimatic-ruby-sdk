@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(eligible_amount = SKIP,
-                   discount_amount = SKIP)
+    def initialize(eligible_amount = SKIP, discount_amount = SKIP)
       @eligible_amount = eligible_amount unless eligible_amount == SKIP
       @discount_amount = discount_amount unless discount_amount == SKIP
     end

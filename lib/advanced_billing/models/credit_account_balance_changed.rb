@@ -52,11 +52,9 @@ module AdvancedBilling
       []
     end
 
-    def initialize(reason = nil,
-                   service_credit_account_balance_in_cents = nil,
+    def initialize(reason = nil, service_credit_account_balance_in_cents = nil,
                    service_credit_balance_change_in_cents = nil,
-                   currency_code = nil,
-                   at_time = nil)
+                   currency_code = nil, at_time = nil)
       @reason = reason
       @service_credit_account_balance_in_cents = service_credit_account_balance_in_cents
       @service_credit_balance_change_in_cents = service_credit_balance_change_in_cents

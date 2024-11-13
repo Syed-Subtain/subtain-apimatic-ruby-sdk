@@ -37,8 +37,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(payment = nil,
-                   type = InvoicePaymentType::EXTERNAL)
+    def initialize(payment = nil, type = InvoicePaymentType::EXTERNAL)
       @payment = payment
       @type = type unless type == SKIP
     end

@@ -39,8 +39,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(state = SKIP,
-                   updated_at = SKIP)
+    def initialize(state = SKIP, updated_at = SKIP)
       @state = state unless state == SKIP
       @updated_at = updated_at unless updated_at == SKIP
     end
@@ -56,6 +55,16 @@ module AdvancedBilling
       # Create object from extracted values.
       SubscriptionComponentSubscription.new(state,
                                             updated_at)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [SubscriptionComponentSubscription | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(before = SKIP,
-                   after = SKIP)
+    def initialize(before = SKIP, after = SKIP)
       @before = before unless before == SKIP
       @after = after unless after == SKIP
     end

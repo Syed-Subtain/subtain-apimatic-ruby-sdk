@@ -58,11 +58,8 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(card_brand = SKIP,
-                   card_expiration = SKIP,
-                   last_four = SKIP,
-                   masked_card_number = SKIP,
-                   type = 'credit_card')
+    def initialize(card_brand = SKIP, card_expiration = SKIP, last_four = SKIP,
+                   masked_card_number = SKIP, type = 'credit_card')
       @card_brand = card_brand unless card_brand == SKIP
       @card_expiration = card_expiration unless card_expiration == SKIP
       @last_four = last_four unless last_four == SKIP

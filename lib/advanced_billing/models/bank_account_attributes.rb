@@ -110,18 +110,12 @@ module AdvancedBilling
       []
     end
 
-    def initialize(chargify_token = SKIP,
-                   bank_name = SKIP,
-                   bank_routing_number = SKIP,
-                   bank_account_number = SKIP,
-                   bank_account_type = SKIP,
-                   bank_branch_code = SKIP,
-                   bank_iban = SKIP,
-                   bank_account_holder_type = SKIP,
-                   payment_type = SKIP,
-                   current_vault = SKIP,
-                   vault_token = SKIP,
-                   customer_vault_token = SKIP)
+    def initialize(chargify_token = SKIP, bank_name = SKIP,
+                   bank_routing_number = SKIP, bank_account_number = SKIP,
+                   bank_account_type = SKIP, bank_branch_code = SKIP,
+                   bank_iban = SKIP, bank_account_holder_type = SKIP,
+                   payment_type = SKIP, current_vault = SKIP,
+                   vault_token = SKIP, customer_vault_token = SKIP)
       @chargify_token = chargify_token unless chargify_token == SKIP
       @bank_name = bank_name unless bank_name == SKIP
       @bank_routing_number = bank_routing_number unless bank_routing_number == SKIP
@@ -174,6 +168,16 @@ module AdvancedBilling
                                 current_vault,
                                 vault_token,
                                 customer_vault_token)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [BankAccountAttributes | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

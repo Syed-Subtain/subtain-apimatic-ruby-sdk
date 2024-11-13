@@ -62,11 +62,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(code = SKIP,
-                   percentage = SKIP,
-                   amount = SKIP,
-                   description = SKIP,
-                   product_family_id = SKIP,
+    def initialize(code = SKIP, percentage = SKIP, amount = SKIP,
+                   description = SKIP, product_family_id = SKIP,
                    compounding_strategy = SKIP)
       @code = code unless code == SKIP
       @percentage = percentage unless percentage == SKIP

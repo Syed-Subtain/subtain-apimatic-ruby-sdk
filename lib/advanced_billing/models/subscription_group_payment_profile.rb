@@ -50,9 +50,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   first_name = SKIP,
-                   last_name = SKIP,
+    def initialize(id = SKIP, first_name = SKIP, last_name = SKIP,
                    masked_card_number = SKIP)
       @id = id unless id == SKIP
       @first_name = first_name unless first_name == SKIP

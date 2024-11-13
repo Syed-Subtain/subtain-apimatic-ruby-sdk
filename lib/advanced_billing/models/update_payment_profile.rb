@@ -123,19 +123,12 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(first_name = SKIP,
-                   last_name = SKIP,
-                   full_number = SKIP,
-                   card_type = SKIP,
-                   expiration_month = SKIP,
-                   expiration_year = SKIP,
-                   current_vault = SKIP,
-                   billing_address = SKIP,
-                   billing_city = SKIP,
-                   billing_state = SKIP,
-                   billing_zip = SKIP,
-                   billing_country = SKIP,
-                   billing_address_2 = SKIP)
+    def initialize(first_name = SKIP, last_name = SKIP, full_number = SKIP,
+                   card_type = SKIP, expiration_month = SKIP,
+                   expiration_year = SKIP, current_vault = SKIP,
+                   billing_address = SKIP, billing_city = SKIP,
+                   billing_state = SKIP, billing_zip = SKIP,
+                   billing_country = SKIP, billing_address_2 = SKIP)
       @first_name = first_name unless first_name == SKIP
       @last_name = last_name unless last_name == SKIP
       @full_number = full_number unless full_number == SKIP

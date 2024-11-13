@@ -55,10 +55,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(agreement_terms = SKIP,
-                   authorizer_first_name = SKIP,
-                   authorizer_last_name = SKIP,
-                   ip_address = SKIP)
+    def initialize(agreement_terms = SKIP, authorizer_first_name = SKIP,
+                   authorizer_last_name = SKIP, ip_address = SKIP)
       @agreement_terms = agreement_terms unless agreement_terms == SKIP
       @authorizer_first_name = authorizer_first_name unless authorizer_first_name == SKIP
       @authorizer_last_name = authorizer_last_name unless authorizer_last_name == SKIP
@@ -83,6 +81,16 @@ module AdvancedBilling
                        authorizer_first_name,
                        authorizer_last_name,
                        ip_address)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [ACHAgreement | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

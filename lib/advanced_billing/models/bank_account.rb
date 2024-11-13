@@ -163,27 +163,16 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = SKIP,
-                   first_name = SKIP,
-                   last_name = SKIP,
-                   customer_id = SKIP,
-                   current_vault = SKIP,
-                   vault_token = SKIP,
-                   billing_address = SKIP,
-                   billing_city = SKIP,
-                   billing_state = SKIP,
-                   billing_zip = SKIP,
-                   billing_country = SKIP,
-                   customer_vault_token = SKIP,
-                   billing_address_2 = SKIP,
-                   bank_name = SKIP,
+    def initialize(id = SKIP, first_name = SKIP, last_name = SKIP,
+                   customer_id = SKIP, current_vault = SKIP, vault_token = SKIP,
+                   billing_address = SKIP, billing_city = SKIP,
+                   billing_state = SKIP, billing_zip = SKIP,
+                   billing_country = SKIP, customer_vault_token = SKIP,
+                   billing_address_2 = SKIP, bank_name = SKIP,
                    masked_bank_routing_number = SKIP,
-                   masked_bank_account_number = SKIP,
-                   bank_account_type = SKIP,
-                   bank_account_holder_type = SKIP,
-                   payment_type = SKIP,
-                   verified = false,
-                   site_gateway_setting_id = SKIP,
+                   masked_bank_account_number = SKIP, bank_account_type = SKIP,
+                   bank_account_holder_type = SKIP, payment_type = SKIP,
+                   verified = false, site_gateway_setting_id = SKIP,
                    gateway_handle = SKIP)
       @id = id unless id == SKIP
       @first_name = first_name unless first_name == SKIP

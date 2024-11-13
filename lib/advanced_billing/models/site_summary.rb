@@ -56,11 +56,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(seller_name = SKIP,
-                   site_name = SKIP,
-                   site_id = SKIP,
-                   site_currency = SKIP,
-                   stats = SKIP)
+    def initialize(seller_name = SKIP, site_name = SKIP, site_id = SKIP,
+                   site_currency = SKIP, stats = SKIP)
       @seller_name = seller_name unless seller_name == SKIP
       @site_name = site_name unless site_name == SKIP
       @site_id = site_id unless site_id == SKIP

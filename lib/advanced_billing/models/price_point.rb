@@ -94,15 +94,10 @@ module AdvancedBilling
       []
     end
 
-    def initialize(name = SKIP,
-                   handle = SKIP,
-                   pricing_scheme = SKIP,
-                   prices = SKIP,
-                   use_site_exchange_rate = true,
-                   overage_pricing = SKIP,
-                   rollover_prepaid_remainder = SKIP,
-                   renew_prepaid_allocation = SKIP,
-                   expiration_interval = SKIP,
+    def initialize(name = SKIP, handle = SKIP, pricing_scheme = SKIP,
+                   prices = SKIP, use_site_exchange_rate = true,
+                   overage_pricing = SKIP, rollover_prepaid_remainder = SKIP,
+                   renew_prepaid_allocation = SKIP, expiration_interval = SKIP,
                    expiration_interval_unit = SKIP)
       @name = name unless name == SKIP
       @handle = handle unless handle == SKIP

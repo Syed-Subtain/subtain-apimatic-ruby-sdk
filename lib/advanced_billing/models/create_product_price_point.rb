@@ -107,19 +107,13 @@ module AdvancedBilling
       []
     end
 
-    def initialize(name = nil,
-                   price_in_cents = nil,
-                   interval = nil,
-                   interval_unit = nil,
-                   handle = SKIP,
-                   trial_price_in_cents = SKIP,
-                   trial_interval = SKIP,
-                   trial_interval_unit = SKIP,
-                   trial_type = SKIP,
+    def initialize(name = nil, price_in_cents = nil, interval = nil,
+                   interval_unit = nil, handle = SKIP,
+                   trial_price_in_cents = SKIP, trial_interval = SKIP,
+                   trial_interval_unit = SKIP, trial_type = SKIP,
                    initial_charge_in_cents = SKIP,
                    initial_charge_after_trial = SKIP,
-                   expiration_interval = SKIP,
-                   expiration_interval_unit = SKIP,
+                   expiration_interval = SKIP, expiration_interval_unit = SKIP,
                    use_site_exchange_rate = true)
       @name = name
       @handle = handle unless handle == SKIP

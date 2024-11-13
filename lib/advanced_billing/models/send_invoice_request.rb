@@ -44,8 +44,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(recipient_emails = SKIP,
-                   cc_recipient_emails = SKIP,
+    def initialize(recipient_emails = SKIP, cc_recipient_emails = SKIP,
                    bcc_recipient_emails = SKIP)
       @recipient_emails = recipient_emails unless recipient_emails == SKIP
       @cc_recipient_emails = cc_recipient_emails unless cc_recipient_emails == SKIP

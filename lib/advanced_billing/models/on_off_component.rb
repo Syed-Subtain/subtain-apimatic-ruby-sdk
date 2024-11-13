@@ -160,20 +160,12 @@ module AdvancedBilling
       []
     end
 
-    def initialize(name = nil,
-                   pricing_scheme = nil,
-                   unit_name = SKIP,
-                   description = SKIP,
-                   handle = SKIP,
-                   taxable = SKIP,
-                   prices = SKIP,
-                   upgrade_charge = SKIP,
-                   downgrade_credit = SKIP,
-                   price_points = SKIP,
-                   unit_price = SKIP,
-                   tax_code = SKIP,
-                   hide_date_range_on_invoice = SKIP,
-                   price_in_cents = SKIP,
+    def initialize(name = nil, pricing_scheme = nil, unit_name = SKIP,
+                   description = SKIP, handle = SKIP, taxable = SKIP,
+                   prices = SKIP, upgrade_charge = SKIP,
+                   downgrade_credit = SKIP, price_points = SKIP,
+                   unit_price = SKIP, tax_code = SKIP,
+                   hide_date_range_on_invoice = SKIP, price_in_cents = SKIP,
                    display_on_hosted_page = SKIP,
                    allow_fractional_quantities = SKIP,
                    public_signup_page_ids = SKIP)

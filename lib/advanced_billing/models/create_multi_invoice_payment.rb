@@ -62,11 +62,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(amount = nil,
-                   applications = nil,
-                   memo = SKIP,
-                   details = SKIP,
-                   method = InvoicePaymentMethodType::OTHER,
+    def initialize(amount = nil, applications = nil, memo = SKIP,
+                   details = SKIP, method = InvoicePaymentMethodType::OTHER,
                    received_on = SKIP)
       @memo = memo unless memo == SKIP
       @details = details unless details == SKIP
@@ -116,7 +113,9 @@ module AdvancedBilling
           UnionTypeLookUp.get(:CreateMultiInvoicePaymentAmount)
                          .validate(value.amount) and
             APIHelper.valid_type?(value.applications,
-                                  ->(val) { CreateInvoicePaymentApplication.validate(val) })
+                                  ->(val) { CreateInvoicePaymentApplication.validate(val) },
+                                  is_model_hash: true,
+                                  is_inner_model_hash: true)
         )
       end
 
@@ -126,7 +125,9 @@ module AdvancedBilling
         UnionTypeLookUp.get(:CreateMultiInvoicePaymentAmount)
                        .validate(value['amount']) and
           APIHelper.valid_type?(value['applications'],
-                                ->(val) { CreateInvoicePaymentApplication.validate(val) })
+                                ->(val) { CreateInvoicePaymentApplication.validate(val) },
+                                is_model_hash: true,
+                                is_inner_model_hash: true)
       )
     end
   end

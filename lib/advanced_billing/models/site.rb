@@ -124,22 +124,14 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   name = SKIP,
-                   subdomain = SKIP,
-                   currency = SKIP,
-                   seller_id = SKIP,
-                   non_primary_currencies = SKIP,
+    def initialize(id = SKIP, name = SKIP, subdomain = SKIP, currency = SKIP,
+                   seller_id = SKIP, non_primary_currencies = SKIP,
                    relationship_invoicing_enabled = SKIP,
-                   customer_hierarchy_enabled = SKIP,
-                   whopays_enabled = SKIP,
-                   whopays_default_payer = SKIP,
-                   allocation_settings = SKIP,
+                   customer_hierarchy_enabled = SKIP, whopays_enabled = SKIP,
+                   whopays_default_payer = SKIP, allocation_settings = SKIP,
                    default_payment_collection_method = SKIP,
-                   organization_address = SKIP,
-                   tax_configuration = SKIP,
-                   net_terms = SKIP,
-                   test = SKIP)
+                   organization_address = SKIP, tax_configuration = SKIP,
+                   net_terms = SKIP, test = SKIP)
       @id = id unless id == SKIP
       @name = name unless name == SKIP
       @subdomain = subdomain unless subdomain == SKIP

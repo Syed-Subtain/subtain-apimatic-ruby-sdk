@@ -50,9 +50,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(name = SKIP,
-                   value = SKIP,
-                   owner_id = SKIP,
+    def initialize(name = SKIP, value = SKIP, owner_id = SKIP,
                    owner_type = SKIP)
       @name = name unless name == SKIP
       @value = value unless value == SKIP
@@ -75,6 +73,16 @@ module AdvancedBilling
                              value,
                              owner_id,
                              owner_type)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [InvoiceCustomField | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

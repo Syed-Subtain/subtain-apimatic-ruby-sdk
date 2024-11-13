@@ -62,11 +62,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(title = SKIP,
-                   source_type = SKIP,
-                   discount_type = SKIP,
-                   eligible_amount = SKIP,
-                   discount_amount = SKIP,
+    def initialize(title = SKIP, source_type = SKIP, discount_type = SKIP,
+                   eligible_amount = SKIP, discount_amount = SKIP,
                    line_item_breakouts = SKIP)
       @title = title unless title == SKIP
       @source_type = source_type unless source_type == SKIP

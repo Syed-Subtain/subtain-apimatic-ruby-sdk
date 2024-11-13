@@ -52,9 +52,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(invoice_uid = SKIP,
-                   status = SKIP,
-                   due_amount = SKIP,
+    def initialize(invoice_uid = SKIP, status = SKIP, due_amount = SKIP,
                    paid_amount = SKIP)
       @invoice_uid = invoice_uid unless invoice_uid == SKIP
       @status = status unless status == SKIP

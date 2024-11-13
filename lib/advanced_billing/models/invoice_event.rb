@@ -59,11 +59,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   event_type = SKIP,
-                   event_data = SKIP,
-                   timestamp = SKIP,
-                   invoice = SKIP)
+    def initialize(id = SKIP, event_type = SKIP, event_data = SKIP,
+                   timestamp = SKIP, invoice = SKIP)
       @id = id unless id == SKIP
       @event_type = event_type unless event_type == SKIP
       @event_data = event_data unless event_data == SKIP

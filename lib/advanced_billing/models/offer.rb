@@ -142,25 +142,14 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = SKIP,
-                   site_id = SKIP,
-                   product_family_id = SKIP,
-                   product_id = SKIP,
-                   product_price_point_id = SKIP,
-                   product_revisable_number = SKIP,
-                   name = SKIP,
-                   handle = SKIP,
-                   description = SKIP,
-                   created_at = SKIP,
-                   updated_at = SKIP,
-                   archived_at = SKIP,
-                   offer_items = SKIP,
-                   offer_discounts = SKIP,
-                   product_family_name = SKIP,
-                   product_name = SKIP,
-                   product_price_point_name = SKIP,
-                   product_price_in_cents = SKIP,
-                   offer_signup_pages = SKIP)
+    def initialize(id = SKIP, site_id = SKIP, product_family_id = SKIP,
+                   product_id = SKIP, product_price_point_id = SKIP,
+                   product_revisable_number = SKIP, name = SKIP, handle = SKIP,
+                   description = SKIP, created_at = SKIP, updated_at = SKIP,
+                   archived_at = SKIP, offer_items = SKIP,
+                   offer_discounts = SKIP, product_family_name = SKIP,
+                   product_name = SKIP, product_price_point_name = SKIP,
+                   product_price_in_cents = SKIP, offer_signup_pages = SKIP)
       @id = id unless id == SKIP
       @site_id = site_id unless site_id == SKIP
       @product_family_id = product_family_id unless product_family_id == SKIP

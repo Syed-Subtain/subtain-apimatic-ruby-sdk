@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(allocations = nil,
-                   effective_proration_date = SKIP)
+    def initialize(allocations = nil, effective_proration_date = SKIP)
       @allocations = allocations
       @effective_proration_date = effective_proration_date unless effective_proration_date == SKIP
     end

@@ -62,11 +62,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   currency = SKIP,
-                   price = SKIP,
-                   formatted_price = SKIP,
-                   price_id = SKIP,
+    def initialize(id = SKIP, currency = SKIP, price = SKIP,
+                   formatted_price = SKIP, price_id = SKIP,
                    price_point_id = SKIP)
       @id = id unless id == SKIP
       @currency = currency unless currency == SKIP

@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(email = SKIP,
-                   type = 'paypal_account')
+    def initialize(email = SKIP, type = 'paypal_account')
       @email = email unless email == SKIP
       @type = type unless type == SKIP
     end

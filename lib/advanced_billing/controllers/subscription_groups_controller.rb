@@ -9,7 +9,7 @@ module AdvancedBilling
     # Creates a subscription group with given members.
     # @param [CreateSubscriptionGroupRequest] body Optional parameter:
     # Example:
-    # @return [SubscriptionGroupResponse] response from the API call
+    # @return [SubscriptionGroupResponse] response from the API call.
     def create_subscription_group(body: nil)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -21,12 +21,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionGroupResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                SingleStringErrorResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionGroupResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 SingleStringErrorResponseException))
         .execute
     end
 
@@ -38,7 +38,7 @@ module AdvancedBilling
     # with the request.
     # @param [String] uid Required parameter: The uid of the subscription
     # group
-    # @return [FullSubscriptionGroupResponse] response from the API call
+    # @return [FullSubscriptionGroupResponse] response from the API call.
     def read_subscription_group(uid)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -50,9 +50,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(FullSubscriptionGroupResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(FullSubscriptionGroupResponse.method(:from_hash)))
         .execute
     end
 
@@ -64,7 +64,7 @@ module AdvancedBilling
     # group.
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def remove_subscription_from_group(subscription_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::DELETE,
@@ -75,14 +75,14 @@ module AdvancedBilling
                                     .should_encode(true))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -90,7 +90,7 @@ module AdvancedBilling
     # Only groups without members can be deleted
     # @param [String] uid Required parameter: The uid of the subscription
     # group
-    # @return [DeleteSubscriptionGroupResponse] response from the API call
+    # @return [DeleteSubscriptionGroupResponse] response from the API call.
     def delete_subscription_group(uid)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::DELETE,
@@ -102,12 +102,12 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(DeleteSubscriptionGroupResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(DeleteSubscriptionGroupResponse.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
@@ -115,7 +115,7 @@ module AdvancedBilling
     # If the subscription is not in a group endpoint will return 404 code.
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription associated with the subscription group
-    # @return [FullSubscriptionGroupResponse] response from the API call
+    # @return [FullSubscriptionGroupResponse] response from the API call.
     def read_subscription_group_by_subscription_id(subscription_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -126,12 +126,12 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(FullSubscriptionGroupResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(FullSubscriptionGroupResponse.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
@@ -168,7 +168,7 @@ module AdvancedBilling
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
     # @param [AddSubscriptionToAGroup] body Optional parameter: Example:
-    # @return [SubscriptionGroupResponse] response from the API call
+    # @return [SubscriptionGroupResponse] response from the API call.
     def create_subscription_group_hierarchy(subscription_id,
                                             body: nil)
       new_api_call_builder
@@ -184,9 +184,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionGroupResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionGroupResponse.method(:from_hash)))
         .execute
     end
 
@@ -203,7 +203,7 @@ module AdvancedBilling
     # `product_handle` or `offer_id`. You can also use `custom_price` instead.
     # @param [SubscriptionGroupSignupRequest] body Optional parameter:
     # Example:
-    # @return [SubscriptionGroupSignupResponse] response from the API call
+    # @return [SubscriptionGroupSignupResponse] response from the API call.
     def signup_with_subscription_group(body: nil)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -215,12 +215,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionGroupSignupResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                SubscriptionGroupSignupErrorResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionGroupSignupResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 SubscriptionGroupSignupErrorResponseException))
         .execute
     end
 
@@ -245,7 +245,7 @@ module AdvancedBilling
     # information to include in the response. The following values are
     # supported:  - `account_balances`: Account balance information for the
     # subscription groups. Use in query: `include[]=account_balances`
-    # @return [ListSubscriptionGroupsResponse] response from the API call
+    # @return [ListSubscriptionGroupsResponse] response from the API call.
     def list_subscription_groups(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -257,9 +257,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListSubscriptionGroupsResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ListSubscriptionGroupsResponse.method(:from_hash)))
         .execute
     end
 
@@ -272,7 +272,7 @@ module AdvancedBilling
     # group
     # @param [UpdateSubscriptionGroupRequest] body Optional parameter:
     # Example:
-    # @return [SubscriptionGroupResponse] response from the API call
+    # @return [SubscriptionGroupResponse] response from the API call.
     def update_subscription_group_members(uid,
                                           body: nil)
       new_api_call_builder
@@ -288,12 +288,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionGroupResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                SubscriptionGroupUpdateErrorResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionGroupResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 SubscriptionGroupUpdateErrorResponseException))
         .execute
     end
   end

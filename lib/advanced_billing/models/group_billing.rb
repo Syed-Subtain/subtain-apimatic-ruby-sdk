@@ -51,9 +51,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(accrue = false,
-                   align_date = false,
-                   prorate = false)
+    def initialize(accrue = false, align_date = false, prorate = false)
       @accrue = accrue unless accrue == SKIP
       @align_date = align_date unless align_date == SKIP
       @prorate = prorate unless prorate == SKIP
@@ -72,6 +70,16 @@ module AdvancedBilling
       GroupBilling.new(accrue,
                        align_date,
                        prorate)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [GroupBilling | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

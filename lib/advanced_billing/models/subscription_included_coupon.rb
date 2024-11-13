@@ -72,12 +72,8 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(code = SKIP,
-                   use_count = SKIP,
-                   uses_allowed = SKIP,
-                   expires_at = SKIP,
-                   recurring = SKIP,
-                   amount_in_cents = SKIP,
+    def initialize(code = SKIP, use_count = SKIP, uses_allowed = SKIP,
+                   expires_at = SKIP, recurring = SKIP, amount_in_cents = SKIP,
                    percentage = SKIP)
       @code = code unless code == SKIP
       @use_count = use_count unless use_count == SKIP
@@ -110,6 +106,16 @@ module AdvancedBilling
                                      recurring,
                                      amount_in_cents,
                                      percentage)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [SubscriptionIncludedCoupon | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

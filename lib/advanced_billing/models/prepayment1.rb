@@ -79,16 +79,10 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = nil,
-                   subscription_id = nil,
-                   amount_in_cents = nil,
-                   remaining_amount_in_cents = nil,
-                   external = nil,
-                   memo = nil,
-                   created_at = nil,
-                   refunded_amount_in_cents = SKIP,
-                   details = SKIP,
-                   payment_type = SKIP)
+    def initialize(id = nil, subscription_id = nil, amount_in_cents = nil,
+                   remaining_amount_in_cents = nil, external = nil, memo = nil,
+                   created_at = nil, refunded_amount_in_cents = SKIP,
+                   details = SKIP, payment_type = SKIP)
       @id = id
       @subscription_id = subscription_id
       @amount_in_cents = amount_in_cents

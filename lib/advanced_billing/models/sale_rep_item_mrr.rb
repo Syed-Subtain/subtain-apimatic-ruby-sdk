@@ -44,9 +44,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(mrr = SKIP,
-                   usage = SKIP,
-                   recurring = SKIP)
+    def initialize(mrr = SKIP, usage = SKIP, recurring = SKIP)
       @mrr = mrr unless mrr == SKIP
       @usage = usage unless usage == SKIP
       @recurring = recurring unless recurring == SKIP

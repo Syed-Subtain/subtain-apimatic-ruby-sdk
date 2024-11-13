@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(subscription_groups = SKIP,
-                   meta = SKIP)
+    def initialize(subscription_groups = SKIP, meta = SKIP)
       @subscription_groups = subscription_groups unless subscription_groups == SKIP
       @meta = meta unless meta == SKIP
     end

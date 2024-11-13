@@ -35,8 +35,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(plan_amount_in_cents = nil,
-                   usage_amount_in_cents = nil)
+    def initialize(plan_amount_in_cents = nil, usage_amount_in_cents = nil)
       @plan_amount_in_cents = plan_amount_in_cents
       @usage_amount_in_cents = usage_amount_in_cents
     end

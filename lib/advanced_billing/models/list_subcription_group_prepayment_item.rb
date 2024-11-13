@@ -86,15 +86,10 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   subscription_group_uid = SKIP,
-                   amount_in_cents = SKIP,
-                   remaining_amount_in_cents = SKIP,
-                   details = SKIP,
-                   external = SKIP,
-                   memo = SKIP,
-                   payment_type = SKIP,
-                   created_at = SKIP)
+    def initialize(id = SKIP, subscription_group_uid = SKIP,
+                   amount_in_cents = SKIP, remaining_amount_in_cents = SKIP,
+                   details = SKIP, external = SKIP, memo = SKIP,
+                   payment_type = SKIP, created_at = SKIP)
       @id = id unless id == SKIP
       @subscription_group_uid = subscription_group_uid unless subscription_group_uid == SKIP
       @amount_in_cents = amount_in_cents unless amount_in_cents == SKIP

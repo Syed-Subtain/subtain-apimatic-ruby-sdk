@@ -47,8 +47,7 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(upgrade_charge = SKIP,
-                   downgrade_credit = SKIP,
+    def initialize(upgrade_charge = SKIP, downgrade_credit = SKIP,
                    accrue_charge = SKIP)
       @upgrade_charge = upgrade_charge unless upgrade_charge == SKIP
       @downgrade_credit = downgrade_credit unless downgrade_credit == SKIP

@@ -481,16 +481,16 @@ def list_subscription_components(options = {})
 
 ```ruby
 Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')collect = {
-  'subscription_id': 'subscription_id0',
-  'date_field': SubscriptionListDateField::UPDATED_AT,
-  'price_point_ids': IncludeNotNull::NOT_NULL,
-  'product_family_ids': [
+  'subscription_id' => 'subscription_id0',
+  'date_field' => SubscriptionListDateField::UPDATED_AT,
+  'price_point_ids' => IncludeNotNull::NOT_NULL,
+  'product_family_ids' => [
     1,
     2,
     3
   ],
-  'sort': ListSubscriptionComponentsSort::UPDATED_AT,
-  'include': ListSubscriptionComponentsInclude::SUBSCRIPTION
+  'sort' => ListSubscriptionComponentsSort::UPDATED_AT,
+  'include' => ListSubscriptionComponentsInclude::SUBSCRIPTION
 }
 
 result = subscription_components_controller.list_subscription_components(collect)
@@ -691,7 +691,7 @@ def list_allocations(subscription_id,
 |  --- | --- | --- | --- |
 | `subscription_id` | `String` | Template, Required | The Chargify id of the subscription |
 | `component_id` | `Integer` | Template, Required | The Chargify id of the component |
-| `page` | `Integer` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
+| `page` | `Integer` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
 
 ## Response Type
 
@@ -785,8 +785,8 @@ def list_usages(options = {})
 | `max_id` | `Integer` | Query, Optional | Returns usages with an id less than or equal to the one specified |
 | `since_date` | `String` | Query, Optional | Returns usages with a created_at date greater than or equal to midnight (12:00 AM) on the date specified. |
 | `until_date` | `String` | Query, Optional | Returns usages with a created_at date less than or equal to midnight (12:00 AM) on the date specified. |
-| `page` | `Integer` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
-| `per_page` | `Integer` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `page` | `Integer` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
+| `per_page` | `Integer` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
 
 ## Response Type
 
@@ -796,10 +796,10 @@ def list_usages(options = {})
 
 ```ruby
 collect = {
-  'subscription_id': 'subscription_id0',
-  'component_id': 222,
-  'page': 2,
-  'per_page': 50
+  'subscription_id' => 'subscription_id0',
+  'component_id' => 222,
+  'page' => 2,
+  'per_page' => 50
 }
 
 result = subscription_components_controller.list_usages(collect)
@@ -1310,15 +1310,7 @@ subdomain = 'subdomain4'
 api_handle = 'api_handle6'
 
 body = [
-  EBBEvent.new(
-    ChargifyEBB.new(
-      '2020-02-27T17:45:50-05:00',
-      nil,
-      nil,
-      nil,
-      1
-    )
-  )
+  EBBEvent.new
 ]
 
 subscription_components_controller.record_events(
@@ -1341,8 +1333,8 @@ def list_subscription_components_for_site(options = {})
 
 | Parameter | Type | Tags | Description |
 |  --- | --- | --- | --- |
-| `page` | `Integer` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`. |
-| `per_page` | `Integer` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`. |
+| `page` | `Integer` | Query, Optional | Result records are organized in pages. By default, the first page of results is displayed. The page parameter specifies a page number of results to fetch. You can start navigating through the pages to consume the results. You do this by passing in a page parameter. Retrieve the next page by adding ?page=2 to the query string. If there are no results to return, then an empty result set will be returned.<br>Use in query `page=1`.<br>**Default**: `1`<br>**Constraints**: `>= 1` |
+| `per_page` | `Integer` | Query, Optional | This parameter indicates how many records to fetch in each request. Default value is 20. The maximum allowed values is 200; any per_page value over 200 will be changed to 200.<br>Use in query `per_page=200`.<br>**Default**: `20`<br>**Constraints**: `<= 200` |
 | `sort` | [`ListSubscriptionComponentsSort`](../../doc/models/list-subscription-components-sort.md) | Query, Optional | The attribute by which to sort. Use in query: `sort=updated_at`. |
 | `direction` | [Sorting direction](../../doc/models/sorting-direction.md) \| nil | Query, Optional | This is a container for one-of cases. |
 | `date_field` | [`SubscriptionListDateField`](../../doc/models/subscription-list-date-field.md) | Query, Optional | The type of filter you'd like to apply to your search. Use in query: `date_field=updated_at`. |
@@ -1350,7 +1342,7 @@ def list_subscription_components_for_site(options = {})
 | `start_datetime` | `String` | Query, Optional | The start date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or after exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of start_date. Use in query `start_datetime=2022-07-01 09:00:05`. |
 | `end_date` | `String` | Query, Optional | The end date (format YYYY-MM-DD) with which to filter the date_field. Returns components with a timestamp up to and including 11:59:59PM in your site’s time zone on the date specified. Use in query `end_date=2011-12-16`. |
 | `end_datetime` | `String` | Query, Optional | The end date and time (format YYYY-MM-DD HH:MM:SS) with which to filter the date_field. Returns components with a timestamp at or before exact time provided in query. You can specify timezone in query - otherwise your site''s time zone will be used. If provided, this parameter will be used instead of end_date. Use in query `end_datetime=2022-07-01 09:00:05`. |
-| `subscription_ids` | `Array<Integer>` | Query, Optional | Allows fetching components allocation with matching subscription id based on provided ids. Use in query `subscription_ids=1,2,3`. |
+| `subscription_ids` | `Array<Integer>` | Query, Optional | Allows fetching components allocation with matching subscription id based on provided ids. Use in query `subscription_ids=1,2,3`.<br>**Constraints**: *Minimum Items*: `1`, *Maximum Items*: `200` |
 | `price_point_ids` | [`IncludeNotNull`](../../doc/models/include-not-null.md) | Query, Optional | Allows fetching components allocation only if price point id is present. Use in query `price_point_ids=not_null`. |
 | `product_family_ids` | `Array<Integer>` | Query, Optional | Allows fetching components allocation with matching product family id based on provided ids. Use in query `product_family_ids=1,2,3`. |
 | `include` | [`ListSubscriptionComponentsInclude`](../../doc/models/list-subscription-components-include.md) | Query, Optional | Allows including additional data in the response. Use in query `include=subscription`. |
@@ -1371,22 +1363,22 @@ def list_subscription_components_for_site(options = {})
 
 ```ruby
 Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')Liquid error: Value cannot be null. (Parameter 'key')collect = {
-  'page': 2,
-  'per_page': 50,
-  'sort': ListSubscriptionComponentsSort::UPDATED_AT,
-  'date_field': SubscriptionListDateField::UPDATED_AT,
-  'subscription_ids': [
+  'page' => 2,
+  'per_page' => 50,
+  'sort' => ListSubscriptionComponentsSort::UPDATED_AT,
+  'date_field' => SubscriptionListDateField::UPDATED_AT,
+  'subscription_ids' => [
     1,
     2,
     3
   ],
-  'price_point_ids': IncludeNotNull::NOT_NULL,
-  'product_family_ids': [
+  'price_point_ids' => IncludeNotNull::NOT_NULL,
+  'product_family_ids' => [
     1,
     2,
     3
   ],
-  'include': ListSubscriptionComponentsInclude::SUBSCRIPTION
+  'include' => ListSubscriptionComponentsInclude::SUBSCRIPTION
 }
 
 result = subscription_components_controller.list_subscription_components_for_site(collect)
@@ -1442,20 +1434,9 @@ subdomain = 'subdomain4'
 
 api_handle = 'api_handle6'
 
-body = EBBEvent.new(
-  ChargifyEBB.new(
-    '2020-02-27T17:45:50-05:00',
-    nil,
-    nil,
-    nil,
-    1
-  )
-)
-
 subscription_components_controller.record_event(
   subdomain,
-  api_handle,
-  body: body
+  api_handle
 )
 ```
 

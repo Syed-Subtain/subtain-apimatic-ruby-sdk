@@ -44,7 +44,7 @@ module AdvancedBilling
     # @param [ResourceType] resource_type Required parameter: the resource type
     # to which the metafields belong
     # @param [CreateMetafieldsRequest] body Optional parameter: Example:
-    # @return [Array[Metafield]] response from the API call
+    # @return [Array[Metafield]] response from the API call.
     def create_metafields(resource_type,
                           body: nil)
       new_api_call_builder
@@ -60,10 +60,10 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(Metafield.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(Metafield.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -75,7 +75,7 @@ module AdvancedBilling
     # to which the metafields belong
     # @param [String] name Optional parameter: The name of the metafield to be
     # deleted
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def delete_metafield(resource_type,
                          name: nil)
       new_api_call_builder
@@ -88,11 +88,11 @@ module AdvancedBilling
                    .query_param(new_parameter(name, key: 'name'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
@@ -116,7 +116,7 @@ module AdvancedBilling
     # many records to fetch in each request. Default value is 20. The maximum
     # allowed values is 200; any per_page value over 200 will be changed to 200.
     # Use in query `per_page=200`.
-    # @return [PaginatedMetadata] response from the API call
+    # @return [PaginatedMetadata] response from the API call.
     def read_metadata(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -133,9 +133,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(PaginatedMetadata.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(PaginatedMetadata.method(:from_hash)))
         .execute
     end
 
@@ -148,7 +148,7 @@ module AdvancedBilling
     # you are updating an existing record and you wish to rename the field. Note
     # you must supply name and current_name to rename the field
     # @param [UpdateMetafieldsRequest] body Optional parameter: Example:
-    # @return [Array[Metafield]] response from the API call
+    # @return [Array[Metafield]] response from the API call.
     def update_metafield(resource_type,
                          name,
                          current_name: nil,
@@ -169,10 +169,10 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(Metafield.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(Metafield.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -211,7 +211,7 @@ module AdvancedBilling
     # @param [String] value Optional parameter: Can be a single item or a list
     # of metadata
     # @param [CreateMetadataRequest] body Optional parameter: Example:
-    # @return [Array[Metadata]] response from the API call
+    # @return [Array[Metadata]] response from the API call.
     def create_metadata(resource_type,
                         resource_id,
                         value: nil,
@@ -233,10 +233,10 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(Metadata.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(Metadata.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -249,7 +249,7 @@ module AdvancedBilling
     # @param [String] value Optional parameter: Can be a single item or a list
     # of metadata
     # @param [UpdateMetadataRequest] body Optional parameter: Example:
-    # @return [Array[Metadata]] response from the API call
+    # @return [Array[Metadata]] response from the API call.
     def update_metadata(resource_type,
                         resource_id,
                         value: nil,
@@ -271,10 +271,10 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(Metadata.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(Metadata.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -305,7 +305,7 @@ module AdvancedBilling
     # @param [Array[String]] names Optional parameter: Names of fields to be
     # removed. Use in query:
     # `names[]=field1&names[]=my-field&names[]=another-field`.
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def delete_metadata(resource_type,
                         resource_id,
                         name: nil,
@@ -323,13 +323,13 @@ module AdvancedBilling
                    .query_param(new_parameter(name, key: 'name'))
                    .query_param(new_parameter(names, key: 'names[]'))
                    .auth(Single.new('BasicAuth'))
-                   .array_serialization_format(ArraySerializationFormat::PLAIN))
+                   .array_serialization_format(ArraySerializationFormat::UN_INDEXED))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
@@ -384,7 +384,7 @@ module AdvancedBilling
     # `resource_ids[]=122&resource_ids[]=123&resource_ids[]=124`.
     # @param [SortingDirection | nil] direction Optional parameter: Controls the
     # order in which results are returned. Use in query `direction=asc`.
-    # @return [PaginatedMetadata] response from the API call
+    # @return [PaginatedMetadata] response from the API call.
     def list_metadata(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -409,11 +409,11 @@ module AdvancedBilling
                                  end))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth'))
-                   .array_serialization_format(ArraySerializationFormat::PLAIN))
+                   .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(PaginatedMetadata.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(PaginatedMetadata.method(:from_hash)))
         .execute
     end
 
@@ -436,7 +436,7 @@ module AdvancedBilling
     # Use in query `per_page=200`.
     # @param [SortingDirection | nil] direction Optional parameter: Controls the
     # order in which results are returned. Use in query `direction=asc`.
-    # @return [ListMetafieldsResponse] response from the API call
+    # @return [ListMetafieldsResponse] response from the API call.
     def list_metafields(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -456,9 +456,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListMetafieldsResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ListMetafieldsResponse.method(:from_hash)))
         .execute
     end
   end

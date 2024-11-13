@@ -69,12 +69,9 @@ module AdvancedBilling
       []
     end
 
-    def initialize(calendar_billing = SKIP,
-                   include_trial = SKIP,
-                   preserve_balance = SKIP,
-                   coupon_code = SKIP,
-                   use_credits_and_prepayments = SKIP,
-                   resume = SKIP)
+    def initialize(calendar_billing = SKIP, include_trial = SKIP,
+                   preserve_balance = SKIP, coupon_code = SKIP,
+                   use_credits_and_prepayments = SKIP, resume = SKIP)
       @calendar_billing = calendar_billing unless calendar_billing == SKIP
       @include_trial = include_trial unless include_trial == SKIP
       @preserve_balance = preserve_balance unless preserve_balance == SKIP

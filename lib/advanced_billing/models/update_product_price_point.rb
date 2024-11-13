@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(handle = SKIP,
-                   price_in_cents = SKIP)
+    def initialize(handle = SKIP, price_in_cents = SKIP)
       @handle = handle unless handle == SKIP
       @price_in_cents = price_in_cents unless price_in_cents == SKIP
     end

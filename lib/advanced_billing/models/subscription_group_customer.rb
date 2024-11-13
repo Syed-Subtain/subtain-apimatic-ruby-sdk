@@ -56,11 +56,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(first_name = SKIP,
-                   last_name = SKIP,
-                   organization = SKIP,
-                   email = SKIP,
-                   reference = SKIP)
+    def initialize(first_name = SKIP, last_name = SKIP, organization = SKIP,
+                   email = SKIP, reference = SKIP)
       @first_name = first_name unless first_name == SKIP
       @last_name = last_name unless last_name == SKIP
       @organization = organization unless organization == SKIP

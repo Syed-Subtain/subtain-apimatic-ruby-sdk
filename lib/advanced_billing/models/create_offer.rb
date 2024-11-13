@@ -68,13 +68,9 @@ module AdvancedBilling
       []
     end
 
-    def initialize(name = SKIP,
-                   handle = SKIP,
-                   description = SKIP,
-                   product_id = SKIP,
-                   product_price_point_id = SKIP,
-                   components = SKIP,
-                   coupons = SKIP)
+    def initialize(name = SKIP, handle = SKIP, description = SKIP,
+                   product_id = SKIP, product_price_point_id = SKIP,
+                   components = SKIP, coupons = SKIP)
       @name = name unless name == SKIP
       @handle = handle unless handle == SKIP
       @description = description unless description == SKIP

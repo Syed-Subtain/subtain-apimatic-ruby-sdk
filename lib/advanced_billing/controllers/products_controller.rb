@@ -13,7 +13,7 @@ module AdvancedBilling
     # Billing Portal, as well as disable Public Signup Pages for the product.
     # @param [Integer] product_id Required parameter: The Chargify id of the
     # product
-    # @return [ProductResponse] response from the API call
+    # @return [ProductResponse] response from the API call.
     def archive_product(product_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::DELETE,
@@ -25,9 +25,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProductResponse.method(:from_hash)))
         .execute
     end
 
@@ -41,7 +41,7 @@ module AdvancedBilling
     # @param [Integer] product_family_id Required parameter: The Chargify id of
     # the product family to which the product belongs
     # @param [CreateOrUpdateProductRequest] body Optional parameter: Example:
-    # @return [ProductResponse] response from the API call
+    # @return [ProductResponse] response from the API call.
     def create_product(product_family_id,
                        body: nil)
       new_api_call_builder
@@ -57,9 +57,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProductResponse.method(:from_hash)))
         .execute
     end
 
@@ -67,7 +67,7 @@ module AdvancedBilling
     # you've created in Chargify.
     # @param [Integer] product_id Required parameter: The Chargify id of the
     # product
-    # @return [ProductResponse] response from the API call
+    # @return [ProductResponse] response from the API call.
     def read_product(product_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -79,9 +79,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProductResponse.method(:from_hash)))
         .execute
     end
 
@@ -96,7 +96,7 @@ module AdvancedBilling
     # @param [Integer] product_id Required parameter: The Chargify id of the
     # product
     # @param [CreateOrUpdateProductRequest] body Optional parameter: Example:
-    # @return [ProductResponse] response from the API call
+    # @return [ProductResponse] response from the API call.
     def update_product(product_id,
                        body: nil)
       new_api_call_builder
@@ -112,18 +112,18 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProductResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
     # This method allows to retrieve a Product object by its `api_handle`.
     # @param [String] api_handle Required parameter: The handle of the product
-    # @return [ProductResponse] response from the API call
+    # @return [ProductResponse] response from the API call.
     def read_product_by_handle(api_handle)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -135,9 +135,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProductResponse.method(:from_hash)))
         .execute
     end
 
@@ -190,7 +190,7 @@ module AdvancedBilling
     # parameter: Allows fetching products with matching use_site_exchange_rate
     # based on provided value (refers to default price point). Use in query
     # `filter[use_site_exchange_rate]=true`.
-    # @return [Array[ProductResponse]] response from the API call
+    # @return [Array[ProductResponse]] response from the API call.
     def list_products(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -210,10 +210,10 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductResponse.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProductResponse.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
   end

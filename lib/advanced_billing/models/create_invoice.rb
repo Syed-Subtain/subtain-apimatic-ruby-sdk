@@ -92,15 +92,10 @@ module AdvancedBilling
       []
     end
 
-    def initialize(line_items = SKIP,
-                   issue_date = SKIP,
-                   net_terms = SKIP,
-                   payment_instructions = SKIP,
-                   memo = SKIP,
-                   seller_address = SKIP,
-                   billing_address = SKIP,
-                   shipping_address = SKIP,
-                   coupons = SKIP,
+    def initialize(line_items = SKIP, issue_date = SKIP, net_terms = SKIP,
+                   payment_instructions = SKIP, memo = SKIP,
+                   seller_address = SKIP, billing_address = SKIP,
+                   shipping_address = SKIP, coupons = SKIP,
                    status = Status1::OPEN)
       @line_items = line_items unless line_items == SKIP
       @issue_date = issue_date unless issue_date == SKIP

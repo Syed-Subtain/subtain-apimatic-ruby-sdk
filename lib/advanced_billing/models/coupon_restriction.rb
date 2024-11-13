@@ -58,10 +58,7 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = SKIP,
-                   item_type = SKIP,
-                   item_id = SKIP,
-                   name = SKIP,
+    def initialize(id = SKIP, item_type = SKIP, item_id = SKIP, name = SKIP,
                    handle = SKIP)
       @id = id unless id == SKIP
       @item_type = item_type unless item_type == SKIP
@@ -87,6 +84,16 @@ module AdvancedBilling
                             item_id,
                             name,
                             handle)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [CouponRestriction | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

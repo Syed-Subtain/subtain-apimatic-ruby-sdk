@@ -14,7 +14,7 @@ module AdvancedBilling
     # group
     # @param [SubscriptionGroupPrepaymentRequest] body Optional parameter:
     # Example:
-    # @return [SubscriptionGroupPrepaymentResponse] response from the API call
+    # @return [SubscriptionGroupPrepaymentResponse] response from the API call.
     def create_subscription_group_prepayment(uid,
                                              body: nil)
       new_api_call_builder
@@ -30,12 +30,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionGroupPrepaymentResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionGroupPrepaymentResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -65,7 +65,7 @@ module AdvancedBilling
     # many records to fetch in each request. Default value is 20. The maximum
     # allowed values is 200; any per_page value over 200 will be changed to 200.
     # Use in query `per_page=200`.
-    # @return [ListSubscriptionGroupPrepaymentResponse] response from the API call
+    # @return [ListSubscriptionGroupPrepaymentResponse] response from the API call.
     def list_prepayments_for_subscription_group(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -82,18 +82,18 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListSubscriptionGroupPrepaymentResponse.method(:from_hash))
-                   .local_error('401',
-                                'Unauthorized',
-                                APIException)
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ListSubscriptionGroupPrepaymentResponse.method(:from_hash))
+                    .local_error('401',
+                                 'Unauthorized',
+                                 APIException)
+                    .local_error('403',
+                                 'Forbidden',
+                                 APIException)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
@@ -104,7 +104,7 @@ module AdvancedBilling
     # @param [String] uid Required parameter: The uid of the subscription
     # group
     # @param [IssueServiceCreditRequest] body Optional parameter: Example:
-    # @return [ServiceCreditResponse] response from the API call
+    # @return [ServiceCreditResponse] response from the API call.
     def issue_subscription_group_service_credits(uid,
                                                  body: nil)
       new_api_call_builder
@@ -120,12 +120,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ServiceCreditResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ServiceCreditResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -135,7 +135,7 @@ module AdvancedBilling
     # @param [String] uid Required parameter: The uid of the subscription
     # group
     # @param [DeductServiceCreditRequest] body Optional parameter: Example:
-    # @return [ServiceCredit] response from the API call
+    # @return [ServiceCredit] response from the API call.
     def deduct_subscription_group_service_credits(uid,
                                                   body: nil)
       new_api_call_builder
@@ -151,12 +151,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ServiceCredit.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ServiceCredit.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
   end

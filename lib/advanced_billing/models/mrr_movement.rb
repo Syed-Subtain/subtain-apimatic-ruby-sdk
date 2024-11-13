@@ -50,9 +50,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(amount = SKIP,
-                   category = SKIP,
-                   subscriber_delta = SKIP,
+    def initialize(amount = SKIP, category = SKIP, subscriber_delta = SKIP,
                    lead_delta = SKIP)
       @amount = amount unless amount == SKIP
       @category = category unless category == SKIP

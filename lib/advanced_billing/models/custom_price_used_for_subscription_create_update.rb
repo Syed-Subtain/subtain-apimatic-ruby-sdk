@@ -105,18 +105,12 @@ module AdvancedBilling
       []
     end
 
-    def initialize(name = SKIP,
-                   handle = SKIP,
-                   price_in_cents = SKIP,
-                   interval = SKIP,
-                   interval_unit = SKIP,
-                   trial_price_in_cents = SKIP,
-                   trial_interval = SKIP,
-                   trial_interval_unit = SKIP,
-                   initial_charge_in_cents = SKIP,
+    def initialize(name = SKIP, handle = SKIP, price_in_cents = SKIP,
+                   interval = SKIP, interval_unit = SKIP,
+                   trial_price_in_cents = SKIP, trial_interval = SKIP,
+                   trial_interval_unit = SKIP, initial_charge_in_cents = SKIP,
                    initial_charge_after_trial = SKIP,
-                   expiration_interval = SKIP,
-                   expiration_interval_unit = SKIP,
+                   expiration_interval = SKIP, expiration_interval_unit = SKIP,
                    tax_included = SKIP)
       @name = name unless name == SKIP
       @handle = handle unless handle == SKIP

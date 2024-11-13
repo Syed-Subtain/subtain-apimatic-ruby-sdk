@@ -93,14 +93,10 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(quantity = nil,
-                   component_id = SKIP,
-                   memo = SKIP,
+    def initialize(quantity = nil, component_id = SKIP, memo = SKIP,
                    proration_downgrade_scheme = SKIP,
-                   proration_upgrade_scheme = SKIP,
-                   accrue_charge = SKIP,
-                   downgrade_credit = SKIP,
-                   upgrade_charge = SKIP,
+                   proration_upgrade_scheme = SKIP, accrue_charge = SKIP,
+                   downgrade_credit = SKIP, upgrade_charge = SKIP,
                    price_point_id = SKIP)
       @quantity = quantity
       @component_id = component_id unless component_id == SKIP

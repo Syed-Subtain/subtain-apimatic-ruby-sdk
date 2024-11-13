@@ -75,11 +75,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(timestamp = SKIP,
-                   id = SKIP,
-                   created_at = SKIP,
-                   uniqueness_token = SKIP,
-                   subscription_id = SKIP,
+    def initialize(timestamp = SKIP, id = SKIP, created_at = SKIP,
+                   uniqueness_token = SKIP, subscription_id = SKIP,
                    subscription_reference = SKIP)
       @timestamp = timestamp unless timestamp == SKIP
       @id = id unless id == SKIP

@@ -58,10 +58,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   initial_funding_amount_in_cents = SKIP,
-                   replenish_to_amount_in_cents = SKIP,
-                   auto_replenish = SKIP,
+    def initialize(id = SKIP, initial_funding_amount_in_cents = SKIP,
+                   replenish_to_amount_in_cents = SKIP, auto_replenish = SKIP,
                    replenish_threshold_amount_in_cents = SKIP)
       @id = id unless id == SKIP
       unless initial_funding_amount_in_cents == SKIP

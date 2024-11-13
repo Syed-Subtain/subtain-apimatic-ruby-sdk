@@ -74,14 +74,10 @@ module AdvancedBilling
       []
     end
 
-    def initialize(payer_id = SKIP,
-                   payer_reference = SKIP,
-                   payment_profile_id = SKIP,
-                   payment_collection_method = SKIP,
-                   payer_attributes = SKIP,
-                   credit_card_attributes = SKIP,
-                   bank_account_attributes = SKIP,
-                   subscriptions = SKIP)
+    def initialize(payer_id = SKIP, payer_reference = SKIP,
+                   payment_profile_id = SKIP, payment_collection_method = SKIP,
+                   payer_attributes = SKIP, credit_card_attributes = SKIP,
+                   bank_account_attributes = SKIP, subscriptions = SKIP)
       @payer_id = payer_id unless payer_id == SKIP
       @payer_reference = payer_reference unless payer_reference == SKIP
       @payment_profile_id = payment_profile_id unless payment_profile_id == SKIP
@@ -135,6 +131,16 @@ module AdvancedBilling
                                              credit_card_attributes,
                                              bank_account_attributes,
                                              subscriptions)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [SubscriptionGroupSignupFailureData | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

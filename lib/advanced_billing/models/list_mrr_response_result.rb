@@ -68,13 +68,9 @@ module AdvancedBilling
       []
     end
 
-    def initialize(page = SKIP,
-                   per_page = SKIP,
-                   total_pages = SKIP,
-                   total_entries = SKIP,
-                   currency = SKIP,
-                   currency_symbol = SKIP,
-                   movements = SKIP)
+    def initialize(page = SKIP, per_page = SKIP, total_pages = SKIP,
+                   total_entries = SKIP, currency = SKIP,
+                   currency_symbol = SKIP, movements = SKIP)
       @page = page unless page == SKIP
       @per_page = per_page unless per_page == SKIP
       @total_pages = total_pages unless total_pages == SKIP

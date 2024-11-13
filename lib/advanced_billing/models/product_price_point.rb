@@ -182,29 +182,16 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = SKIP,
-                   name = SKIP,
-                   handle = SKIP,
-                   price_in_cents = SKIP,
-                   interval = SKIP,
-                   interval_unit = SKIP,
-                   trial_price_in_cents = SKIP,
-                   trial_interval = SKIP,
-                   trial_interval_unit = SKIP,
-                   trial_type = SKIP,
-                   introductory_offer = SKIP,
-                   initial_charge_in_cents = SKIP,
+    def initialize(id = SKIP, name = SKIP, handle = SKIP, price_in_cents = SKIP,
+                   interval = SKIP, interval_unit = SKIP,
+                   trial_price_in_cents = SKIP, trial_interval = SKIP,
+                   trial_interval_unit = SKIP, trial_type = SKIP,
+                   introductory_offer = SKIP, initial_charge_in_cents = SKIP,
                    initial_charge_after_trial = SKIP,
-                   expiration_interval = SKIP,
-                   expiration_interval_unit = SKIP,
-                   product_id = SKIP,
-                   archived_at = SKIP,
-                   created_at = SKIP,
-                   updated_at = SKIP,
-                   use_site_exchange_rate = SKIP,
-                   type = SKIP,
-                   tax_included = SKIP,
-                   subscription_id = SKIP)
+                   expiration_interval = SKIP, expiration_interval_unit = SKIP,
+                   product_id = SKIP, archived_at = SKIP, created_at = SKIP,
+                   updated_at = SKIP, use_site_exchange_rate = SKIP,
+                   type = SKIP, tax_included = SKIP, subscription_id = SKIP)
       @id = id unless id == SKIP
       @name = name unless name == SKIP
       @handle = handle unless handle == SKIP

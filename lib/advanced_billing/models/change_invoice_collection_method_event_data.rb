@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(from_collection_method = SKIP,
-                   to_collection_method = SKIP)
+    def initialize(from_collection_method = SKIP, to_collection_method = SKIP)
       @from_collection_method = from_collection_method unless from_collection_method == SKIP
       @to_collection_method = to_collection_method unless to_collection_method == SKIP
     end

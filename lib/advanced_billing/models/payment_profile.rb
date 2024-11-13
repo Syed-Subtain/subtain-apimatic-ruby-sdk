@@ -176,27 +176,16 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = SKIP,
-                   first_name = SKIP,
-                   last_name = SKIP,
-                   masked_card_number = SKIP,
-                   card_type = SKIP,
-                   expiration_month = SKIP,
-                   expiration_year = SKIP,
-                   customer_id = SKIP,
-                   current_vault = SKIP,
-                   vault_token = SKIP,
-                   billing_address = SKIP,
-                   billing_city = SKIP,
-                   billing_state = SKIP,
-                   billing_zip = SKIP,
-                   billing_country = SKIP,
-                   customer_vault_token = SKIP,
+    def initialize(id = SKIP, first_name = SKIP, last_name = SKIP,
+                   masked_card_number = SKIP, card_type = SKIP,
+                   expiration_month = SKIP, expiration_year = SKIP,
+                   customer_id = SKIP, current_vault = SKIP, vault_token = SKIP,
+                   billing_address = SKIP, billing_city = SKIP,
+                   billing_state = SKIP, billing_zip = SKIP,
+                   billing_country = SKIP, customer_vault_token = SKIP,
                    billing_address_2 = SKIP,
-                   payment_type = PaymentType::CREDIT_CARD,
-                   disabled = SKIP,
-                   chargify_token = SKIP,
-                   site_gateway_setting_id = SKIP,
+                   payment_type = PaymentType::CREDIT_CARD, disabled = SKIP,
+                   chargify_token = SKIP, site_gateway_setting_id = SKIP,
                    gateway_handle = SKIP)
       @id = id unless id == SKIP
       @first_name = first_name unless first_name == SKIP
@@ -283,6 +272,16 @@ module AdvancedBilling
                          chargify_token,
                          site_gateway_setting_id,
                          gateway_handle)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [PaymentProfile | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

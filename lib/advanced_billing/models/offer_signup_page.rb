@@ -62,12 +62,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   nickname = SKIP,
-                   enabled = SKIP,
-                   return_url = SKIP,
-                   return_params = SKIP,
-                   url = SKIP)
+    def initialize(id = SKIP, nickname = SKIP, enabled = SKIP,
+                   return_url = SKIP, return_params = SKIP, url = SKIP)
       @id = id unless id == SKIP
       @nickname = nickname unless nickname == SKIP
       @enabled = enabled unless enabled == SKIP

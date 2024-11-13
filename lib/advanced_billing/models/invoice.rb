@@ -403,58 +403,27 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = SKIP,
-                   uid = SKIP,
-                   site_id = SKIP,
-                   customer_id = SKIP,
-                   subscription_id = SKIP,
-                   number = SKIP,
-                   sequence_number = SKIP,
-                   transaction_time = SKIP,
-                   created_at = SKIP,
-                   updated_at = SKIP,
-                   issue_date = SKIP,
-                   due_date = SKIP,
-                   paid_date = SKIP,
-                   status = SKIP,
-                   role = SKIP,
-                   parent_invoice_id = SKIP,
-                   collection_method = SKIP,
-                   payment_instructions = SKIP,
-                   currency = SKIP,
-                   consolidation_level = SKIP,
-                   parent_invoice_uid = SKIP,
-                   subscription_group_id = SKIP,
+    def initialize(id = SKIP, uid = SKIP, site_id = SKIP, customer_id = SKIP,
+                   subscription_id = SKIP, number = SKIP,
+                   sequence_number = SKIP, transaction_time = SKIP,
+                   created_at = SKIP, updated_at = SKIP, issue_date = SKIP,
+                   due_date = SKIP, paid_date = SKIP, status = SKIP,
+                   role = SKIP, parent_invoice_id = SKIP,
+                   collection_method = SKIP, payment_instructions = SKIP,
+                   currency = SKIP, consolidation_level = SKIP,
+                   parent_invoice_uid = SKIP, subscription_group_id = SKIP,
                    parent_invoice_number = SKIP,
-                   group_primary_subscription_id = SKIP,
-                   product_name = SKIP,
-                   product_family_name = SKIP,
-                   seller = SKIP,
-                   customer = SKIP,
-                   payer = SKIP,
-                   recipient_emails = SKIP,
-                   net_terms = SKIP,
-                   memo = SKIP,
-                   billing_address = SKIP,
-                   shipping_address = SKIP,
-                   subtotal_amount = SKIP,
-                   discount_amount = SKIP,
-                   tax_amount = SKIP,
-                   total_amount = SKIP,
-                   credit_amount = SKIP,
-                   refund_amount = SKIP,
-                   paid_amount = SKIP,
-                   due_amount = SKIP,
-                   line_items = SKIP,
-                   discounts = SKIP,
-                   taxes = SKIP,
-                   credits = SKIP,
-                   refunds = SKIP,
-                   payments = SKIP,
-                   custom_fields = SKIP,
-                   display_settings = SKIP,
-                   public_url = SKIP,
-                   previous_balance_data = SKIP)
+                   group_primary_subscription_id = SKIP, product_name = SKIP,
+                   product_family_name = SKIP, seller = SKIP, customer = SKIP,
+                   payer = SKIP, recipient_emails = SKIP, net_terms = SKIP,
+                   memo = SKIP, billing_address = SKIP, shipping_address = SKIP,
+                   subtotal_amount = SKIP, discount_amount = SKIP,
+                   tax_amount = SKIP, total_amount = SKIP, credit_amount = SKIP,
+                   refund_amount = SKIP, paid_amount = SKIP, due_amount = SKIP,
+                   line_items = SKIP, discounts = SKIP, taxes = SKIP,
+                   credits = SKIP, refunds = SKIP, payments = SKIP,
+                   custom_fields = SKIP, display_settings = SKIP,
+                   public_url = SKIP, previous_balance_data = SKIP)
       @id = id unless id == SKIP
       @uid = uid unless uid == SKIP
       @site_id = site_id unless site_id == SKIP
@@ -728,6 +697,16 @@ module AdvancedBilling
 
     def to_custom_updated_at
       DateTimeHelper.to_rfc3339(updated_at)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [Invoice | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

@@ -71,13 +71,9 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = SKIP,
-                   name = SKIP,
-                   handle = SKIP,
-                   accounting_code = SKIP,
-                   description = SKIP,
-                   created_at = SKIP,
-                   updated_at = SKIP)
+    def initialize(id = SKIP, name = SKIP, handle = SKIP,
+                   accounting_code = SKIP, description = SKIP,
+                   created_at = SKIP, updated_at = SKIP)
       @id = id unless id == SKIP
       @name = name unless name == SKIP
       @handle = handle unless handle == SKIP
@@ -109,6 +105,16 @@ module AdvancedBilling
                         description,
                         created_at,
                         updated_at)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [ProductFamily | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

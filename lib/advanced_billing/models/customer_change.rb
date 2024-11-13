@@ -50,10 +50,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(payer = SKIP,
-                   shipping_address = SKIP,
-                   billing_address = SKIP,
-                   custom_fields = SKIP)
+    def initialize(payer = SKIP, shipping_address = SKIP,
+                   billing_address = SKIP, custom_fields = SKIP)
       @payer = payer unless payer == SKIP
       @shipping_address = shipping_address unless shipping_address == SKIP
       @billing_address = billing_address unless billing_address == SKIP

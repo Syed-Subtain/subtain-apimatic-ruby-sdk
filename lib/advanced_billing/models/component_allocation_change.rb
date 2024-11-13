@@ -62,13 +62,9 @@ module AdvancedBilling
       []
     end
 
-    def initialize(previous_allocation = nil,
-                   new_allocation = nil,
-                   component_id = nil,
-                   component_handle = nil,
-                   memo = nil,
-                   allocation_id = nil,
-                   allocated_quantity = SKIP)
+    def initialize(previous_allocation = nil, new_allocation = nil,
+                   component_id = nil, component_handle = nil, memo = nil,
+                   allocation_id = nil, allocated_quantity = SKIP)
       @previous_allocation = previous_allocation
       @new_allocation = new_allocation
       @component_id = component_id

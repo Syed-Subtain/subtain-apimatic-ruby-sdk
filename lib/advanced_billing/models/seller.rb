@@ -52,10 +52,7 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(name = SKIP,
-                   address = SKIP,
-                   phone = SKIP,
-                   logo_url = SKIP)
+    def initialize(name = SKIP, address = SKIP, phone = SKIP, logo_url = SKIP)
       @name = name unless name == SKIP
       @address = address unless address == SKIP
       @phone = phone unless phone == SKIP
@@ -77,6 +74,16 @@ module AdvancedBilling
                  address,
                  phone,
                  logo_url)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [Seller | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

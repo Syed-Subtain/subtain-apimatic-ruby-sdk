@@ -22,7 +22,7 @@ module AdvancedBilling
     # @param [String] include_next_proforma_invoice Optional parameter: Choose
     # to include a proforma invoice preview for the first renewal
     # @param [CreateSubscriptionRequest] body Optional parameter: Example:
-    # @return [SignupProformaPreviewResponse] response from the API call
+    # @return [SignupProformaPreviewResponse] response from the API call.
     def preview_signup_proforma_invoice(include_next_proforma_invoice: nil,
                                         body: nil)
       new_api_call_builder
@@ -36,18 +36,18 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SignupProformaPreviewResponse.method(:from_hash))
-                   .local_error('400',
-                                'Bad Request',
-                                ProformaBadRequestErrorResponseException)
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorMapResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SignupProformaPreviewResponse.method(:from_hash))
+                    .local_error('400',
+                                 'Bad Request',
+                                 ProformaBadRequestErrorResponseException)
+                    .local_error('403',
+                                 'Forbidden',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorMapResponseException))
         .execute
     end
 
@@ -62,7 +62,7 @@ module AdvancedBilling
     # not be prepaid, and must be in a live state.
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
-    # @return [ProformaInvoice] response from the API call
+    # @return [ProformaInvoice] response from the API call.
     def create_proforma_invoice(subscription_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -74,15 +74,15 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProformaInvoice.method(:from_hash))
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProformaInvoice.method(:from_hash))
+                    .local_error('403',
+                                 'Forbidden',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -123,7 +123,7 @@ module AdvancedBilling
     # payments data
     # @param [TrueClass | FalseClass] custom_fields Optional parameter: Include
     # custom fields data
-    # @return [Array[ProformaInvoice]] response from the API call
+    # @return [Array[ProformaInvoice]] response from the API call.
     def list_proforma_invoices(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -147,10 +147,10 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProformaInvoice.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProformaInvoice.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -166,7 +166,7 @@ module AdvancedBilling
     # @param [String] proforma_invoice_uid Required parameter: The uid of the
     # proforma invoice
     # @param [VoidInvoiceRequest] body Optional parameter: Example:
-    # @return [ProformaInvoice] response from the API call
+    # @return [ProformaInvoice] response from the API call.
     def void_proforma_invoice(proforma_invoice_uid,
                               body: nil)
       new_api_call_builder
@@ -182,18 +182,18 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProformaInvoice.method(:from_hash))
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProformaInvoice.method(:from_hash))
+                    .local_error('403',
+                                 'Forbidden',
+                                 APIException)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -210,7 +210,7 @@ module AdvancedBilling
     # be in a live state.
     # @param [String] uid Required parameter: The uid of the subscription
     # group
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def create_consolidated_proforma_invoice(uid)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -221,11 +221,11 @@ module AdvancedBilling
                                     .should_encode(true))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -237,7 +237,7 @@ module AdvancedBilling
     # specific field as a key in the query with a value set to true.
     # @param [String] uid Required parameter: The uid of the subscription
     # group
-    # @return [ProformaInvoice] response from the API call
+    # @return [ProformaInvoice] response from the API call.
     def list_subscription_group_proforma_invoices(uid)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -249,15 +249,15 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProformaInvoice.method(:from_hash))
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProformaInvoice.method(:from_hash))
+                    .local_error('403',
+                                 'Forbidden',
+                                 APIException)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
@@ -266,7 +266,7 @@ module AdvancedBilling
     # Proforma invoices are only available on Relationship Invoicing sites.
     # @param [Integer] proforma_invoice_uid Required parameter: The uid of the
     # proforma invoice
-    # @return [ProformaInvoice] response from the API call
+    # @return [ProformaInvoice] response from the API call.
     def read_proforma_invoice(proforma_invoice_uid)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -278,15 +278,15 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProformaInvoice.method(:from_hash))
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProformaInvoice.method(:from_hash))
+                    .local_error('403',
+                                 'Forbidden',
+                                 APIException)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
@@ -309,7 +309,7 @@ module AdvancedBilling
     # subscription's upcoming renewal has changed.
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
-    # @return [ProformaInvoicePreview] response from the API call
+    # @return [ProformaInvoicePreview] response from the API call.
     def preview_proforma_invoice(subscription_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -321,18 +321,18 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProformaInvoicePreview.method(:from_hash))
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProformaInvoicePreview.method(:from_hash))
+                    .local_error('403',
+                                 'Forbidden',
+                                 APIException)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -351,7 +351,7 @@ module AdvancedBilling
     # customer_id to easily find their proforma invoices, since the
     # subscription_id will always be blank.
     # @param [CreateSubscriptionRequest] body Optional parameter: Example:
-    # @return [ProformaInvoice] response from the API call
+    # @return [ProformaInvoice] response from the API call.
     def create_signup_proforma_invoice(body: nil)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -363,18 +363,18 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProformaInvoice.method(:from_hash))
-                   .local_error('400',
-                                'Bad Request',
-                                ProformaBadRequestErrorResponseException)
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorMapResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProformaInvoice.method(:from_hash))
+                    .local_error('400',
+                                 'Bad Request',
+                                 ProformaBadRequestErrorResponseException)
+                    .local_error('403',
+                                 'Forbidden',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorMapResponseException))
         .execute
     end
   end

@@ -44,8 +44,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(created_codes = SKIP,
-                   duplicate_codes = SKIP,
+    def initialize(created_codes = SKIP, duplicate_codes = SKIP,
                    invalid_codes = SKIP)
       @created_codes = created_codes unless created_codes == SKIP
       @duplicate_codes = duplicate_codes unless duplicate_codes == SKIP

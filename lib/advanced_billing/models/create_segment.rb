@@ -75,12 +75,10 @@ module AdvancedBilling
       []
     end
 
-    def initialize(pricing_scheme = nil,
-                   segment_property_1_value = SKIP,
+    def initialize(pricing_scheme = nil, segment_property_1_value = SKIP,
                    segment_property_2_value = SKIP,
                    segment_property_3_value = SKIP,
-                   segment_property_4_value = SKIP,
-                   prices = SKIP)
+                   segment_property_4_value = SKIP, prices = SKIP)
       @segment_property_1_value = segment_property_1_value unless segment_property_1_value == SKIP
       @segment_property_2_value = segment_property_2_value unless segment_property_2_value == SKIP
       @segment_property_3_value = segment_property_3_value unless segment_property_3_value == SKIP

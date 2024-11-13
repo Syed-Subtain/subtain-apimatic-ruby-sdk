@@ -93,15 +93,10 @@ module AdvancedBilling
       []
     end
 
-    def initialize(uid = SKIP,
-                   credit_note_number = SKIP,
-                   credit_note_uid = SKIP,
-                   original_amount = SKIP,
-                   applied_amount = SKIP,
-                   transaction_time = SKIP,
-                   memo = SKIP,
-                   role = SKIP,
-                   consolidated_invoice = SKIP,
+    def initialize(uid = SKIP, credit_note_number = SKIP,
+                   credit_note_uid = SKIP, original_amount = SKIP,
+                   applied_amount = SKIP, transaction_time = SKIP, memo = SKIP,
+                   role = SKIP, consolidated_invoice = SKIP,
                    applied_credit_notes = SKIP)
       @uid = uid unless uid == SKIP
       @credit_note_number = credit_note_number unless credit_note_number == SKIP

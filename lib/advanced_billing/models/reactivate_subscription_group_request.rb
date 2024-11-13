@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(resume = SKIP,
-                   resume_members = SKIP)
+    def initialize(resume = SKIP, resume_members = SKIP)
       @resume = resume unless resume == SKIP
       @resume_members = resume_members unless resume_members == SKIP
     end

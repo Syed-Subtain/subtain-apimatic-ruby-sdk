@@ -166,26 +166,16 @@ module AdvancedBilling
       []
     end
 
-    def initialize(bank_account_holder_type = SKIP,
-                   bank_account_type = SKIP,
-                   bank_name = SKIP,
-                   billing_address = SKIP,
-                   billing_address_2 = SKIP,
-                   billing_city = SKIP,
-                   billing_state = SKIP,
-                   billing_zip = SKIP,
-                   billing_country = SKIP,
-                   current_vault = SKIP,
-                   customer_id = SKIP,
-                   customer_vault_token = SKIP,
-                   first_name = SKIP,
-                   last_name = SKIP,
-                   id = SKIP,
+    def initialize(bank_account_holder_type = SKIP, bank_account_type = SKIP,
+                   bank_name = SKIP, billing_address = SKIP,
+                   billing_address_2 = SKIP, billing_city = SKIP,
+                   billing_state = SKIP, billing_zip = SKIP,
+                   billing_country = SKIP, current_vault = SKIP,
+                   customer_id = SKIP, customer_vault_token = SKIP,
+                   first_name = SKIP, last_name = SKIP, id = SKIP,
                    masked_bank_account_number = SKIP,
-                   masked_bank_routing_number = SKIP,
-                   vault_token = SKIP,
-                   chargify_token = SKIP,
-                   site_gateway_setting_id = SKIP,
+                   masked_bank_routing_number = SKIP, vault_token = SKIP,
+                   chargify_token = SKIP, site_gateway_setting_id = SKIP,
                    gateway_handle = SKIP)
       @bank_account_holder_type = bank_account_holder_type unless bank_account_holder_type == SKIP
       @bank_account_type = bank_account_type unless bank_account_type == SKIP
@@ -276,6 +266,16 @@ module AdvancedBilling
                                   chargify_token,
                                   site_gateway_setting_id,
                                   gateway_handle)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [SubscriptionBankAccount | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

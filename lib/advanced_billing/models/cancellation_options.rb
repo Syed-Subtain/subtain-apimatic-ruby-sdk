@@ -40,8 +40,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(cancellation_message = SKIP,
-                   reason_code = SKIP)
+    def initialize(cancellation_message = SKIP, reason_code = SKIP)
       @cancellation_message = cancellation_message unless cancellation_message == SKIP
       @reason_code = reason_code unless reason_code == SKIP
     end

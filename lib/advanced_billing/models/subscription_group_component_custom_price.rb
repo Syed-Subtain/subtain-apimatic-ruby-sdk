@@ -51,9 +51,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(pricing_scheme = SKIP,
-                   prices = SKIP,
-                   overage_pricing = SKIP)
+    def initialize(pricing_scheme = SKIP, prices = SKIP, overage_pricing = SKIP)
       @pricing_scheme = pricing_scheme unless pricing_scheme == SKIP
       @prices = prices unless prices == SKIP
       @overage_pricing = overage_pricing unless overage_pricing == SKIP

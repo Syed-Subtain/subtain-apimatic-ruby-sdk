@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(taxable_amount = SKIP,
-                   tax_amount = SKIP)
+    def initialize(taxable_amount = SKIP, tax_amount = SKIP)
       @taxable_amount = taxable_amount unless taxable_amount == SKIP
       @tax_amount = tax_amount unless tax_amount == SKIP
     end

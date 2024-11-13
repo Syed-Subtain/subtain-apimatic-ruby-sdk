@@ -54,9 +54,7 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = SKIP,
-                   return_url = SKIP,
-                   return_params = SKIP,
+    def initialize(id = SKIP, return_url = SKIP, return_params = SKIP,
                    url = SKIP)
       @id = id unless id == SKIP
       @return_url = return_url unless return_url == SKIP
@@ -79,6 +77,16 @@ module AdvancedBilling
                            return_url,
                            return_params,
                            url)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [PublicSignupPage | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

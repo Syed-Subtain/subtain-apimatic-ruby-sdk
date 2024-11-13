@@ -12,7 +12,7 @@ module AdvancedBilling
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
     # @param [IssueServiceCreditRequest] body Optional parameter: Example:
-    # @return [ServiceCredit] response from the API call
+    # @return [ServiceCredit] response from the API call.
     def issue_service_credit(subscription_id,
                              body: nil)
       new_api_call_builder
@@ -28,9 +28,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ServiceCredit.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ServiceCredit.method(:from_hash)))
         .execute
     end
 
@@ -39,7 +39,7 @@ module AdvancedBilling
     # Subscription's open, payable invoices.
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
-    # @return [AccountBalances] response from the API call
+    # @return [AccountBalances] response from the API call.
     def read_account_balances(subscription_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -51,9 +51,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(AccountBalances.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(AccountBalances.method(:from_hash)))
         .execute
     end
 
@@ -84,7 +84,7 @@ module AdvancedBilling
     # YYYY-MM-DD) with which to filter the date_field. Returns prepayments with
     # a timestamp up to and including 11:59:59PM in your site’s time zone on the
     # date specified. Use in query `filter[end_date]=2011-12-15`.
-    # @return [PrepaymentsResponse] response from the API call
+    # @return [PrepaymentsResponse] response from the API call.
     def list_prepayments(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -101,18 +101,18 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(PrepaymentsResponse.method(:from_hash))
-                   .local_error('401',
-                                'Unauthorized',
-                                APIException)
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(PrepaymentsResponse.method(:from_hash))
+                    .local_error('401',
+                                 'Unauthorized',
+                                 APIException)
+                    .local_error('403',
+                                 'Forbidden',
+                                 APIException)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
@@ -122,7 +122,7 @@ module AdvancedBilling
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
     # @param [DeductServiceCreditRequest] body Optional parameter: Example:
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def deduct_service_credit(subscription_id,
                               body: nil)
       new_api_call_builder
@@ -137,11 +137,11 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -156,7 +156,7 @@ module AdvancedBilling
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
     # @param [CreatePrepaymentRequest] body Optional parameter: Example:
-    # @return [CreatePrepaymentResponse] response from the API call
+    # @return [CreatePrepaymentResponse] response from the API call.
     def create_prepayment(subscription_id,
                           body: nil)
       new_api_call_builder
@@ -172,9 +172,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CreatePrepaymentResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CreatePrepaymentResponse.method(:from_hash)))
         .execute
     end
 
@@ -188,7 +188,7 @@ module AdvancedBilling
     # subscription
     # @param [String] prepayment_id Required parameter: id of prepayment
     # @param [RefundPrepaymentRequest] body Optional parameter: Example:
-    # @return [PrepaymentResponse] response from the API call
+    # @return [PrepaymentResponse] response from the API call.
     def refund_prepayment(subscription_id,
                           prepayment_id,
                           body: nil)
@@ -208,18 +208,18 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(PrepaymentResponse.method(:from_hash))
-                   .local_error('400',
-                                'Bad Request',
-                                RefundPrepaymentBaseErrorsResponseException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity',
-                                RefundPrepaymentAggregatedErrorsResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(PrepaymentResponse.method(:from_hash))
+                    .local_error('400',
+                                 'Bad Request',
+                                 RefundPrepaymentBaseErrorsResponseException)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity',
+                                 RefundPrepaymentAggregatedErrorsResponseException))
         .execute
     end
   end

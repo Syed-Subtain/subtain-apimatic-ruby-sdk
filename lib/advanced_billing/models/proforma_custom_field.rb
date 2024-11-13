@@ -56,11 +56,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(owner_id = SKIP,
-                   owner_type = SKIP,
-                   name = SKIP,
-                   value = SKIP,
-                   metadatum_id = SKIP)
+    def initialize(owner_id = SKIP, owner_type = SKIP, name = SKIP,
+                   value = SKIP, metadatum_id = SKIP)
       @owner_id = owner_id unless owner_id == SKIP
       @owner_type = owner_type unless owner_type == SKIP
       @name = name unless name == SKIP

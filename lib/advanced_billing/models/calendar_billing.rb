@@ -41,8 +41,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(snap_day = SKIP,
-                   calendar_billing_first_charge = SKIP)
+    def initialize(snap_day = SKIP, calendar_billing_first_charge = SKIP)
       @snap_day = snap_day unless snap_day == SKIP
       unless calendar_billing_first_charge == SKIP
         @calendar_billing_first_charge =

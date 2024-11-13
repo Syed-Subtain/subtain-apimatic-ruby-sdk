@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(paid_invoices = SKIP,
-                   prepayment = SKIP)
+    def initialize(paid_invoices = SKIP, prepayment = SKIP)
       @paid_invoices = paid_invoices unless paid_invoices == SKIP
       @prepayment = prepayment unless prepayment == SKIP
     end

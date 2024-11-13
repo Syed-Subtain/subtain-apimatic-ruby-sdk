@@ -154,26 +154,14 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(first_name = nil,
-                   last_name = nil,
-                   masked_card_number = nil,
-                   card_type = nil,
-                   expiration_month = nil,
-                   expiration_year = nil,
-                   current_vault = nil,
-                   vault_token = nil,
-                   billing_address = nil,
-                   billing_city = nil,
-                   billing_country = nil,
-                   billing_state = nil,
-                   billing_zip = nil,
-                   payment_type = nil,
-                   disabled = nil,
-                   site_gateway_setting_id = nil,
-                   id = SKIP,
-                   customer_id = SKIP,
-                   billing_address_2 = SKIP,
-                   customer_vault_token = SKIP,
+    def initialize(first_name = nil, last_name = nil, masked_card_number = nil,
+                   card_type = nil, expiration_month = nil,
+                   expiration_year = nil, current_vault = nil,
+                   vault_token = nil, billing_address = nil, billing_city = nil,
+                   billing_country = nil, billing_state = nil,
+                   billing_zip = nil, payment_type = nil, disabled = nil,
+                   site_gateway_setting_id = nil, id = SKIP, customer_id = SKIP,
+                   billing_address_2 = SKIP, customer_vault_token = SKIP,
                    gateway_handle = SKIP)
       @id = id unless id == SKIP
       @first_name = first_name

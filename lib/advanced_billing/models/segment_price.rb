@@ -76,13 +76,9 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = SKIP,
-                   component_id = SKIP,
-                   starting_quantity = SKIP,
-                   ending_quantity = SKIP,
-                   unit_price = SKIP,
-                   price_point_id = SKIP,
-                   formatted_unit_price = SKIP,
+    def initialize(id = SKIP, component_id = SKIP, starting_quantity = SKIP,
+                   ending_quantity = SKIP, unit_price = SKIP,
+                   price_point_id = SKIP, formatted_unit_price = SKIP,
                    segment_id = SKIP)
       @id = id unless id == SKIP
       @component_id = component_id unless component_id == SKIP
@@ -121,6 +117,16 @@ module AdvancedBilling
                        price_point_id,
                        formatted_unit_price,
                        segment_id)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [SegmentPrice | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

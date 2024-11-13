@@ -99,18 +99,13 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   component_id = SKIP,
-                   price_point_id = SKIP,
-                   event_based_billing_metric_id = SKIP,
-                   pricing_scheme = SKIP,
+    def initialize(id = SKIP, component_id = SKIP, price_point_id = SKIP,
+                   event_based_billing_metric_id = SKIP, pricing_scheme = SKIP,
                    segment_property_1_value = SKIP,
                    segment_property_2_value = SKIP,
                    segment_property_3_value = SKIP,
-                   segment_property_4_value = SKIP,
-                   created_at = SKIP,
-                   updated_at = SKIP,
-                   prices = SKIP)
+                   segment_property_4_value = SKIP, created_at = SKIP,
+                   updated_at = SKIP, prices = SKIP)
       @id = id unless id == SKIP
       @component_id = component_id unless component_id == SKIP
       @price_point_id = price_point_id unless price_point_id == SKIP

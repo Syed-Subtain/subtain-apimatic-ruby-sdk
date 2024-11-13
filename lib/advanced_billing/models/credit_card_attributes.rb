@@ -44,8 +44,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(full_number = SKIP,
-                   expiration_month = SKIP,
+    def initialize(full_number = SKIP, expiration_month = SKIP,
                    expiration_year = SKIP)
       @full_number = full_number unless full_number == SKIP
       @expiration_month = expiration_month unless expiration_month == SKIP
@@ -67,6 +66,16 @@ module AdvancedBilling
       CreditCardAttributes.new(full_number,
                                expiration_month,
                                expiration_year)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [CreditCardAttributes | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

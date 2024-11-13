@@ -106,18 +106,11 @@ module AdvancedBilling
       []
     end
 
-    def initialize(title = SKIP,
-                   quantity = SKIP,
-                   unit_price = SKIP,
-                   taxable = SKIP,
-                   tax_code = SKIP,
-                   period_range_start = SKIP,
-                   period_range_end = SKIP,
-                   product_id = SKIP,
-                   component_id = SKIP,
-                   price_point_id = SKIP,
-                   product_price_point_id = SKIP,
-                   description = SKIP)
+    def initialize(title = SKIP, quantity = SKIP, unit_price = SKIP,
+                   taxable = SKIP, tax_code = SKIP, period_range_start = SKIP,
+                   period_range_end = SKIP, product_id = SKIP,
+                   component_id = SKIP, price_point_id = SKIP,
+                   product_price_point_id = SKIP, description = SKIP)
       @title = title unless title == SKIP
       @quantity = quantity unless quantity == SKIP
       @unit_price = unit_price unless unit_price == SKIP

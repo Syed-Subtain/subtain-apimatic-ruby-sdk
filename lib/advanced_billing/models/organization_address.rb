@@ -83,14 +83,8 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(street = SKIP,
-                   line2 = SKIP,
-                   city = SKIP,
-                   state = SKIP,
-                   zip = SKIP,
-                   country = SKIP,
-                   name = SKIP,
-                   phone = SKIP)
+    def initialize(street = SKIP, line2 = SKIP, city = SKIP, state = SKIP,
+                   zip = SKIP, country = SKIP, name = SKIP, phone = SKIP)
       @street = street unless street == SKIP
       @line2 = line2 unless line2 == SKIP
       @city = city unless city == SKIP

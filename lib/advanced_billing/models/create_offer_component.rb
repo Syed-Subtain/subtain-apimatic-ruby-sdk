@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(component_id = SKIP,
-                   starting_quantity = SKIP)
+    def initialize(component_id = SKIP, starting_quantity = SKIP)
       @component_id = component_id unless component_id == SKIP
       @starting_quantity = starting_quantity unless starting_quantity == SKIP
     end

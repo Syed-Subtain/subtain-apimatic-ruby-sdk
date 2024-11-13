@@ -77,15 +77,10 @@ module AdvancedBilling
     end
 
     def initialize(previous_unit_balance = nil,
-                   previous_overage_unit_balance = nil,
-                   new_unit_balance = nil,
-                   new_overage_unit_balance = nil,
-                   usage_quantity = nil,
-                   overage_usage_quantity = nil,
-                   component_id = nil,
-                   component_handle = nil,
-                   memo = nil,
-                   allocation_details = nil)
+                   previous_overage_unit_balance = nil, new_unit_balance = nil,
+                   new_overage_unit_balance = nil, usage_quantity = nil,
+                   overage_usage_quantity = nil, component_id = nil,
+                   component_handle = nil, memo = nil, allocation_details = nil)
       @previous_unit_balance = previous_unit_balance
       @previous_overage_unit_balance = previous_overage_unit_balance
       @new_unit_balance = new_unit_balance
@@ -167,7 +162,9 @@ module AdvancedBilling
             APIHelper.valid_type?(value.memo,
                                   ->(val) { val.instance_of? String }) and
             APIHelper.valid_type?(value.allocation_details,
-                                  ->(val) { PrepaidUsageAllocationDetail.validate(val) })
+                                  ->(val) { PrepaidUsageAllocationDetail.validate(val) },
+                                  is_model_hash: true,
+                                  is_inner_model_hash: true)
         )
       end
 
@@ -193,7 +190,9 @@ module AdvancedBilling
           APIHelper.valid_type?(value['memo'],
                                 ->(val) { val.instance_of? String }) and
           APIHelper.valid_type?(value['allocation_details'],
-                                ->(val) { PrepaidUsageAllocationDetail.validate(val) })
+                                ->(val) { PrepaidUsageAllocationDetail.validate(val) },
+                                is_model_hash: true,
+                                is_inner_model_hash: true)
       )
     end
   end

@@ -18,7 +18,7 @@ module AdvancedBilling
     # many records to fetch in each request. Default value is 20. The maximum
     # allowed values is 200; any per_page value over 200 will be changed to 200.
     # Use in query `per_page=200`.
-    # @return [ListPublicKeysResponse] response from the API call
+    # @return [ListPublicKeysResponse] response from the API call.
     def list_chargify_js_public_keys(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -29,9 +29,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListPublicKeysResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ListPublicKeysResponse.method(:from_hash)))
         .execute
     end
 
@@ -47,7 +47,7 @@ module AdvancedBilling
     # `customers`: Will clear only customers and related subscriptions (leaving
     # the products untouched) for the site.  Revenue will also be reset to 0.
     # Use in query `cleanup_scope=all`.
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def clear_site(cleanup_scope: CleanupScope::ALL)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -56,11 +56,11 @@ module AdvancedBilling
                    .query_param(new_parameter(cleanup_scope, key: 'cleanup_scope'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('403',
-                                'Forbidden',
-                                APIException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('403',
+                                 'Forbidden',
+                                 APIException))
         .execute
     end
 
@@ -78,7 +78,7 @@ module AdvancedBilling
     # You can read more about these settings here:
     #  [Who Pays & Customer
     # Hierarchy](https://chargify.zendesk.com/hc/en-us/articles/4407746683291)
-    # @return [SiteResponse] response from the API call
+    # @return [SiteResponse] response from the API call.
     def read_site
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -87,9 +87,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SiteResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SiteResponse.method(:from_hash)))
         .execute
     end
   end

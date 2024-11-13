@@ -66,12 +66,8 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = SKIP,
-                   name = SKIP,
-                   scope = SKIP,
-                   data_count = SKIP,
-                   input_type = SKIP,
-                   enum = SKIP)
+    def initialize(id = SKIP, name = SKIP, scope = SKIP, data_count = SKIP,
+                   input_type = SKIP, enum = SKIP)
       @id = id unless id == SKIP
       @name = name unless name == SKIP
       @scope = scope unless scope == SKIP

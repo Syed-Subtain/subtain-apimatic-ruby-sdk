@@ -80,15 +80,10 @@ module AdvancedBilling
       []
     end
 
-    def initialize(line_items = SKIP,
-                   total_in_cents = SKIP,
-                   total_discount_in_cents = SKIP,
-                   total_tax_in_cents = SKIP,
-                   subtotal_in_cents = SKIP,
-                   start_date = SKIP,
-                   end_date = SKIP,
-                   period_type = SKIP,
-                   existing_balance_in_cents = SKIP)
+    def initialize(line_items = SKIP, total_in_cents = SKIP,
+                   total_discount_in_cents = SKIP, total_tax_in_cents = SKIP,
+                   subtotal_in_cents = SKIP, start_date = SKIP, end_date = SKIP,
+                   period_type = SKIP, existing_balance_in_cents = SKIP)
       @line_items = line_items unless line_items == SKIP
       @total_in_cents = total_in_cents unless total_in_cents == SKIP
       @total_discount_in_cents = total_discount_in_cents unless total_discount_in_cents == SKIP

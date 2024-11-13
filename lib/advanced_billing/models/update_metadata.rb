@@ -44,9 +44,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(current_name = SKIP,
-                   name = SKIP,
-                   value = SKIP)
+    def initialize(current_name = SKIP, name = SKIP, value = SKIP)
       @current_name = current_name unless current_name == SKIP
       @name = name unless name == SKIP
       @value = value unless value == SKIP

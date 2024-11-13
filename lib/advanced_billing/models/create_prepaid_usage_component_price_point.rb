@@ -89,15 +89,11 @@ module AdvancedBilling
       []
     end
 
-    def initialize(name = nil,
-                   pricing_scheme = nil,
-                   prices = nil,
-                   overage_pricing = nil,
-                   handle = SKIP,
+    def initialize(name = nil, pricing_scheme = nil, prices = nil,
+                   overage_pricing = nil, handle = SKIP,
                    use_site_exchange_rate = true,
                    rollover_prepaid_remainder = SKIP,
-                   renew_prepaid_allocation = SKIP,
-                   expiration_interval = SKIP,
+                   renew_prepaid_allocation = SKIP, expiration_interval = SKIP,
                    expiration_interval_unit = SKIP)
       @name = name
       @handle = handle unless handle == SKIP
@@ -169,9 +165,12 @@ module AdvancedBilling
             APIHelper.valid_type?(value.pricing_scheme,
                                   ->(val) { val.instance_of? String }) and
             APIHelper.valid_type?(value.prices,
-                                  ->(val) { Price.validate(val) }) and
+                                  ->(val) { Price.validate(val) },
+                                  is_model_hash: true,
+                                  is_inner_model_hash: true) and
             APIHelper.valid_type?(value.overage_pricing,
-                                  ->(val) { OveragePricing.validate(val) })
+                                  ->(val) { OveragePricing.validate(val) },
+                                  is_model_hash: true)
         )
       end
 
@@ -183,9 +182,12 @@ module AdvancedBilling
           APIHelper.valid_type?(value['pricing_scheme'],
                                 ->(val) { val.instance_of? String }) and
           APIHelper.valid_type?(value['prices'],
-                                ->(val) { Price.validate(val) }) and
+                                ->(val) { Price.validate(val) },
+                                is_model_hash: true,
+                                is_inner_model_hash: true) and
           APIHelper.valid_type?(value['overage_pricing'],
-                                ->(val) { OveragePricing.validate(val) })
+                                ->(val) { OveragePricing.validate(val) },
+                                is_model_hash: true)
       )
     end
   end

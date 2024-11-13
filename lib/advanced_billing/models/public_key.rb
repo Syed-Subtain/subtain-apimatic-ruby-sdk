@@ -44,8 +44,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(public_key = SKIP,
-                   requires_security_token = SKIP,
+    def initialize(public_key = SKIP, requires_security_token = SKIP,
                    created_at = SKIP)
       @public_key = public_key unless public_key == SKIP
       @requires_security_token = requires_security_token unless requires_security_token == SKIP

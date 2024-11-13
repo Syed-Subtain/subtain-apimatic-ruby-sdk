@@ -36,8 +36,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(invoice_uid = nil,
-                   amount = nil)
+    def initialize(invoice_uid = nil, amount = nil)
       @invoice_uid = invoice_uid
       @amount = amount
     end
@@ -53,6 +52,28 @@ module AdvancedBilling
       # Create object from extracted values.
       CreateInvoicePaymentApplication.new(invoice_uid,
                                           amount)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [CreateInvoicePaymentApplication | Hash] The value against the validation is performed.
+    def self.validate(value)
+      if value.instance_of? self
+        return (
+          APIHelper.valid_type?(value.invoice_uid,
+                                ->(val) { val.instance_of? String }) and
+            APIHelper.valid_type?(value.amount,
+                                  ->(val) { val.instance_of? String })
+        )
+      end
+
+      return false unless value.instance_of? Hash
+
+      (
+        APIHelper.valid_type?(value['invoice_uid'],
+                              ->(val) { val.instance_of? String }) and
+          APIHelper.valid_type?(value['amount'],
+                                ->(val) { val.instance_of? String })
+      )
     end
   end
 end

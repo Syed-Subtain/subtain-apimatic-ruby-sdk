@@ -36,8 +36,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(error = nil,
-                   new_link_available_at = nil)
+    def initialize(error = nil, new_link_available_at = nil)
       @error = error
       @new_link_available_at = new_link_available_at
     end

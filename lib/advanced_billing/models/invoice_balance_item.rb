@@ -44,9 +44,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(uid = SKIP,
-                   number = SKIP,
-                   outstanding_amount = SKIP)
+    def initialize(uid = SKIP, number = SKIP, outstanding_amount = SKIP)
       @uid = uid unless uid == SKIP
       @number = number unless number == SKIP
       @outstanding_amount = outstanding_amount unless outstanding_amount == SKIP
@@ -66,6 +64,16 @@ module AdvancedBilling
       InvoiceBalanceItem.new(uid,
                              number,
                              outstanding_amount)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [InvoiceBalanceItem | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

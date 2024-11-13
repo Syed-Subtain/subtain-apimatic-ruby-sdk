@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(label = SKIP,
-                   amount = SKIP)
+    def initialize(label = SKIP, amount = SKIP)
       @label = label unless label == SKIP
       @amount = amount unless amount == SKIP
     end
@@ -55,6 +54,16 @@ module AdvancedBilling
       # Create object from extracted values.
       InvoiceLineItemPricingDetail.new(label,
                                        amount)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [InvoiceLineItemPricingDetail | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

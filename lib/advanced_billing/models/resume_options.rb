@@ -42,8 +42,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(require_resume = SKIP,
-                   forgive_balance = SKIP)
+    def initialize(require_resume = SKIP, forgive_balance = SKIP)
       @require_resume = require_resume unless require_resume == SKIP
       @forgive_balance = forgive_balance unless forgive_balance == SKIP
     end

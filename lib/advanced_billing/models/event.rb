@@ -62,12 +62,8 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = nil,
-                   key = nil,
-                   message = nil,
-                   subscription_id = nil,
-                   customer_id = nil,
-                   created_at = nil,
+    def initialize(id = nil, key = nil, message = nil, subscription_id = nil,
+                   customer_id = nil, created_at = nil,
                    event_specific_data = nil)
       @id = id
       @key = key

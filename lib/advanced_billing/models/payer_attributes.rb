@@ -136,24 +136,12 @@ module AdvancedBilling
       []
     end
 
-    def initialize(first_name = SKIP,
-                   last_name = SKIP,
-                   email = SKIP,
-                   cc_emails = SKIP,
-                   organization = SKIP,
-                   reference = SKIP,
-                   address = SKIP,
-                   address_2 = SKIP,
-                   city = SKIP,
-                   state = SKIP,
-                   zip = SKIP,
-                   country = SKIP,
-                   phone = SKIP,
-                   locale = SKIP,
-                   vat_number = SKIP,
-                   tax_exempt = SKIP,
-                   tax_exempt_reason = SKIP,
-                   metafields = SKIP)
+    def initialize(first_name = SKIP, last_name = SKIP, email = SKIP,
+                   cc_emails = SKIP, organization = SKIP, reference = SKIP,
+                   address = SKIP, address_2 = SKIP, city = SKIP, state = SKIP,
+                   zip = SKIP, country = SKIP, phone = SKIP, locale = SKIP,
+                   vat_number = SKIP, tax_exempt = SKIP,
+                   tax_exempt_reason = SKIP, metafields = SKIP)
       @first_name = first_name unless first_name == SKIP
       @last_name = last_name unless last_name == SKIP
       @email = email unless email == SKIP
@@ -218,6 +206,16 @@ module AdvancedBilling
                           tax_exempt,
                           tax_exempt_reason,
                           metafields)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [PayerAttributes | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

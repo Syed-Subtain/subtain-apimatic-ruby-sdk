@@ -68,12 +68,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(uid = SKIP,
-                   title = SKIP,
-                   source_type = SKIP,
-                   percentage = SKIP,
-                   taxable_amount = SKIP,
-                   tax_amount = SKIP,
+    def initialize(uid = SKIP, title = SKIP, source_type = SKIP,
+                   percentage = SKIP, taxable_amount = SKIP, tax_amount = SKIP,
                    line_item_breakouts = SKIP)
       @uid = uid unless uid == SKIP
       @title = title unless title == SKIP

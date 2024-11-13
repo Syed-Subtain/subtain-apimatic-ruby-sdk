@@ -76,13 +76,8 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(details = SKIP,
-                   kind = SKIP,
-                   memo = SKIP,
-                   type = SKIP,
-                   card_brand = SKIP,
-                   card_expiration = SKIP,
-                   last_four = SKIP,
+    def initialize(details = SKIP, kind = SKIP, memo = SKIP, type = SKIP,
+                   card_brand = SKIP, card_expiration = SKIP, last_four = SKIP,
                    masked_card_number = SKIP)
       @details = details unless details == SKIP
       @kind = kind unless kind == SKIP
@@ -119,6 +114,16 @@ module AdvancedBilling
                                card_expiration,
                                last_four,
                                masked_card_number)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [InvoicePaymentMethod | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

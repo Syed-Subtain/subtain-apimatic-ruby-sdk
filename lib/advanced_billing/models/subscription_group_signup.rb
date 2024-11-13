@@ -88,14 +88,13 @@ module AdvancedBilling
       []
     end
 
-    def initialize(subscriptions = nil,
-                   payment_profile_id = SKIP,
-                   payer_id = SKIP,
-                   payer_reference = SKIP,
-                   payment_collection_method = PaymentCollectionMethod::AUTOMATIC,
-                   payer_attributes = SKIP,
-                   credit_card_attributes = SKIP,
-                   bank_account_attributes = SKIP)
+    def initialize(
+      subscriptions = nil, payment_profile_id = SKIP, payer_id = SKIP,
+      payer_reference = SKIP,
+      payment_collection_method = PaymentCollectionMethod::AUTOMATIC,
+      payer_attributes = SKIP, credit_card_attributes = SKIP,
+      bank_account_attributes = SKIP
+    )
       @payment_profile_id = payment_profile_id unless payment_profile_id == SKIP
       @payer_id = payer_id unless payer_id == SKIP
       @payer_reference = payer_reference unless payer_reference == SKIP

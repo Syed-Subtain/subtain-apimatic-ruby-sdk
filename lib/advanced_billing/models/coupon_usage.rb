@@ -74,12 +74,8 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(id = SKIP,
-                   name = SKIP,
-                   signups = SKIP,
-                   savings = SKIP,
-                   savings_in_cents = SKIP,
-                   revenue = SKIP,
+    def initialize(id = SKIP, name = SKIP, signups = SKIP, savings = SKIP,
+                   savings_in_cents = SKIP, revenue = SKIP,
                    revenue_in_cents = SKIP)
       @id = id unless id == SKIP
       @name = name unless name == SKIP

@@ -35,8 +35,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(cancellation_state = nil,
-                   cancels_at = nil)
+    def initialize(cancellation_state = nil, cancels_at = nil)
       @cancellation_state = cancellation_state
       @cancels_at = cancels_at
     end

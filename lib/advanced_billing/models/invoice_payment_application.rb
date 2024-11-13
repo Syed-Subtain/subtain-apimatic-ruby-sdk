@@ -46,8 +46,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(invoice_uid = SKIP,
-                   application_uid = SKIP,
+    def initialize(invoice_uid = SKIP, application_uid = SKIP,
                    applied_amount = SKIP)
       @invoice_uid = invoice_uid unless invoice_uid == SKIP
       @application_uid = application_uid unless application_uid == SKIP

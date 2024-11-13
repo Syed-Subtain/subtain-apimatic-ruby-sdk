@@ -68,13 +68,9 @@ module AdvancedBilling
       []
     end
 
-    def initialize(uid = SKIP,
-                   credit_note_number = SKIP,
-                   credit_note_uid = SKIP,
-                   transaction_time = SKIP,
-                   memo = SKIP,
-                   original_amount = SKIP,
-                   applied_amount = SKIP)
+    def initialize(uid = SKIP, credit_note_number = SKIP,
+                   credit_note_uid = SKIP, transaction_time = SKIP, memo = SKIP,
+                   original_amount = SKIP, applied_amount = SKIP)
       @uid = uid unless uid == SKIP
       @credit_note_number = credit_note_number unless credit_note_number == SKIP
       @credit_note_uid = credit_note_uid unless credit_note_uid == SKIP
@@ -110,6 +106,16 @@ module AdvancedBilling
                         memo,
                         original_amount,
                         applied_amount)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [InvoiceCredit | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

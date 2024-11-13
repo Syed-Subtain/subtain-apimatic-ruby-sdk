@@ -44,8 +44,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(unit_price = nil,
-                   starting_quantity = SKIP,
+    def initialize(unit_price = nil, starting_quantity = SKIP,
                    ending_quantity = SKIP)
       @starting_quantity = starting_quantity unless starting_quantity == SKIP
       @ending_quantity = ending_quantity unless ending_quantity == SKIP

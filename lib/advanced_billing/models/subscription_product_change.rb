@@ -35,8 +35,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(previous_product_id = nil,
-                   new_product_id = nil)
+    def initialize(previous_product_id = nil, new_product_id = nil)
       @previous_product_id = previous_product_id
       @new_product_id = new_product_id
     end

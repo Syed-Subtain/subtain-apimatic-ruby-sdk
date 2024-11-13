@@ -50,9 +50,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(tax_rule_id = SKIP,
-                   percentage = SKIP,
-                   country_code = SKIP,
+    def initialize(tax_rule_id = SKIP, percentage = SKIP, country_code = SKIP,
                    subdivision_code = SKIP)
       @tax_rule_id = tax_rule_id unless tax_rule_id == SKIP
       @percentage = percentage unless percentage == SKIP
@@ -76,6 +74,16 @@ module AdvancedBilling
                                       percentage,
                                       country_code,
                                       subdivision_code)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [InvoiceTaxComponentBreakout | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

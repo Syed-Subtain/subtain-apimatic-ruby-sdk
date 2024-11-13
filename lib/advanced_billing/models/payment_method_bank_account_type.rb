@@ -44,8 +44,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(masked_account_number = SKIP,
-                   masked_routing_number = SKIP,
+    def initialize(masked_account_number = SKIP, masked_routing_number = SKIP,
                    type = 'bank_account')
       @masked_account_number = masked_account_number unless masked_account_number == SKIP
       @masked_routing_number = masked_routing_number unless masked_routing_number == SKIP

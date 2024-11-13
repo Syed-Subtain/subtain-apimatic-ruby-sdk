@@ -11,7 +11,7 @@ module AdvancedBilling
     # subscription
     # @param [String] note_id Required parameter: The Chargify id of the note
     # @param [UpdateSubscriptionNoteRequest] body Optional parameter: Example:
-    # @return [SubscriptionNoteResponse] response from the API call
+    # @return [SubscriptionNoteResponse] response from the API call.
     def update_subscription_note(subscription_id,
                                  note_id,
                                  body: nil)
@@ -31,16 +31,16 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionNoteResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionNoteResponse.method(:from_hash)))
         .execute
     end
 
     # Use the following method to delete a note for a Subscription.
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def delete_subscription_note(subscription_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::DELETE,
@@ -51,11 +51,11 @@ module AdvancedBilling
                                     .should_encode(true))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                APIException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 APIException))
         .execute
     end
 
@@ -74,7 +74,7 @@ module AdvancedBilling
     # many records to fetch in each request. Default value is 20. The maximum
     # allowed values is 200; any per_page value over 200 will be changed to 200.
     # Use in query `per_page=200`.
-    # @return [Array[SubscriptionNoteResponse]] response from the API call
+    # @return [Array[SubscriptionNoteResponse]] response from the API call.
     def list_subscription_notes(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -88,10 +88,10 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionNoteResponse.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionNoteResponse.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -100,7 +100,7 @@ module AdvancedBilling
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
     # @param [String] note_id Required parameter: The Chargify id of the note
-    # @return [SubscriptionNoteResponse] response from the API call
+    # @return [SubscriptionNoteResponse] response from the API call.
     def read_subscription_note(subscription_id,
                                note_id)
       new_api_call_builder
@@ -116,9 +116,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionNoteResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionNoteResponse.method(:from_hash)))
         .execute
     end
 
@@ -134,7 +134,7 @@ module AdvancedBilling
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
     # @param [UpdateSubscriptionNoteRequest] body Optional parameter: Example:
-    # @return [SubscriptionNoteResponse] response from the API call
+    # @return [SubscriptionNoteResponse] response from the API call.
     def create_subscription_note(subscription_id,
                                  body: nil)
       new_api_call_builder
@@ -150,9 +150,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionNoteResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionNoteResponse.method(:from_hash)))
         .execute
     end
   end

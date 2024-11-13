@@ -44,9 +44,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(amount_in_cents = SKIP,
-                   base = SKIP,
-                   external = SKIP)
+    def initialize(amount_in_cents = SKIP, base = SKIP, external = SKIP)
       @amount_in_cents = amount_in_cents unless amount_in_cents == SKIP
       @base = base unless base == SKIP
       @external = external unless external == SKIP

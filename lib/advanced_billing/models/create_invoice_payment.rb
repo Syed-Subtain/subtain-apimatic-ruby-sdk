@@ -50,10 +50,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(amount = SKIP,
-                   memo = SKIP,
-                   method = InvoicePaymentMethodType::OTHER,
-                   details = SKIP)
+    def initialize(amount = SKIP, memo = SKIP,
+                   method = InvoicePaymentMethodType::OTHER, details = SKIP)
       @amount = amount unless amount == SKIP
       @memo = memo unless memo == SKIP
       @method = method unless method == SKIP

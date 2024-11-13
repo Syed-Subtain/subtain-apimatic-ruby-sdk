@@ -50,9 +50,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   amount_in_cents = SKIP,
-                   success = SKIP,
+    def initialize(id = SKIP, amount_in_cents = SKIP, success = SKIP,
                    memo = SKIP)
       @id = id unless id == SKIP
       @amount_in_cents = amount_in_cents unless amount_in_cents == SKIP

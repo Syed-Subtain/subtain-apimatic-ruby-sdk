@@ -110,18 +110,10 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(event = SKIP,
-                   id = SKIP,
-                   created_at = SKIP,
-                   last_error = SKIP,
-                   last_error_at = SKIP,
-                   accepted_at = SKIP,
-                   last_sent_at = SKIP,
-                   last_sent_url = SKIP,
-                   successful = SKIP,
-                   body = SKIP,
-                   signature = SKIP,
-                   signature_hmac_sha_256 = SKIP)
+    def initialize(event = SKIP, id = SKIP, created_at = SKIP,
+                   last_error = SKIP, last_error_at = SKIP, accepted_at = SKIP,
+                   last_sent_at = SKIP, last_sent_url = SKIP, successful = SKIP,
+                   body = SKIP, signature = SKIP, signature_hmac_sha_256 = SKIP)
       @event = event unless event == SKIP
       @id = id unless id == SKIP
       @created_at = created_at unless created_at == SKIP

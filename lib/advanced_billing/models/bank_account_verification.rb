@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(deposit_1_in_cents = SKIP,
-                   deposit_2_in_cents = SKIP)
+    def initialize(deposit_1_in_cents = SKIP, deposit_2_in_cents = SKIP)
       @deposit_1_in_cents = deposit_1_in_cents unless deposit_1_in_cents == SKIP
       @deposit_2_in_cents = deposit_2_in_cents unless deposit_2_in_cents == SKIP
     end

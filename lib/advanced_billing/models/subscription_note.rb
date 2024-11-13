@@ -62,12 +62,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   body = SKIP,
-                   subscription_id = SKIP,
-                   created_at = SKIP,
-                   updated_at = SKIP,
-                   sticky = SKIP)
+    def initialize(id = SKIP, body = SKIP, subscription_id = SKIP,
+                   created_at = SKIP, updated_at = SKIP, sticky = SKIP)
       @id = id unless id == SKIP
       @body = body unless body == SKIP
       @subscription_id = subscription_id unless subscription_id == SKIP

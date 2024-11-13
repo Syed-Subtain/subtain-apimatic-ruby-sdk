@@ -18,7 +18,7 @@ module AdvancedBilling
     # subscription
     # @param [SubscriptionMigrationPreviewRequest] body Optional parameter:
     # Example:
-    # @return [SubscriptionMigrationPreviewResponse] response from the API call
+    # @return [SubscriptionMigrationPreviewResponse] response from the API call.
     def preview_subscription_product_migration(subscription_id,
                                                body: nil)
       new_api_call_builder
@@ -34,12 +34,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionMigrationPreviewResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionMigrationPreviewResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -138,7 +138,7 @@ module AdvancedBilling
     # subscription
     # @param [SubscriptionProductMigrationRequest] body Optional parameter:
     # Example:
-    # @return [SubscriptionResponse] response from the API call
+    # @return [SubscriptionResponse] response from the API call.
     def migrate_subscription_product(subscription_id,
                                      body: nil)
       new_api_call_builder
@@ -154,12 +154,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
   end

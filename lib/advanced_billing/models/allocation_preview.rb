@@ -104,18 +104,11 @@ module AdvancedBilling
       []
     end
 
-    def initialize(start_date = SKIP,
-                   end_date = SKIP,
-                   subtotal_in_cents = SKIP,
-                   total_tax_in_cents = SKIP,
-                   total_discount_in_cents = SKIP,
-                   total_in_cents = SKIP,
-                   direction = SKIP,
-                   proration_scheme = SKIP,
-                   line_items = SKIP,
-                   accrue_charge = SKIP,
-                   allocations = SKIP,
-                   period_type = SKIP,
+    def initialize(start_date = SKIP, end_date = SKIP, subtotal_in_cents = SKIP,
+                   total_tax_in_cents = SKIP, total_discount_in_cents = SKIP,
+                   total_in_cents = SKIP, direction = SKIP,
+                   proration_scheme = SKIP, line_items = SKIP,
+                   accrue_charge = SKIP, allocations = SKIP, period_type = SKIP,
                    existing_balance_in_cents = SKIP)
       @start_date = start_date unless start_date == SKIP
       @end_date = end_date unless end_date == SKIP

@@ -234,31 +234,17 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(chargify_token = SKIP,
-                   id = SKIP,
-                   payment_type = SKIP,
-                   first_name = SKIP,
-                   last_name = SKIP,
-                   masked_card_number = SKIP,
-                   full_number = SKIP,
-                   card_type = SKIP,
-                   expiration_month = SKIP,
-                   expiration_year = SKIP,
-                   billing_address = SKIP,
-                   billing_address_2 = SKIP,
-                   billing_city = SKIP,
-                   billing_state = SKIP,
-                   billing_country = SKIP,
-                   billing_zip = SKIP,
-                   current_vault = SKIP,
-                   vault_token = SKIP,
-                   customer_vault_token = SKIP,
-                   customer_id = SKIP,
-                   paypal_email = SKIP,
-                   payment_method_nonce = SKIP,
-                   gateway_handle = SKIP,
-                   cvv = SKIP,
-                   last_four = SKIP)
+    def initialize(chargify_token = SKIP, id = SKIP, payment_type = SKIP,
+                   first_name = SKIP, last_name = SKIP,
+                   masked_card_number = SKIP, full_number = SKIP,
+                   card_type = SKIP, expiration_month = SKIP,
+                   expiration_year = SKIP, billing_address = SKIP,
+                   billing_address_2 = SKIP, billing_city = SKIP,
+                   billing_state = SKIP, billing_country = SKIP,
+                   billing_zip = SKIP, current_vault = SKIP, vault_token = SKIP,
+                   customer_vault_token = SKIP, customer_id = SKIP,
+                   paypal_email = SKIP, payment_method_nonce = SKIP,
+                   gateway_handle = SKIP, cvv = SKIP, last_four = SKIP)
       @chargify_token = chargify_token unless chargify_token == SKIP
       @id = id unless id == SKIP
       @payment_type = payment_type unless payment_type == SKIP

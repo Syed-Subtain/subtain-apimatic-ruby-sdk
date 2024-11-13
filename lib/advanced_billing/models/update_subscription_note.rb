@@ -35,8 +35,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(body = nil,
-                   sticky = nil)
+    def initialize(body = nil, sticky = nil)
       @body = body
       @sticky = sticky
     end

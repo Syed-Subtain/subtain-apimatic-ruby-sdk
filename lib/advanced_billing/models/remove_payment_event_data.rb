@@ -70,13 +70,9 @@ module AdvancedBilling
       []
     end
 
-    def initialize(transaction_id = SKIP,
-                   memo = SKIP,
-                   original_amount = SKIP,
-                   applied_amount = SKIP,
-                   transaction_time = SKIP,
-                   payment_method = SKIP,
-                   prepayment = SKIP)
+    def initialize(transaction_id = SKIP, memo = SKIP, original_amount = SKIP,
+                   applied_amount = SKIP, transaction_time = SKIP,
+                   payment_method = SKIP, prepayment = SKIP)
       @transaction_id = transaction_id unless transaction_id == SKIP
       @memo = memo unless memo == SKIP
       @original_amount = original_amount unless original_amount == SKIP

@@ -50,9 +50,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(uid = SKIP,
-                   memo = SKIP,
-                   original_amount = SKIP,
+    def initialize(uid = SKIP, memo = SKIP, original_amount = SKIP,
                    applied_amount = SKIP)
       @uid = uid unless uid == SKIP
       @memo = memo unless memo == SKIP

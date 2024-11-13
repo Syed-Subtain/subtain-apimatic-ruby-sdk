@@ -44,9 +44,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(currency = SKIP,
-                   price = SKIP,
-                   price_id = SKIP)
+    def initialize(currency = SKIP, price = SKIP, price_id = SKIP)
       @currency = currency unless currency == SKIP
       @price = price unless price == SKIP
       @price_id = price_id unless price_id == SKIP

@@ -35,8 +35,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(subscription_group = nil,
-                   customer = nil)
+    def initialize(subscription_group = nil, customer = nil)
       @subscription_group = subscription_group
       @customer = customer
     end
@@ -62,9 +61,11 @@ module AdvancedBilling
       if value.instance_of? self
         return (
           APIHelper.valid_type?(value.subscription_group,
-                                ->(val) { SubscriptionGroupSignupSuccessData.validate(val) }) and
+                                ->(val) { SubscriptionGroupSignupSuccessData.validate(val) },
+                                is_model_hash: true) and
             APIHelper.valid_type?(value.customer,
-                                  ->(val) { Customer.validate(val) })
+                                  ->(val) { Customer.validate(val) },
+                                  is_model_hash: true)
         )
       end
 
@@ -72,9 +73,11 @@ module AdvancedBilling
 
       (
         APIHelper.valid_type?(value['subscription_group'],
-                              ->(val) { SubscriptionGroupSignupSuccessData.validate(val) }) and
+                              ->(val) { SubscriptionGroupSignupSuccessData.validate(val) },
+                              is_model_hash: true) and
           APIHelper.valid_type?(value['customer'],
-                                ->(val) { Customer.validate(val) })
+                                ->(val) { Customer.validate(val) },
+                                is_model_hash: true)
       )
     end
   end

@@ -40,8 +40,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(refund_id = nil,
-                   gateway_transaction_id = nil,
+    def initialize(refund_id = nil, gateway_transaction_id = nil,
                    product_id = nil)
       @refund_id = refund_id
       @gateway_transaction_id = gateway_transaction_id

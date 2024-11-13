@@ -80,15 +80,10 @@ module AdvancedBilling
       []
     end
 
-    def initialize(transaction_type = SKIP,
-                   kind = SKIP,
-                   amount_in_cents = SKIP,
-                   memo = SKIP,
-                   discount_amount_in_cents = SKIP,
-                   taxable_amount_in_cents = SKIP,
-                   component_id = SKIP,
-                   component_handle = SKIP,
-                   direction = SKIP)
+    def initialize(transaction_type = SKIP, kind = SKIP, amount_in_cents = SKIP,
+                   memo = SKIP, discount_amount_in_cents = SKIP,
+                   taxable_amount_in_cents = SKIP, component_id = SKIP,
+                   component_handle = SKIP, direction = SKIP)
       @transaction_type = transaction_type unless transaction_type == SKIP
       @kind = kind unless kind == SKIP
       @amount_in_cents = amount_in_cents unless amount_in_cents == SKIP

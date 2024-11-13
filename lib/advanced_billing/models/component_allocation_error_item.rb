@@ -50,10 +50,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(component_id = SKIP,
-                   message = SKIP,
-                   kind = SKIP,
-                   on = SKIP)
+    def initialize(component_id = SKIP, message = SKIP, kind = SKIP, on = SKIP)
       @component_id = component_id unless component_id == SKIP
       @message = message unless message == SKIP
       @kind = kind unless kind == SKIP

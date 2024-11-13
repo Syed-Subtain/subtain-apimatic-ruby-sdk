@@ -56,10 +56,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   url = SKIP,
-                   site_id = SKIP,
-                   status = SKIP,
+    def initialize(id = SKIP, url = SKIP, site_id = SKIP, status = SKIP,
                    webhook_subscriptions = SKIP)
       @id = id unless id == SKIP
       @url = url unless url == SKIP

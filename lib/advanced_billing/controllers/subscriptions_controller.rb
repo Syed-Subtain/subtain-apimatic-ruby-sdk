@@ -757,7 +757,7 @@ module AdvancedBilling
     #   }
     # ```
     # @param [CreateSubscriptionRequest] body Optional parameter: Example:
-    # @return [SubscriptionResponse] response from the API call
+    # @return [SubscriptionResponse] response from the API call.
     def create_subscription(body: nil)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -769,12 +769,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -814,7 +814,7 @@ module AdvancedBilling
     # subscription
     # @param [OverrideSubscriptionRequest] body Optional parameter: Only these
     # fields are available to be set.
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def override_subscription(subscription_id,
                               body: nil)
       new_api_call_builder
@@ -829,14 +829,14 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('400',
-                                'Bad Request',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                APIException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('400',
+                                 'Bad Request',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 APIException))
         .execute
     end
 
@@ -894,7 +894,7 @@ module AdvancedBilling
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
     # @param [ActivateSubscriptionRequest] body Optional parameter: Example:
-    # @return [SubscriptionResponse] response from the API call
+    # @return [SubscriptionResponse] response from the API call.
     def activate_subscription(subscription_id,
                               body: nil)
       new_api_call_builder
@@ -910,12 +910,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionResponse.method(:from_hash))
-                   .local_error('400',
-                                'Bad Request',
-                                NestedErrorResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionResponse.method(:from_hash))
+                    .local_error('400',
+                                 'Bad Request',
+                                 NestedErrorResponseException))
         .execute
     end
 
@@ -936,7 +936,7 @@ module AdvancedBilling
     # @param [Array[SubscriptionPurgeType]] cascade Optional parameter: Options
     # are "customer" or "payment_profile". Use in query:
     # `cascade[]=customer&cascade[]=payment_profile`.
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def purge_subscription(subscription_id,
                            ack,
                            cascade: nil)
@@ -951,13 +951,13 @@ module AdvancedBilling
                                  .is_required(true))
                    .query_param(new_parameter(cascade, key: 'cascade[]'))
                    .auth(Single.new('BasicAuth'))
-                   .array_serialization_format(ArraySerializationFormat::PLAIN))
+                   .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('400',
-                                'Bad Request',
-                                APIException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('400',
+                                 'Bad Request',
+                                 APIException))
         .execute
     end
 
@@ -971,7 +971,7 @@ module AdvancedBilling
     # @param [Array[SubscriptionInclude]] include Optional parameter: Allows
     # including additional data in the response. Use in query:
     # `include[]=coupons&include[]=self_service_page_token`.
-    # @return [SubscriptionResponse] response from the API call
+    # @return [SubscriptionResponse] response from the API call.
     def read_subscription(subscription_id,
                           include: nil)
       new_api_call_builder
@@ -984,11 +984,11 @@ module AdvancedBilling
                    .query_param(new_parameter(include, key: 'include[]'))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth'))
-                   .array_serialization_format(ArraySerializationFormat::PLAIN))
+                   .array_serialization_format(ArraySerializationFormat::UN_INDEXED))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionResponse.method(:from_hash)))
         .execute
     end
 
@@ -1028,7 +1028,7 @@ module AdvancedBilling
     # If you'd like to calculate subscriptions that do not include tax, please
     # feel free to leave off the billing information.
     # @param [CreateSubscriptionRequest] body Optional parameter: Example:
-    # @return [SubscriptionPreviewResponse] response from the API call
+    # @return [SubscriptionPreviewResponse] response from the API call.
     def preview_subscription(body: nil)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -1040,9 +1040,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionPreviewResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionPreviewResponse.method(:from_hash)))
         .execute
     end
 
@@ -1054,7 +1054,7 @@ module AdvancedBilling
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
     # @param [String] coupon_code Optional parameter: The coupon code
-    # @return [String] response from the API call
+    # @return [String] response from the API call.
     def delete_coupon_from_subscription(subscription_id,
                                         coupon_code: nil)
       new_api_call_builder
@@ -1067,13 +1067,13 @@ module AdvancedBilling
                    .query_param(new_parameter(coupon_code, key: 'coupon_code'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:deserialize_primitive_types))
-                   .deserialize_into(proc do |response| response.to_s end)
-                   .is_primitive_response(true)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                SubscriptionRemoveCouponErrorsException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:deserialize_primitive_types))
+                    .deserialize_into(proc do |response| response.to_s end)
+                    .is_primitive_response(true)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 SubscriptionRemoveCouponErrorsException))
         .execute
     end
 
@@ -1139,7 +1139,7 @@ module AdvancedBilling
     # order in which results are returned. Use in query `direction=asc`.
     # @param [SubscriptionSort] sort Optional parameter: The attribute by which
     # to sort
-    # @return [Array[SubscriptionResponse]] response from the API call
+    # @return [Array[SubscriptionResponse]] response from the API call.
     def list_subscriptions(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -1165,12 +1165,12 @@ module AdvancedBilling
                    .query_param(new_parameter(options['sort'], key: 'sort'))
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth'))
-                   .array_serialization_format(ArraySerializationFormat::CSV))
+                   .array_serialization_format(ArraySerializationFormat::UN_INDEXED))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionResponse.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionResponse.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -1239,7 +1239,7 @@ module AdvancedBilling
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
     # @param [UpdateSubscriptionRequest] body Optional parameter: Example:
-    # @return [SubscriptionResponse] response from the API call
+    # @return [SubscriptionResponse] response from the API call.
     def update_subscription(subscription_id,
                             body: nil)
       new_api_call_builder
@@ -1255,18 +1255,18 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
     # Use this endpoint to find a subscription by its reference.
     # @param [String] reference Optional parameter: Subscription reference
-    # @return [SubscriptionResponse] response from the API call
+    # @return [SubscriptionResponse] response from the API call.
     def read_subscription_by_reference(reference: nil)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -1276,9 +1276,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionResponse.method(:from_hash)))
         .execute
     end
 
@@ -1287,7 +1287,7 @@ module AdvancedBilling
     # subscription
     # @param [UpsertPrepaidConfigurationRequest] body Optional parameter:
     # Example:
-    # @return [PrepaidConfigurationResponse] response from the API call
+    # @return [PrepaidConfigurationResponse] response from the API call.
     def create_prepaid_subscription(subscription_id,
                                     body: nil)
       new_api_call_builder
@@ -1303,9 +1303,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(PrepaidConfigurationResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(PrepaidConfigurationResponse.method(:from_hash)))
         .execute
     end
 
@@ -1327,7 +1327,7 @@ module AdvancedBilling
     # @param [String] code Optional parameter: A code for the coupon that would
     # be applied to a subscription
     # @param [AddCouponsRequest] body Optional parameter: Example:
-    # @return [SubscriptionResponse] response from the API call
+    # @return [SubscriptionResponse] response from the API call.
     def apply_coupon_to_subscription(subscription_id,
                                      code: nil,
                                      body: nil)
@@ -1345,12 +1345,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                SubscriptionAddCouponErrorException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 SubscriptionAddCouponErrorException))
         .execute
     end
   end

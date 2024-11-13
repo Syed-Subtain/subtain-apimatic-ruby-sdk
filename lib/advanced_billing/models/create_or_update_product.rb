@@ -81,16 +81,10 @@ module AdvancedBilling
       []
     end
 
-    def initialize(name = nil,
-                   description = nil,
-                   price_in_cents = nil,
-                   interval = nil,
-                   interval_unit = nil,
-                   handle = SKIP,
-                   accounting_code = SKIP,
-                   require_credit_card = SKIP,
-                   auto_create_signup_page = SKIP,
-                   tax_code = SKIP)
+    def initialize(name = nil, description = nil, price_in_cents = nil,
+                   interval = nil, interval_unit = nil, handle = SKIP,
+                   accounting_code = SKIP, require_credit_card = SKIP,
+                   auto_create_signup_page = SKIP, tax_code = SKIP)
       @name = name
       @handle = handle unless handle == SKIP
       @description = description

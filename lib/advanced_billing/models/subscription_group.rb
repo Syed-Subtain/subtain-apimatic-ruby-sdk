@@ -56,10 +56,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(customer_id = SKIP,
-                   payment_profile = SKIP,
-                   payment_collection_method = SKIP,
-                   subscription_ids = SKIP,
+    def initialize(customer_id = SKIP, payment_profile = SKIP,
+                   payment_collection_method = SKIP, subscription_ids = SKIP,
                    created_at = SKIP)
       @customer_id = customer_id unless customer_id == SKIP
       @payment_profile = payment_profile unless payment_profile == SKIP

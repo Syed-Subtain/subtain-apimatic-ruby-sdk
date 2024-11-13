@@ -56,11 +56,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   ending_quantity = SKIP,
-                   unit_price = SKIP,
-                   destroy = SKIP,
-                   starting_quantity = SKIP)
+    def initialize(id = SKIP, ending_quantity = SKIP, unit_price = SKIP,
+                   destroy = SKIP, starting_quantity = SKIP)
       @id = id unless id == SKIP
       @ending_quantity = ending_quantity unless ending_quantity == SKIP
       @unit_price = unit_price unless unit_price == SKIP

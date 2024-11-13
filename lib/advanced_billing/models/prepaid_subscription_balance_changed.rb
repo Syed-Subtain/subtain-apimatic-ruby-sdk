@@ -48,8 +48,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(reason = nil,
-                   current_account_balance_in_cents = nil,
+    def initialize(reason = nil, current_account_balance_in_cents = nil,
                    prepayment_account_balance_in_cents = nil,
                    current_usage_amount_in_cents = nil)
       @reason = reason

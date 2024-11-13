@@ -45,10 +45,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(amount = nil,
-                   details = nil,
-                   memo = nil,
-                   method = nil)
+    def initialize(amount = nil, details = nil, memo = nil, method = nil)
       @amount = amount
       @details = details
       @memo = memo

@@ -297,7 +297,7 @@ module AdvancedBilling
     # account and mandate will be created in your current vault. If the
     # customer, bank account, and mandate already exist in your vault, follow
     # the Import example to link the payment profile into Chargify.
-    # @return [CreatePaymentProfileResponse] response from the API call
+    # @return [CreatePaymentProfileResponse] response from the API call.
     def create_payment_profile(body: nil)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -309,12 +309,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CreatePaymentProfileResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CreatePaymentProfileResponse.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
@@ -323,7 +323,7 @@ module AdvancedBilling
     # 422 and error message will be returned.
     # @param [String] payment_profile_id Required parameter: The Chargify id of
     # the payment profile
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def delete_unused_payment_profile(payment_profile_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::DELETE,
@@ -334,11 +334,11 @@ module AdvancedBilling
                                     .should_encode(true))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -356,7 +356,7 @@ module AdvancedBilling
     # subscription
     # @param [String] payment_profile_id Required parameter: The Chargify id of
     # the payment profile
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def delete_subscriptions_payment_profile(subscription_id,
                                              payment_profile_id)
       new_api_call_builder
@@ -371,8 +371,8 @@ module AdvancedBilling
                                     .should_encode(true))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true))
+                    .is_nullify404(true)
+                    .is_response_void(true))
         .execute
     end
 
@@ -383,7 +383,7 @@ module AdvancedBilling
     # group
     # @param [String] payment_profile_id Required parameter: The Chargify id of
     # the payment profile
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def delete_subscription_group_payment_profile(uid,
                                                   payment_profile_id)
       new_api_call_builder
@@ -398,8 +398,8 @@ module AdvancedBilling
                                     .should_encode(true))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true))
+                    .is_nullify404(true)
+                    .is_response_void(true))
         .execute
     end
 
@@ -412,7 +412,7 @@ module AdvancedBilling
     # [chargify.js](https://developers.chargify.com/docs/developer-docs/ZG9jOjE0
     # NjAzNDI0-overview).
     # @param [String] chargify_token Required parameter: Chargify Token
-    # @return [GetOneTimeTokenRequest] response from the API call
+    # @return [GetOneTimeTokenRequest] response from the API call.
     def read_one_time_token(chargify_token)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -424,12 +424,12 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(GetOneTimeTokenRequest.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(GetOneTimeTokenRequest.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -468,7 +468,7 @@ module AdvancedBilling
     # ```
     # @param [String] payment_profile_id Required parameter: The Chargify id of
     # the payment profile
-    # @return [ReadPaymentProfileResponse] response from the API call
+    # @return [ReadPaymentProfileResponse] response from the API call.
     def read_payment_profile(payment_profile_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -480,9 +480,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ReadPaymentProfileResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ReadPaymentProfileResponse.method(:from_hash)))
         .execute
     end
 
@@ -531,7 +531,7 @@ module AdvancedBilling
     # @param [String] payment_profile_id Required parameter: The Chargify id of
     # the payment profile
     # @param [UpdatePaymentProfileRequest] body Optional parameter: Example:
-    # @return [UpdatePaymentProfileResponse] response from the API call
+    # @return [UpdatePaymentProfileResponse] response from the API call.
     def update_payment_profile(payment_profile_id,
                                body: nil)
       new_api_call_builder
@@ -547,9 +547,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(UpdatePaymentProfileResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(UpdatePaymentProfileResponse.method(:from_hash)))
         .execute
     end
 
@@ -561,7 +561,7 @@ module AdvancedBilling
     # subscription
     # @param [Integer] payment_profile_id Required parameter: The Chargify id of
     # the payment profile
-    # @return [PaymentProfileResponse] response from the API call
+    # @return [PaymentProfileResponse] response from the API call.
     def update_subscription_default_payment_profile(subscription_id,
                                                     payment_profile_id)
       new_api_call_builder
@@ -577,12 +577,12 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(PaymentProfileResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(PaymentProfileResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -596,7 +596,7 @@ module AdvancedBilling
     # group
     # @param [String] payment_profile_id Required parameter: The Chargify id of
     # the payment profile
-    # @return [PaymentProfileResponse] response from the API call
+    # @return [PaymentProfileResponse] response from the API call.
     def update_subscription_group_default_payment_profile(uid,
                                                           payment_profile_id)
       new_api_call_builder
@@ -612,12 +612,12 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(PaymentProfileResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(PaymentProfileResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -637,7 +637,7 @@ module AdvancedBilling
     # Use in query `per_page=200`.
     # @param [Integer] customer_id Optional parameter: The ID of the customer
     # for which you wish to list payment profiles
-    # @return [Array[ListPaymentProfilesResponse]] response from the API call
+    # @return [Array[ListPaymentProfilesResponse]] response from the API call.
     def list_payment_profiles(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -649,10 +649,10 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListPaymentProfilesResponse.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ListPaymentProfilesResponse.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -662,7 +662,7 @@ module AdvancedBilling
     # bank account in the system.
     # @param [BankAccountVerificationRequest] body Optional parameter:
     # Example:
-    # @return [BankAccountResponse] response from the API call
+    # @return [BankAccountResponse] response from the API call.
     def verify_bank_account(bank_account_id,
                             body: nil)
       new_api_call_builder
@@ -678,15 +678,15 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(BankAccountResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(BankAccountResponse.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -707,7 +707,7 @@ module AdvancedBilling
     # encounter errors during the request process.
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def send_request_update_payment_email(subscription_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -718,14 +718,14 @@ module AdvancedBilling
                                     .should_encode(true))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
   end

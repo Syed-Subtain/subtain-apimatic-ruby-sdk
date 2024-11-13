@@ -63,12 +63,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(memo = nil,
-                   payment_id = nil,
-                   segment_uids = nil,
-                   external = SKIP,
-                   apply_credit = SKIP,
-                   amount = SKIP)
+    def initialize(memo = nil, payment_id = nil, segment_uids = nil,
+                   external = SKIP, apply_credit = SKIP, amount = SKIP)
       @memo = memo
       @payment_id = payment_id
       @segment_uids = segment_uids

@@ -29,7 +29,7 @@ module AdvancedBilling
     # it will return all of the defined prices for each currency.
     # @param [Array[PricePointType]] filter_type Optional parameter: Use in
     # query: `filter[type]=catalog,default`.
-    # @return [ListProductPricePointsResponse] response from the API call
+    # @return [ListProductPricePointsResponse] response from the API call.
     def list_product_price_points(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -46,9 +46,9 @@ module AdvancedBilling
                    .auth(Single.new('BasicAuth'))
                    .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListProductPricePointsResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ListProductPricePointsResponse.method(:from_hash)))
         .execute
     end
 
@@ -59,7 +59,7 @@ module AdvancedBilling
     # product. When using the handle, it must be prefixed with `handle:`
     # @param [CreateProductPricePointRequest] body Optional parameter:
     # Example:
-    # @return [ProductPricePointResponse] response from the API call
+    # @return [ProductPricePointResponse] response from the API call.
     def create_product_price_point(product_id,
                                    body: nil)
       new_api_call_builder
@@ -75,9 +75,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductPricePointResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProductPricePointResponse.method(:from_hash)))
         .execute
     end
 
@@ -90,7 +90,7 @@ module AdvancedBilling
     # `handle:`
     # @param [UpdateProductPricePointRequest] body Optional parameter:
     # Example:
-    # @return [ProductPricePointResponse] response from the API call
+    # @return [ProductPricePointResponse] response from the API call.
     def update_product_price_point(product_id,
                                    price_point_id,
                                    body: nil)
@@ -110,9 +110,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductPricePointResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProductPricePointResponse.method(:from_hash)))
         .execute
     end
 
@@ -121,7 +121,7 @@ module AdvancedBilling
     # product to which the price point belongs
     # @param [Integer] price_point_id Required parameter: The Chargify id of the
     # product price point
-    # @return [ProductPricePointResponse] response from the API call
+    # @return [ProductPricePointResponse] response from the API call.
     def unarchive_product_price_point(product_id,
                                       price_point_id)
       new_api_call_builder
@@ -137,9 +137,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductPricePointResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProductPricePointResponse.method(:from_hash)))
         .execute
     end
 
@@ -148,7 +148,7 @@ module AdvancedBilling
     # product to which the price points belong
     # @param [BulkCreateProductPricePointsRequest] body Optional parameter:
     # Example:
-    # @return [BulkCreateProductPricePointsResponse] response from the API call
+    # @return [BulkCreateProductPricePointsResponse] response from the API call.
     def create_product_price_points(product_id,
                                     body: nil)
       new_api_call_builder
@@ -164,9 +164,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(BulkCreateProductPricePointsResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(BulkCreateProductPricePointsResponse.method(:from_hash)))
         .execute
     end
 
@@ -181,7 +181,7 @@ module AdvancedBilling
     # id of the product price point
     # @param [CreateProductCurrencyPricesRequest] body Optional parameter:
     # Example:
-    # @return [ProductPricePointCurrencyPrice] response from the API call
+    # @return [ProductPricePointCurrencyPrice] response from the API call.
     def create_product_currency_prices(product_price_point_id,
                                        body: nil)
       new_api_call_builder
@@ -197,12 +197,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductPricePointCurrencyPrice.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorMapResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProductPricePointCurrencyPrice.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorMapResponseException))
         .execute
     end
 
@@ -212,7 +212,7 @@ module AdvancedBilling
     # @param [Integer] price_point_id Required parameter: The id or handle of
     # the price point. When using the handle, it must be prefixed with
     # `handle:`
-    # @return [ProductPricePointResponse] response from the API call
+    # @return [ProductPricePointResponse] response from the API call.
     def archive_product_price_point(product_id,
                                     price_point_id)
       new_api_call_builder
@@ -228,9 +228,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductPricePointResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProductPricePointResponse.method(:from_hash)))
         .execute
     end
 
@@ -242,7 +242,7 @@ module AdvancedBilling
     # product to which the price point belongs
     # @param [Integer] price_point_id Required parameter: The Chargify id of the
     # product price point
-    # @return [ProductPricePointResponse] response from the API call
+    # @return [ProductPricePointResponse] response from the API call.
     def set_default_price_point_for_product(product_id,
                                             price_point_id)
       new_api_call_builder
@@ -258,9 +258,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductPricePointResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProductPricePointResponse.method(:from_hash)))
         .execute
     end
 
@@ -274,7 +274,7 @@ module AdvancedBilling
     # @param [Integer] product_price_point_id Required parameter: The Chargify
     # id of the product price point
     # @param [UpdateCurrencyPricesRequest] body Optional parameter: Example:
-    # @return [Array[ProductPricePointCurrencyPrice]] response from the API call
+    # @return [Array[ProductPricePointCurrencyPrice]] response from the API call.
     def update_product_currency_prices(product_price_point_id,
                                        body: nil)
       new_api_call_builder
@@ -290,10 +290,10 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductPricePointCurrencyPrice.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProductPricePointCurrencyPrice.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -347,7 +347,7 @@ module AdvancedBilling
     # many records to fetch in each request. Default value is 20. The maximum
     # allowed values is 200; any per_page value over 200 will be changed to 200.
     # Use in query `per_page=200`.
-    # @return [ListProductPricePointsResponse] response from the API call
+    # @return [ListProductPricePointsResponse] response from the API call.
     def list_all_product_price_points(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -373,12 +373,12 @@ module AdvancedBilling
                    .auth(Single.new('BasicAuth'))
                    .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListProductPricePointsResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ListProductPricePointsResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -395,7 +395,7 @@ module AdvancedBilling
     # product price point is set to use_site_exchange_rate: true, it will return
     # pricing based on the current exchange rate. If the flag is set to false,
     # it will return all of the defined prices for each currency.
-    # @return [ProductPricePointResponse] response from the API call
+    # @return [ProductPricePointResponse] response from the API call.
     def read_product_price_point(product_id,
                                  price_point_id,
                                  currency_prices: nil)
@@ -413,9 +413,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProductPricePointResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProductPricePointResponse.method(:from_hash)))
         .execute
     end
   end

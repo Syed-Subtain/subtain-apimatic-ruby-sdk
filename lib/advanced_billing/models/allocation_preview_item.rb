@@ -112,19 +112,12 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(component_id = SKIP,
-                   subscription_id = SKIP,
-                   quantity = SKIP,
-                   previous_quantity = SKIP,
-                   memo = SKIP,
-                   timestamp = SKIP,
+    def initialize(component_id = SKIP, subscription_id = SKIP, quantity = SKIP,
+                   previous_quantity = SKIP, memo = SKIP, timestamp = SKIP,
                    proration_upgrade_scheme = SKIP,
-                   proration_downgrade_scheme = SKIP,
-                   accrue_charge = SKIP,
-                   upgrade_charge = SKIP,
-                   downgrade_credit = SKIP,
-                   price_point_id = SKIP,
-                   previous_price_point_id = SKIP,
+                   proration_downgrade_scheme = SKIP, accrue_charge = SKIP,
+                   upgrade_charge = SKIP, downgrade_credit = SKIP,
+                   price_point_id = SKIP, previous_price_point_id = SKIP,
                    component_handle = SKIP)
       @component_id = component_id unless component_id == SKIP
       @subscription_id = subscription_id unless subscription_id == SKIP

@@ -12,7 +12,7 @@ module AdvancedBilling
     # member in the group.
     # @param [String] uid Required parameter: The uid of the subscription
     # group
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def stop_delayed_cancellation_for_group(uid)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::DELETE,
@@ -23,11 +23,11 @@ module AdvancedBilling
                                     .should_encode(true))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -68,7 +68,7 @@ module AdvancedBilling
     # group
     # @param [ReactivateSubscriptionGroupRequest] body Optional parameter:
     # Example:
-    # @return [ReactivateSubscriptionGroupResponse] response from the API call
+    # @return [ReactivateSubscriptionGroupResponse] response from the API call.
     def reactivate_subscription_group(uid,
                                       body: nil)
       new_api_call_builder
@@ -84,12 +84,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ReactivateSubscriptionGroupResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ReactivateSubscriptionGroupResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -100,7 +100,7 @@ module AdvancedBilling
     # successfully cancel them, and the group must not be in a "past_due" state.
     # @param [String] uid Required parameter: The uid of the subscription
     # group
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def initiate_delayed_cancellation_for_group(uid)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -111,11 +111,11 @@ module AdvancedBilling
                                     .should_encode(true))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -131,7 +131,7 @@ module AdvancedBilling
     # group
     # @param [CancelGroupedSubscriptionsRequest] body Optional parameter:
     # Example:
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def cancel_subscriptions_in_group(uid,
                                       body: nil)
       new_api_call_builder
@@ -146,11 +146,11 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
   end

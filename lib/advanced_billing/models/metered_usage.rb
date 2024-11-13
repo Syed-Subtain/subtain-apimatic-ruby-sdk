@@ -55,12 +55,9 @@ module AdvancedBilling
       []
     end
 
-    def initialize(previous_unit_balance = nil,
-                   new_unit_balance = nil,
-                   usage_quantity = nil,
-                   component_id = nil,
-                   component_handle = nil,
-                   memo = nil)
+    def initialize(previous_unit_balance = nil, new_unit_balance = nil,
+                   usage_quantity = nil, component_id = nil,
+                   component_handle = nil, memo = nil)
       @previous_unit_balance = previous_unit_balance
       @new_unit_balance = new_unit_balance
       @usage_quantity = usage_quantity

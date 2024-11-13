@@ -19,7 +19,7 @@ module AdvancedBilling
     # response will be returned.
     # @param [String] code Required parameter: The referral code you are trying
     # to validate
-    # @return [ReferralValidationResponse] response from the API call
+    # @return [ReferralValidationResponse] response from the API call.
     def validate_referral_code(code)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -30,12 +30,12 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ReferralValidationResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                SingleStringErrorResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ReferralValidationResponse.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 SingleStringErrorResponseException))
         .execute
     end
   end

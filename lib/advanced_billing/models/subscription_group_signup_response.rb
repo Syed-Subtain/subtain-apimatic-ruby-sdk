@@ -95,17 +95,13 @@ module AdvancedBilling
       []
     end
 
-    def initialize(uid = SKIP,
-                   scheme = SKIP,
-                   customer_id = SKIP,
-                   payment_profile_id = SKIP,
-                   subscription_ids = SKIP,
-                   primary_subscription_id = SKIP,
-                   next_assessment_at = SKIP,
-                   state = SKIP,
-                   cancel_at_end_of_period = SKIP,
-                   subscriptions = SKIP,
-                   payment_collection_method = PaymentCollectionMethod::AUTOMATIC)
+    def initialize(
+      uid = SKIP, scheme = SKIP, customer_id = SKIP, payment_profile_id = SKIP,
+      subscription_ids = SKIP, primary_subscription_id = SKIP,
+      next_assessment_at = SKIP, state = SKIP, cancel_at_end_of_period = SKIP,
+      subscriptions = SKIP,
+      payment_collection_method = PaymentCollectionMethod::AUTOMATIC
+    )
       @uid = uid unless uid == SKIP
       @scheme = scheme unless scheme == SKIP
       @customer_id = customer_id unless customer_id == SKIP

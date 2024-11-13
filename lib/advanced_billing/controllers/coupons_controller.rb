@@ -62,7 +62,7 @@ module AdvancedBilling
     # parameter: Allows fetching coupons with matching use_site_exchange_rate
     # based on provided value. Use in query
     # `filter[use_site_exchange_rate]=true`.
-    # @return [Array[CouponResponse]] response from the API call
+    # @return [Array[CouponResponse]] response from the API call.
     def list_coupons_for_product_family(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -86,10 +86,10 @@ module AdvancedBilling
                    .auth(Single.new('BasicAuth'))
                    .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CouponResponse.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CouponResponse.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -103,7 +103,7 @@ module AdvancedBilling
     # @param [Integer] product_family_id Optional parameter: The Chargify id of
     # the product family to which the coupon belongs
     # @param [String] code Optional parameter: The code of the coupon
-    # @return [CouponResponse] response from the API call
+    # @return [CouponResponse] response from the API call.
     def read_coupon_by_code(product_family_id: nil,
                             code: nil)
       new_api_call_builder
@@ -115,9 +115,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CouponResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CouponResponse.method(:from_hash)))
         .execute
     end
 
@@ -136,7 +136,7 @@ module AdvancedBilling
     # many records to fetch in each request. Default value is 20. The maximum
     # allowed values is 200; any per_page value over 200 will be changed to 200.
     # Use in query `per_page=200`.
-    # @return [CouponSubcodes] response from the API call
+    # @return [CouponSubcodes] response from the API call.
     def list_coupon_subcodes(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -150,9 +150,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CouponSubcodes.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CouponSubcodes.method(:from_hash)))
         .execute
     end
 
@@ -168,7 +168,7 @@ module AdvancedBilling
     # @param [Integer] coupon_id Required parameter: The Chargify id of the
     # coupon
     # @param [CouponSubcodes] body Optional parameter: Example:
-    # @return [CouponSubcodesResponse] response from the API call
+    # @return [CouponSubcodesResponse] response from the API call.
     def update_coupon_subcodes(coupon_id,
                                body: nil)
       new_api_call_builder
@@ -184,9 +184,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CouponSubcodesResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CouponSubcodesResponse.method(:from_hash)))
         .execute
     end
 
@@ -219,7 +219,7 @@ module AdvancedBilling
     # @param [String] code Required parameter: The code of the coupon
     # @param [Integer] product_family_id Optional parameter: The Chargify id of
     # the product family to which the coupon belongs
-    # @return [CouponResponse] response from the API call
+    # @return [CouponResponse] response from the API call.
     def validate_coupon(code,
                         product_family_id: nil)
       new_api_call_builder
@@ -232,12 +232,12 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CouponResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                SingleStringErrorResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CouponResponse.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 SingleStringErrorResponseException))
         .execute
     end
 
@@ -253,7 +253,7 @@ module AdvancedBilling
     # @param [Integer] coupon_id Required parameter: The Chargify id of the
     # coupon
     # @param [CreateOrUpdateCoupon | nil] body Optional parameter: Example:
-    # @return [CouponResponse] response from the API call
+    # @return [CouponResponse] response from the API call.
     def update_coupon(product_family_id,
                       coupon_id,
                       body: nil)
@@ -277,9 +277,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CouponResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CouponResponse.method(:from_hash)))
         .execute
     end
 
@@ -365,7 +365,7 @@ module AdvancedBilling
     # parameter: Allows fetching coupons with matching use_site_exchange_rate
     # based on provided value. Use in query
     # `filter[use_site_exchange_rate]=true`.
-    # @return [Array[CouponResponse]] response from the API call
+    # @return [Array[CouponResponse]] response from the API call.
     def list_coupons(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -391,10 +391,10 @@ module AdvancedBilling
                    .auth(Single.new('BasicAuth'))
                    .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CouponResponse.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CouponResponse.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -408,7 +408,7 @@ module AdvancedBilling
     # @param [Integer] coupon_id Required parameter: The Chargify id of the
     # coupon
     # @param [CouponCurrencyRequest] body Optional parameter: Example:
-    # @return [Array[CouponCurrency]] response from the API call
+    # @return [Array[CouponCurrency]] response from the API call.
     def update_coupon_currency_prices(coupon_id,
                                       body: nil)
       new_api_call_builder
@@ -424,10 +424,10 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CouponCurrency.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CouponCurrency.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -472,7 +472,7 @@ module AdvancedBilling
     # @param [Integer] coupon_id Required parameter: The Chargify id of the
     # coupon
     # @param [CouponSubcodes] body Optional parameter: Example:
-    # @return [CouponSubcodesResponse] response from the API call
+    # @return [CouponSubcodesResponse] response from the API call.
     def create_coupon_subcodes(coupon_id,
                                body: nil)
       new_api_call_builder
@@ -488,9 +488,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CouponSubcodesResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CouponSubcodesResponse.method(:from_hash)))
         .execute
     end
 
@@ -517,7 +517,7 @@ module AdvancedBilling
     # @param [Integer] coupon_id Required parameter: The Chargify id of the
     # coupon to which the subcode belongs
     # @param [String] subcode Required parameter: The subcode of the coupon
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def delete_coupon_subcode(coupon_id,
                               subcode)
       new_api_call_builder
@@ -532,11 +532,11 @@ module AdvancedBilling
                                     .should_encode(true))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
@@ -562,7 +562,7 @@ module AdvancedBilling
     # @param [Integer] product_family_id Required parameter: The Chargify id of
     # the product family to which the coupon belongs
     # @param [CreateOrUpdateCoupon | nil] body Optional parameter: Example:
-    # @return [CouponResponse] response from the API call
+    # @return [CouponResponse] response from the API call.
     def create_coupon(product_family_id,
                       body: nil)
       new_api_call_builder
@@ -582,12 +582,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CouponResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CouponResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -606,7 +606,7 @@ module AdvancedBilling
     # the product family to which the coupon belongs
     # @param [Integer] coupon_id Required parameter: The Chargify id of the
     # coupon
-    # @return [CouponResponse] response from the API call
+    # @return [CouponResponse] response from the API call.
     def read_coupon(product_family_id,
                     coupon_id)
       new_api_call_builder
@@ -622,9 +622,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CouponResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CouponResponse.method(:from_hash)))
         .execute
     end
 
@@ -637,7 +637,7 @@ module AdvancedBilling
     # the product family to which the coupon belongs
     # @param [Integer] coupon_id Required parameter: The Chargify id of the
     # coupon
-    # @return [CouponResponse] response from the API call
+    # @return [CouponResponse] response from the API call.
     def archive_coupon(product_family_id,
                        coupon_id)
       new_api_call_builder
@@ -653,9 +653,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CouponResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CouponResponse.method(:from_hash)))
         .execute
     end
 
@@ -665,7 +665,7 @@ module AdvancedBilling
     # the product family to which the coupon belongs
     # @param [Integer] coupon_id Required parameter: The Chargify id of the
     # coupon
-    # @return [Array[CouponUsage]] response from the API call
+    # @return [Array[CouponUsage]] response from the API call.
     def read_coupon_usage(product_family_id,
                           coupon_id)
       new_api_call_builder
@@ -681,10 +681,10 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(CouponUsage.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(CouponUsage.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
   end

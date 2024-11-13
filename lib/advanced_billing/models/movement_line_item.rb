@@ -88,14 +88,9 @@ module AdvancedBilling
       []
     end
 
-    def initialize(product_id = SKIP,
-                   component_id = SKIP,
-                   price_point_id = SKIP,
-                   name = SKIP,
-                   mrr = SKIP,
-                   mrr_movements = SKIP,
-                   quantity = SKIP,
-                   prev_quantity = SKIP,
+    def initialize(product_id = SKIP, component_id = SKIP,
+                   price_point_id = SKIP, name = SKIP, mrr = SKIP,
+                   mrr_movements = SKIP, quantity = SKIP, prev_quantity = SKIP,
                    recurring = SKIP)
       @product_id = product_id unless product_id == SKIP
       @component_id = component_id unless component_id == SKIP

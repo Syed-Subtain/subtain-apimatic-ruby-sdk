@@ -48,8 +48,7 @@ module AdvancedBilling
     end
 
     def initialize(kind = TaxConfigurationKind::CUSTOM,
-                   destination_address = SKIP,
-                   fully_configured = false)
+                   destination_address = SKIP, fully_configured = false)
       @kind = kind unless kind == SKIP
       @destination_address = destination_address unless destination_address == SKIP
       @fully_configured = fully_configured unless fully_configured == SKIP

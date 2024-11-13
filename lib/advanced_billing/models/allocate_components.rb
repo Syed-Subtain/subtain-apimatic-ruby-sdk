@@ -69,13 +69,12 @@ module AdvancedBilling
       []
     end
 
-    def initialize(proration_upgrade_scheme = 'no-prorate',
-                   proration_downgrade_scheme = 'no-prorate',
-                   allocations = SKIP,
-                   accrue_charge = SKIP,
-                   upgrade_charge = SKIP,
-                   downgrade_credit = SKIP,
-                   payment_collection_method = PaymentCollectionMethod1::AUTOMATIC)
+    def initialize(
+      proration_upgrade_scheme = 'no-prorate',
+      proration_downgrade_scheme = 'no-prorate', allocations = SKIP,
+      accrue_charge = SKIP, upgrade_charge = SKIP, downgrade_credit = SKIP,
+      payment_collection_method = PaymentCollectionMethod1::AUTOMATIC
+    )
       @proration_upgrade_scheme = proration_upgrade_scheme unless proration_upgrade_scheme == SKIP
       unless proration_downgrade_scheme == SKIP
         @proration_downgrade_scheme =

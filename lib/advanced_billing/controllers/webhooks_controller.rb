@@ -12,7 +12,7 @@ module AdvancedBilling
     # You may submit an array of up to 1000 webhook IDs to replay in the
     # request.
     # @param [ReplayWebhooksRequest] body Optional parameter: Example:
-    # @return [ReplayWebhooksResponse] response from the API call
+    # @return [ReplayWebhooksResponse] response from the API call.
     def replay_webhooks(body: nil)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -24,14 +24,14 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ReplayWebhooksResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ReplayWebhooksResponse.method(:from_hash)))
         .execute
     end
 
     # This method returns created endpoints for site.
-    # @return [Array[Endpoint]] response from the API call
+    # @return [Array[Endpoint]] response from the API call.
     def list_endpoints
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -40,10 +40,10 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(Endpoint.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(Endpoint.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -93,7 +93,7 @@ module AdvancedBilling
     # Webhooks are returned.
     # @param [Integer] subscription Optional parameter: The Chargify id of a
     # subscription you'd like to filter for
-    # @return [Array[WebhookResponse]] response from the API call
+    # @return [Array[WebhookResponse]] response from the API call.
     def list_webhooks(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -109,16 +109,16 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(WebhookResponse.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(WebhookResponse.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
     # This method allows you to enable webhooks via API for your site
     # @param [EnableWebhooksRequest] body Optional parameter: Example:
-    # @return [EnableWebhooksResponse] response from the API call
+    # @return [EnableWebhooksResponse] response from the API call.
     def enable_webhooks(body: nil)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::PUT,
@@ -130,9 +130,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(EnableWebhooksResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(EnableWebhooksResponse.method(:from_hash)))
         .execute
     end
 
@@ -143,7 +143,7 @@ module AdvancedBilling
     # keys](https://maxio-chargify.zendesk.com/hc/en-us/articles/5405357509645-W
     # ebhooks-Reference#example-payloads)
     # @param [UpdateEndpointRequest] body Optional parameter: Example:
-    # @return [EndpointResponse] response from the API call
+    # @return [EndpointResponse] response from the API call.
     def create_endpoint(body: nil)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -155,12 +155,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(EndpointResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(EndpointResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -179,7 +179,7 @@ module AdvancedBilling
     # @param [Integer] endpoint_id Required parameter: The Chargify id for the
     # endpoint that should be updated
     # @param [UpdateEndpointRequest] body Optional parameter: Example:
-    # @return [EndpointResponse] response from the API call
+    # @return [EndpointResponse] response from the API call.
     def update_endpoint(endpoint_id,
                         body: nil)
       new_api_call_builder
@@ -195,15 +195,15 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(EndpointResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(EndpointResponse.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
   end

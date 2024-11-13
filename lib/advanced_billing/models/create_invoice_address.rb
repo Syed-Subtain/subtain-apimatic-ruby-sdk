@@ -80,15 +80,9 @@ module AdvancedBilling
       []
     end
 
-    def initialize(first_name = SKIP,
-                   last_name = SKIP,
-                   phone = SKIP,
-                   address = SKIP,
-                   address_2 = SKIP,
-                   city = SKIP,
-                   state = SKIP,
-                   zip = SKIP,
-                   country = SKIP)
+    def initialize(first_name = SKIP, last_name = SKIP, phone = SKIP,
+                   address = SKIP, address_2 = SKIP, city = SKIP, state = SKIP,
+                   zip = SKIP, country = SKIP)
       @first_name = first_name unless first_name == SKIP
       @last_name = last_name unless last_name == SKIP
       @phone = phone unless phone == SKIP

@@ -104,14 +104,10 @@ module AdvancedBilling
       []
     end
 
-    def initialize(apply_credit = SKIP,
-                   consolidation_level = SKIP,
-                   credit_note_attributes = SKIP,
-                   memo = SKIP,
-                   original_amount = SKIP,
-                   payment_id = SKIP,
-                   refund_amount = SKIP,
-                   refund_id = SKIP,
+    def initialize(apply_credit = SKIP, consolidation_level = SKIP,
+                   credit_note_attributes = SKIP, memo = SKIP,
+                   original_amount = SKIP, payment_id = SKIP,
+                   refund_amount = SKIP, refund_id = SKIP,
                    transaction_time = SKIP)
       @apply_credit = apply_credit unless apply_credit == SKIP
       @consolidation_level = consolidation_level unless consolidation_level == SKIP

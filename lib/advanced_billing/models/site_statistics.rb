@@ -92,12 +92,9 @@ module AdvancedBilling
       []
     end
 
-    def initialize(total_subscriptions = SKIP,
-                   subscriptions_today = SKIP,
-                   total_revenue = SKIP,
-                   revenue_today = SKIP,
-                   revenue_this_month = SKIP,
-                   revenue_this_year = SKIP,
+    def initialize(total_subscriptions = SKIP, subscriptions_today = SKIP,
+                   total_revenue = SKIP, revenue_today = SKIP,
+                   revenue_this_month = SKIP, revenue_this_year = SKIP,
                    total_canceled_subscriptions = SKIP,
                    total_active_subscriptions = SKIP,
                    total_past_due_subscriptions = SKIP,

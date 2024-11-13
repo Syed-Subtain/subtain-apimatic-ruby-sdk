@@ -51,13 +51,15 @@ module AdvancedBilling
     def self.validate(value)
       if value.instance_of? self
         return APIHelper.valid_type?(value.metered_component,
-                                     ->(val) { MeteredComponent.validate(val) })
+                                     ->(val) { MeteredComponent.validate(val) },
+                                     is_model_hash: true)
       end
 
       return false unless value.instance_of? Hash
 
       APIHelper.valid_type?(value['metered_component'],
-                            ->(val) { MeteredComponent.validate(val) })
+                            ->(val) { MeteredComponent.validate(val) },
+                            is_model_hash: true)
     end
   end
 end

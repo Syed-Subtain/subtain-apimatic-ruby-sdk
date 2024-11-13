@@ -74,14 +74,10 @@ module AdvancedBilling
       []
     end
 
-    def initialize(component_id = SKIP,
-                   price_point_id = SKIP,
-                   starting_quantity = SKIP,
-                   editable = SKIP,
-                   component_unit_price = SKIP,
-                   component_name = SKIP,
-                   price_point_name = SKIP,
-                   currency_prices = SKIP)
+    def initialize(component_id = SKIP, price_point_id = SKIP,
+                   starting_quantity = SKIP, editable = SKIP,
+                   component_unit_price = SKIP, component_name = SKIP,
+                   price_point_name = SKIP, currency_prices = SKIP)
       @component_id = component_id unless component_id == SKIP
       @price_point_id = price_point_id unless price_point_id == SKIP
       @starting_quantity = starting_quantity unless starting_quantity == SKIP

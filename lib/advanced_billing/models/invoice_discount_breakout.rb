@@ -44,9 +44,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(uid = SKIP,
-                   eligible_amount = SKIP,
-                   discount_amount = SKIP)
+    def initialize(uid = SKIP, eligible_amount = SKIP, discount_amount = SKIP)
       @uid = uid unless uid == SKIP
       @eligible_amount = eligible_amount unless eligible_amount == SKIP
       @discount_amount = discount_amount unless discount_amount == SKIP
@@ -67,6 +65,16 @@ module AdvancedBilling
       InvoiceDiscountBreakout.new(uid,
                                   eligible_amount,
                                   discount_amount)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [InvoiceDiscountBreakout | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

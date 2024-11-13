@@ -64,12 +64,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(amount = nil,
-                   memo = nil,
-                   payment_id = nil,
-                   external = SKIP,
-                   apply_credit = SKIP,
-                   void_invoice = SKIP)
+    def initialize(amount = nil, memo = nil, payment_id = nil, external = SKIP,
+                   apply_credit = SKIP, void_invoice = SKIP)
       @amount = amount
       @memo = memo
       @payment_id = payment_id

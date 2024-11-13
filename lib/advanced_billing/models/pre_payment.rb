@@ -46,8 +46,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(subscription_id = SKIP,
-                   amount_in_cents = SKIP,
+    def initialize(subscription_id = SKIP, amount_in_cents = SKIP,
                    ending_balance_in_cents = SKIP)
       @subscription_id = subscription_id unless subscription_id == SKIP
       @amount_in_cents = amount_in_cents unless amount_in_cents == SKIP

@@ -39,8 +39,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(component_id = SKIP,
-                   custom_price = SKIP)
+    def initialize(component_id = SKIP, custom_price = SKIP)
       @component_id = component_id unless component_id == SKIP
       @custom_price = custom_price unless custom_price == SKIP
     end
@@ -56,6 +55,16 @@ module AdvancedBilling
       # Create object from extracted values.
       UpdateSubscriptionComponent.new(component_id,
                                       custom_price)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [UpdateSubscriptionComponent | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

@@ -134,24 +134,12 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(first_name = nil,
-                   last_name = nil,
-                   email = nil,
-                   cc_emails = SKIP,
-                   organization = SKIP,
-                   reference = SKIP,
-                   address = SKIP,
-                   address_2 = SKIP,
-                   city = SKIP,
-                   state = SKIP,
-                   zip = SKIP,
-                   country = SKIP,
-                   phone = SKIP,
-                   locale = SKIP,
-                   vat_number = SKIP,
-                   tax_exempt = SKIP,
-                   tax_exempt_reason = SKIP,
-                   parent_id = SKIP)
+    def initialize(first_name = nil, last_name = nil, email = nil,
+                   cc_emails = SKIP, organization = SKIP, reference = SKIP,
+                   address = SKIP, address_2 = SKIP, city = SKIP, state = SKIP,
+                   zip = SKIP, country = SKIP, phone = SKIP, locale = SKIP,
+                   vat_number = SKIP, tax_exempt = SKIP,
+                   tax_exempt_reason = SKIP, parent_id = SKIP)
       @first_name = first_name
       @last_name = last_name
       @email = email

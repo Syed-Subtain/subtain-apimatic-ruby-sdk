@@ -138,22 +138,15 @@ module AdvancedBilling
       []
     end
 
-    def initialize(bank_name = SKIP,
-                   bank_account_number = SKIP,
-                   bank_routing_number = SKIP,
-                   bank_iban = SKIP,
+    def initialize(bank_name = SKIP, bank_account_number = SKIP,
+                   bank_routing_number = SKIP, bank_iban = SKIP,
                    bank_branch_code = SKIP,
                    bank_account_type = BankAccountType::CHECKING,
-                   bank_account_holder_type = SKIP,
-                   payment_type = SKIP,
-                   billing_address = SKIP,
-                   billing_city = SKIP,
-                   billing_state = SKIP,
-                   billing_zip = SKIP,
-                   billing_country = SKIP,
-                   chargify_token = SKIP,
-                   current_vault = SKIP,
-                   gateway_handle = SKIP)
+                   bank_account_holder_type = SKIP, payment_type = SKIP,
+                   billing_address = SKIP, billing_city = SKIP,
+                   billing_state = SKIP, billing_zip = SKIP,
+                   billing_country = SKIP, chargify_token = SKIP,
+                   current_vault = SKIP, gateway_handle = SKIP)
       @bank_name = bank_name unless bank_name == SKIP
       @bank_account_number = bank_account_number unless bank_account_number == SKIP
       @bank_routing_number = bank_routing_number unless bank_routing_number == SKIP
@@ -220,6 +213,16 @@ module AdvancedBilling
                                        chargify_token,
                                        current_vault,
                                        gateway_handle)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [SubscriptionGroupBankAccount | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

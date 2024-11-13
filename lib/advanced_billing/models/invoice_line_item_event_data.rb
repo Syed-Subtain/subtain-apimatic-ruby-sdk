@@ -152,25 +152,14 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(uid = SKIP,
-                   title = SKIP,
-                   description = SKIP,
-                   quantity = SKIP,
-                   quantity_delta = SKIP,
-                   unit_price = SKIP,
-                   period_range_start = SKIP,
-                   period_range_end = SKIP,
-                   amount = SKIP,
-                   line_references = SKIP,
-                   pricing_details_index = SKIP,
-                   pricing_details = SKIP,
-                   tax_code = SKIP,
-                   tax_amount = SKIP,
-                   product_id = SKIP,
-                   product_price_point_id = SKIP,
-                   price_point_id = SKIP,
-                   component_id = SKIP,
-                   billing_schedule_item_id = SKIP,
+    def initialize(uid = SKIP, title = SKIP, description = SKIP,
+                   quantity = SKIP, quantity_delta = SKIP, unit_price = SKIP,
+                   period_range_start = SKIP, period_range_end = SKIP,
+                   amount = SKIP, line_references = SKIP,
+                   pricing_details_index = SKIP, pricing_details = SKIP,
+                   tax_code = SKIP, tax_amount = SKIP, product_id = SKIP,
+                   product_price_point_id = SKIP, price_point_id = SKIP,
+                   component_id = SKIP, billing_schedule_item_id = SKIP,
                    custom_item = SKIP)
       @uid = uid unless uid == SKIP
       @title = title unless title == SKIP
@@ -258,6 +247,16 @@ module AdvancedBilling
                                    component_id,
                                    billing_schedule_item_id,
                                    custom_item)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [InvoiceLineItemEventData | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

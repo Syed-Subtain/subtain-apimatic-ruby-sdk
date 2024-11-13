@@ -39,8 +39,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(target = nil,
-                   billing = SKIP)
+    def initialize(target = nil, billing = SKIP)
       @target = target
       @billing = billing unless billing == SKIP
     end
@@ -63,13 +62,15 @@ module AdvancedBilling
     def self.validate(value)
       if value.instance_of? self
         return APIHelper.valid_type?(value.target,
-                                     ->(val) { GroupTarget.validate(val) })
+                                     ->(val) { GroupTarget.validate(val) },
+                                     is_model_hash: true)
       end
 
       return false unless value.instance_of? Hash
 
       APIHelper.valid_type?(value['target'],
-                            ->(val) { GroupTarget.validate(val) })
+                            ->(val) { GroupTarget.validate(val) },
+                            is_model_hash: true)
     end
   end
 end

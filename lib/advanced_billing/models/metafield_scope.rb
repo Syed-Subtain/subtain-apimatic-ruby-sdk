@@ -71,12 +71,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(csv = SKIP,
-                   invoices = SKIP,
-                   statements = SKIP,
-                   portal = SKIP,
-                   public_show = SKIP,
-                   public_edit = SKIP,
+    def initialize(csv = SKIP, invoices = SKIP, statements = SKIP,
+                   portal = SKIP, public_show = SKIP, public_edit = SKIP,
                    hosted = SKIP)
       @csv = csv unless csv == SKIP
       @invoices = invoices unless invoices == SKIP
@@ -108,6 +104,16 @@ module AdvancedBilling
                          public_show,
                          public_edit,
                          hosted)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [MetafieldScope | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

@@ -50,9 +50,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(name = SKIP,
-                   handle = SKIP,
-                   pricing_scheme = SKIP,
+    def initialize(name = SKIP, handle = SKIP, pricing_scheme = SKIP,
                    prices = SKIP)
       @name = name unless name == SKIP
       @handle = handle unless handle == SKIP
@@ -85,6 +83,16 @@ module AdvancedBilling
                                   handle,
                                   pricing_scheme,
                                   prices)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [ComponentPricePointItem | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

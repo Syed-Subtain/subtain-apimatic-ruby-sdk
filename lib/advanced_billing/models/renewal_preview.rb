@@ -88,14 +88,10 @@ module AdvancedBilling
       []
     end
 
-    def initialize(next_assessment_at = SKIP,
-                   subtotal_in_cents = SKIP,
-                   total_tax_in_cents = SKIP,
-                   total_discount_in_cents = SKIP,
-                   total_in_cents = SKIP,
-                   existing_balance_in_cents = SKIP,
-                   total_amount_due_in_cents = SKIP,
-                   uncalculated_taxes = SKIP,
+    def initialize(next_assessment_at = SKIP, subtotal_in_cents = SKIP,
+                   total_tax_in_cents = SKIP, total_discount_in_cents = SKIP,
+                   total_in_cents = SKIP, existing_balance_in_cents = SKIP,
+                   total_amount_due_in_cents = SKIP, uncalculated_taxes = SKIP,
                    line_items = SKIP)
       @next_assessment_at = next_assessment_at unless next_assessment_at == SKIP
       @subtotal_in_cents = subtotal_in_cents unless subtotal_in_cents == SKIP

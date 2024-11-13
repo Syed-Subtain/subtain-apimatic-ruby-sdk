@@ -46,8 +46,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(coupon = SKIP,
-                   restricted_products = SKIP,
+    def initialize(coupon = SKIP, restricted_products = SKIP,
                    restricted_components = SKIP)
       @coupon = coupon unless coupon == SKIP
       @restricted_products = restricted_products unless restricted_products == SKIP

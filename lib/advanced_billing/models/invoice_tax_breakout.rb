@@ -44,9 +44,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(uid = SKIP,
-                   taxable_amount = SKIP,
-                   tax_amount = SKIP)
+    def initialize(uid = SKIP, taxable_amount = SKIP, tax_amount = SKIP)
       @uid = uid unless uid == SKIP
       @taxable_amount = taxable_amount unless taxable_amount == SKIP
       @tax_amount = tax_amount unless tax_amount == SKIP
@@ -66,6 +64,16 @@ module AdvancedBilling
       InvoiceTaxBreakout.new(uid,
                              taxable_amount,
                              tax_amount)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [InvoiceTaxBreakout | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

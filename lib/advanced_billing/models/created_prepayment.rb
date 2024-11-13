@@ -68,11 +68,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   subscription_id = SKIP,
-                   amount_in_cents = SKIP,
-                   memo = SKIP,
-                   created_at = SKIP,
+    def initialize(id = SKIP, subscription_id = SKIP, amount_in_cents = SKIP,
+                   memo = SKIP, created_at = SKIP,
                    starting_balance_in_cents = SKIP,
                    ending_balance_in_cents = SKIP)
       @id = id unless id == SKIP

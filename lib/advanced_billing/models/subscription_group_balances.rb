@@ -50,10 +50,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(prepayments = SKIP,
-                   service_credits = SKIP,
-                   open_invoices = SKIP,
-                   pending_discounts = SKIP)
+    def initialize(prepayments = SKIP, service_credits = SKIP,
+                   open_invoices = SKIP, pending_discounts = SKIP)
       @prepayments = prepayments unless prepayments == SKIP
       @service_credits = service_credits unless service_credits == SKIP
       @open_invoices = open_invoices unless open_invoices == SKIP

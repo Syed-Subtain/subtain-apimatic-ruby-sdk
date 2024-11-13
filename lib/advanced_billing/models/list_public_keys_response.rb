@@ -38,8 +38,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(chargify_js_keys = SKIP,
-                   meta = SKIP)
+    def initialize(chargify_js_keys = SKIP, meta = SKIP)
       @chargify_js_keys = chargify_js_keys unless chargify_js_keys == SKIP
       @meta = meta unless meta == SKIP
     end

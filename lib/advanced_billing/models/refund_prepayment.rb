@@ -49,9 +49,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(amount_in_cents = nil,
-                   amount = nil,
-                   memo = nil,
+    def initialize(amount_in_cents = nil, amount = nil, memo = nil,
                    external = SKIP)
       @amount_in_cents = amount_in_cents
       @amount = amount

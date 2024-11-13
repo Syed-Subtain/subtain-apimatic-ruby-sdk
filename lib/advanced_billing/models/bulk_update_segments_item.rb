@@ -46,9 +46,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = nil,
-                   pricing_scheme = nil,
-                   prices = nil)
+    def initialize(id = nil, pricing_scheme = nil, prices = nil)
       @id = id
       @pricing_scheme = pricing_scheme
       @prices = prices

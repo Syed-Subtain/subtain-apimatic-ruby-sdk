@@ -58,10 +58,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(credit_note_attributes = SKIP,
-                   memo = SKIP,
-                   applied_amount = SKIP,
-                   transaction_time = SKIP,
+    def initialize(credit_note_attributes = SKIP, memo = SKIP,
+                   applied_amount = SKIP, transaction_time = SKIP,
                    is_advance_invoice = SKIP)
       @credit_note_attributes = credit_note_attributes unless credit_note_attributes == SKIP
       @memo = memo unless memo == SKIP

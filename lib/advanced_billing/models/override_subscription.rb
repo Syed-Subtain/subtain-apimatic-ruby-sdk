@@ -66,10 +66,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(activated_at = SKIP,
-                   canceled_at = SKIP,
-                   cancellation_message = SKIP,
-                   expires_at = SKIP,
+    def initialize(activated_at = SKIP, canceled_at = SKIP,
+                   cancellation_message = SKIP, expires_at = SKIP,
                    current_period_starts_at = SKIP)
       @activated_at = activated_at unless activated_at == SKIP
       @canceled_at = canceled_at unless canceled_at == SKIP

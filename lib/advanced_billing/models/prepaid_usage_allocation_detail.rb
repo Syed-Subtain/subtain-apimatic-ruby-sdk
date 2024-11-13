@@ -44,8 +44,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(allocation_id = SKIP,
-                   charge_id = SKIP,
+    def initialize(allocation_id = SKIP, charge_id = SKIP,
                    usage_quantity = SKIP)
       @allocation_id = allocation_id unless allocation_id == SKIP
       @charge_id = charge_id unless charge_id == SKIP
@@ -66,6 +65,16 @@ module AdvancedBilling
       PrepaidUsageAllocationDetail.new(allocation_id,
                                        charge_id,
                                        usage_quantity)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [PrepaidUsageAllocationDetail | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

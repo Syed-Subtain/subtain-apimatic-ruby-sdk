@@ -44,9 +44,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   type = SKIP,
-                   message = SKIP)
+    def initialize(id = SKIP, type = SKIP, message = SKIP)
       @id = id unless id == SKIP
       @type = type unless type == SKIP
       @message = message unless message == SKIP

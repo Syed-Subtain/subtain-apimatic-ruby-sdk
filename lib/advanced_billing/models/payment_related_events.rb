@@ -35,8 +35,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(product_id = nil,
-                   account_transaction_id = nil)
+    def initialize(product_id = nil, account_transaction_id = nil)
       @product_id = product_id
       @account_transaction_id = account_transaction_id
     end

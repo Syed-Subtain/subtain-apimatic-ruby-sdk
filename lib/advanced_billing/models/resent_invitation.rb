@@ -50,10 +50,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(last_sent_at = SKIP,
-                   last_accepted_at = SKIP,
-                   send_invite_link_text = SKIP,
-                   uninvited_count = SKIP)
+    def initialize(last_sent_at = SKIP, last_accepted_at = SKIP,
+                   send_invite_link_text = SKIP, uninvited_count = SKIP)
       @last_sent_at = last_sent_at unless last_sent_at == SKIP
       @last_accepted_at = last_accepted_at unless last_accepted_at == SKIP
       @send_invite_link_text = send_invite_link_text unless send_invite_link_text == SKIP

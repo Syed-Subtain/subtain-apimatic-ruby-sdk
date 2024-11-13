@@ -80,14 +80,9 @@ module AdvancedBilling
       []
     end
 
-    def initialize(timestamp = SKIP,
-                   amount_in_cents = SKIP,
-                   amount_formatted = SKIP,
-                   description = SKIP,
-                   category = SKIP,
-                   breakouts = SKIP,
-                   line_items = SKIP,
-                   subscription_id = SKIP,
+    def initialize(timestamp = SKIP, amount_in_cents = SKIP,
+                   amount_formatted = SKIP, description = SKIP, category = SKIP,
+                   breakouts = SKIP, line_items = SKIP, subscription_id = SKIP,
                    subscriber_name = SKIP)
       @timestamp = timestamp unless timestamp == SKIP
       @amount_in_cents = amount_in_cents unless amount_in_cents == SKIP

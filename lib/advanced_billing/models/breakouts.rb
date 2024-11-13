@@ -50,10 +50,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(plan_amount_in_cents = SKIP,
-                   plan_amount_formatted = SKIP,
-                   usage_amount_in_cents = SKIP,
-                   usage_amount_formatted = SKIP)
+    def initialize(plan_amount_in_cents = SKIP, plan_amount_formatted = SKIP,
+                   usage_amount_in_cents = SKIP, usage_amount_formatted = SKIP)
       @plan_amount_in_cents = plan_amount_in_cents unless plan_amount_in_cents == SKIP
       @plan_amount_formatted = plan_amount_formatted unless plan_amount_formatted == SKIP
       @usage_amount_in_cents = usage_amount_in_cents unless usage_amount_in_cents == SKIP

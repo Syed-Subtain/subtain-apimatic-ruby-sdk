@@ -44,9 +44,7 @@ module AdvancedBilling
       []
     end
 
-    def initialize(coupon_code = SKIP,
-                   coupon_id = SKIP,
-                   coupon_name = SKIP)
+    def initialize(coupon_code = SKIP, coupon_id = SKIP, coupon_name = SKIP)
       @coupon_code = coupon_code unless coupon_code == SKIP
       @coupon_id = coupon_id unless coupon_id == SKIP
       @coupon_name = coupon_name unless coupon_name == SKIP

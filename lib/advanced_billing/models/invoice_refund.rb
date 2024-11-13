@@ -64,11 +64,8 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(transaction_id = SKIP,
-                   payment_id = SKIP,
-                   memo = SKIP,
-                   original_amount = SKIP,
-                   applied_amount = SKIP,
+    def initialize(transaction_id = SKIP, payment_id = SKIP, memo = SKIP,
+                   original_amount = SKIP, applied_amount = SKIP,
                    gateway_transaction_id = SKIP)
       @transaction_id = transaction_id unless transaction_id == SKIP
       @payment_id = payment_id unless payment_id == SKIP
@@ -101,6 +98,16 @@ module AdvancedBilling
                         original_amount,
                         applied_amount,
                         gateway_transaction_id)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [InvoiceRefund | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

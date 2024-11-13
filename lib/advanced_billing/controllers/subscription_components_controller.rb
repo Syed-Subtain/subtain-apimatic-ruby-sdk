@@ -16,7 +16,7 @@ module AdvancedBilling
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
     # @param [AllocateComponents] body Optional parameter: Example:
-    # @return [Array[AllocationResponse]] response from the API call
+    # @return [Array[AllocationResponse]] response from the API call.
     def allocate_components(subscription_id,
                             body: nil)
       new_api_call_builder
@@ -32,19 +32,19 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(AllocationResponse.method(:from_hash))
-                   .is_response_array(true)
-                   .local_error('401',
-                                'Unauthorized',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(AllocationResponse.method(:from_hash))
+                    .is_response_array(true)
+                    .local_error('401',
+                                 'Unauthorized',
+                                 APIException)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -70,7 +70,7 @@ module AdvancedBilling
     # allocation
     # @param [UpdateAllocationExpirationDate] body Optional parameter:
     # Example:
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def update_prepaid_usage_allocation(subscription_id,
                                         component_id,
                                         allocation_id,
@@ -93,11 +93,11 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                SubscriptionComponentAllocationErrorException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 SubscriptionComponentAllocationErrorException))
         .execute
     end
 
@@ -123,7 +123,7 @@ module AdvancedBilling
     # @param [Integer] allocation_id Required parameter: The Chargify id of the
     # allocation
     # @param [CreditSchemeRequest] body Optional parameter: Example:
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def delete_prepaid_usage_allocation(subscription_id,
                                         component_id,
                                         allocation_id,
@@ -146,11 +146,11 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                SubscriptionComponentAllocationErrorException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 SubscriptionComponentAllocationErrorException))
         .execute
     end
 
@@ -227,7 +227,7 @@ module AdvancedBilling
     # @param [Integer] component_id Required parameter: Either the Chargify id
     # for the component or the component's handle prefixed by `handle:`
     # @param [CreateUsageRequest] body Optional parameter: Example:
-    # @return [UsageResponse] response from the API call
+    # @return [UsageResponse] response from the API call.
     def create_usage(subscription_id,
                      component_id,
                      body: nil)
@@ -247,12 +247,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(UsageResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(UsageResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
 
@@ -262,7 +262,7 @@ module AdvancedBilling
     # subscription
     # @param [Integer] component_id Required parameter: The Chargify id of the
     # component. Alternatively, the component's handle prefixed by `handle:`
-    # @return [SubscriptionComponentResponse] response from the API call
+    # @return [SubscriptionComponentResponse] response from the API call.
     def read_subscription_component(subscription_id,
                                     component_id)
       new_api_call_builder
@@ -278,12 +278,12 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionComponentResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionComponentResponse.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
@@ -335,7 +335,7 @@ module AdvancedBilling
     # @param [Array[String]] filter_currencies Optional parameter: Allows
     # fetching components allocation with matching currency based on provided
     # values. Use in query `filter[currencies]=EUR,USD`.
-    # @return [Array[SubscriptionComponentResponse]] response from the API call
+    # @return [Array[SubscriptionComponentResponse]] response from the API call.
     def list_subscription_components(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -364,10 +364,10 @@ module AdvancedBilling
                    .auth(Single.new('BasicAuth'))
                    .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionComponentResponse.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionComponentResponse.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -376,7 +376,7 @@ module AdvancedBilling
     # components, even ones that have not been allocated yet.
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
-    # @return [SubscriptionResponse] response from the API call
+    # @return [SubscriptionResponse] response from the API call.
     def reset_subscription_components_price_points(subscription_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -388,9 +388,9 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SubscriptionResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SubscriptionResponse.method(:from_hash)))
         .execute
     end
 
@@ -423,7 +423,7 @@ module AdvancedBilling
     # passing in a page parameter. Retrieve the next page by adding ?page=2 to
     # the query string. If there are no results to return, then an empty result
     # set will be returned. Use in query `page=1`.
-    # @return [Array[AllocationResponse]] response from the API call
+    # @return [Array[AllocationResponse]] response from the API call.
     def list_allocations(subscription_id,
                          component_id,
                          page: 1)
@@ -441,19 +441,19 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(AllocationResponse.method(:from_hash))
-                   .is_response_array(true)
-                   .local_error('401',
-                                'Unauthorized',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(AllocationResponse.method(:from_hash))
+                    .is_response_array(true)
+                    .local_error('401',
+                                 'Unauthorized',
+                                 APIException)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 APIException))
         .execute
     end
 
@@ -498,7 +498,7 @@ module AdvancedBilling
     # many records to fetch in each request. Default value is 20. The maximum
     # allowed values is 200; any per_page value over 200 will be changed to 200.
     # Use in query `per_page=200`.
-    # @return [Array[UsageResponse]] response from the API call
+    # @return [Array[UsageResponse]] response from the API call.
     def list_usages(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -519,10 +519,10 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(UsageResponse.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(UsageResponse.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -543,7 +543,7 @@ module AdvancedBilling
     # the subscription
     # @param [Integer] component_id Required parameter: The Chargify id of the
     # component
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def activate_event_based_component(subscription_id,
                                        component_id)
       new_api_call_builder
@@ -558,8 +558,8 @@ module AdvancedBilling
                                     .should_encode(true))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true))
+                    .is_nullify404(true)
+                    .is_response_void(true))
         .execute
     end
 
@@ -635,7 +635,7 @@ module AdvancedBilling
     # @param [Integer] component_id Required parameter: The Chargify id of the
     # component
     # @param [CreateAllocationRequest] body Optional parameter: Example:
-    # @return [AllocationResponse] response from the API call
+    # @return [AllocationResponse] response from the API call.
     def allocate_component(subscription_id,
                            component_id,
                            body: nil)
@@ -655,9 +655,9 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(AllocationResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(AllocationResponse.method(:from_hash)))
         .execute
     end
 
@@ -676,7 +676,7 @@ module AdvancedBilling
     # @param [String] subscription_id Required parameter: The Chargify id of the
     # subscription
     # @param [PreviewAllocationsRequest] body Optional parameter: Example:
-    # @return [AllocationPreviewResponse] response from the API call
+    # @return [AllocationPreviewResponse] response from the API call.
     def preview_allocations(subscription_id,
                             body: nil)
       new_api_call_builder
@@ -692,12 +692,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(AllocationPreviewResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ComponentAllocationErrorException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(AllocationPreviewResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ComponentAllocationErrorException))
         .execute
     end
 
@@ -708,7 +708,7 @@ module AdvancedBilling
     # the subscription
     # @param [Integer] component_id Required parameter: The Chargify id of the
     # component
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def deactivate_event_based_component(subscription_id,
                                          component_id)
       new_api_call_builder
@@ -723,8 +723,8 @@ module AdvancedBilling
                                     .should_encode(true))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true))
+                    .is_nullify404(true)
+                    .is_response_void(true))
         .execute
     end
 
@@ -738,7 +738,7 @@ module AdvancedBilling
     # subscription
     # @param [BulkComponentSPricePointAssignment] body Optional parameter:
     # Example:
-    # @return [BulkComponentSPricePointAssignment] response from the API call
+    # @return [BulkComponentSPricePointAssignment] response from the API call.
     def update_subscription_components_price_points(subscription_id,
                                                     body: nil)
       new_api_call_builder
@@ -754,12 +754,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(BulkComponentSPricePointAssignment.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ComponentPricePointErrorException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(BulkComponentSPricePointAssignment.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ComponentPricePointErrorException))
         .execute
     end
 
@@ -776,7 +776,7 @@ module AdvancedBilling
     # Keen project as a Chargify event data-store, use this parameter to
     # indicate the data-store.
     # @param [Array[EBBEvent]] body Optional parameter: Example:
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def record_events(subdomain,
                       api_handle,
                       store_uid: nil,
@@ -797,8 +797,8 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true))
+                    .is_nullify404(true)
+                    .is_response_void(true))
         .execute
     end
 
@@ -898,7 +898,7 @@ module AdvancedBilling
     # provided, this parameter will be used instead of end_date. To use this
     # filter you also have to include the following param in the request
     # `include=subscription`.
-    # @return [ListSubscriptionComponentsResponse] response from the API call
+    # @return [ListSubscriptionComponentsResponse] response from the API call.
     def list_subscription_components_for_site(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -933,9 +933,9 @@ module AdvancedBilling
                    .auth(Single.new('BasicAuth'))
                    .array_serialization_format(ArraySerializationFormat::CSV))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListSubscriptionComponentsResponse.method(:from_hash)))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ListSubscriptionComponentsResponse.method(:from_hash)))
         .execute
     end
 
@@ -963,7 +963,7 @@ module AdvancedBilling
     # Keen project as a Chargify event data-store, use this parameter to
     # indicate the data-store.
     # @param [EBBEvent] body Optional parameter: Example:
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def record_event(subdomain,
                      api_handle,
                      store_uid: nil,
@@ -984,8 +984,8 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true))
+                    .is_nullify404(true)
+                    .is_response_void(true))
         .execute
     end
   end

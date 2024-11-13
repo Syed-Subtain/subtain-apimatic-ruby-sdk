@@ -10,7 +10,7 @@ module AdvancedBilling
     # code for a given Site by providing the unique numerical ID of the code.
     # @param [Integer] reason_code_id Required parameter: The Chargify id of the
     # reason code
-    # @return [ReasonCodeResponse] response from the API call
+    # @return [ReasonCodeResponse] response from the API call.
     def read_reason_code(reason_code_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -22,12 +22,12 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ReasonCodeResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ReasonCodeResponse.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
@@ -36,7 +36,7 @@ module AdvancedBilling
     # not reversable.
     # @param [Integer] reason_code_id Required parameter: The Chargify id of the
     # reason code
-    # @return [ReasonCodesJsonResponse] response from the API call
+    # @return [ReasonCodesJsonResponse] response from the API call.
     def delete_reason_code(reason_code_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::DELETE,
@@ -48,12 +48,12 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ReasonCodesJsonResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ReasonCodesJsonResponse.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
@@ -70,7 +70,7 @@ module AdvancedBilling
     # many records to fetch in each request. Default value is 20. The maximum
     # allowed values is 200; any per_page value over 200 will be changed to 200.
     # Use in query `per_page=200`.
-    # @return [Array[ReasonCodeResponse]] response from the API call
+    # @return [Array[ReasonCodeResponse]] response from the API call.
     def list_reason_codes(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -81,10 +81,10 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ReasonCodeResponse.method(:from_hash))
-                   .is_response_array(true))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ReasonCodeResponse.method(:from_hash))
+                    .is_response_array(true))
         .execute
     end
 
@@ -93,7 +93,7 @@ module AdvancedBilling
     # @param [Integer] reason_code_id Required parameter: The Chargify id of the
     # reason code
     # @param [UpdateReasonCodeRequest] body Optional parameter: Example:
-    # @return [ReasonCodeResponse] response from the API call
+    # @return [ReasonCodeResponse] response from the API call.
     def update_reason_code(reason_code_id,
                            body: nil)
       new_api_call_builder
@@ -109,12 +109,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ReasonCodeResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ReasonCodeResponse.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
@@ -134,7 +134,7 @@ module AdvancedBilling
     # This method gives a merchant the option to create a reason codes for a
     # given Site.
     # @param [CreateReasonCodeRequest] body Optional parameter: Example:
-    # @return [ReasonCodeResponse] response from the API call
+    # @return [ReasonCodeResponse] response from the API call.
     def create_reason_code(body: nil)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -146,12 +146,12 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ReasonCodeResponse.method(:from_hash))
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                ErrorListResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ReasonCodeResponse.method(:from_hash))
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 ErrorListResponseException))
         .execute
     end
   end

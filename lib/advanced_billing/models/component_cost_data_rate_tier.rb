@@ -58,11 +58,8 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(starting_quantity = SKIP,
-                   ending_quantity = SKIP,
-                   quantity = SKIP,
-                   unit_price = SKIP,
-                   amount = SKIP)
+    def initialize(starting_quantity = SKIP, ending_quantity = SKIP,
+                   quantity = SKIP, unit_price = SKIP, amount = SKIP)
       @starting_quantity = starting_quantity unless starting_quantity == SKIP
       @ending_quantity = ending_quantity unless ending_quantity == SKIP
       @quantity = quantity unless quantity == SKIP
@@ -89,6 +86,16 @@ module AdvancedBilling
                                     quantity,
                                     unit_price,
                                     amount)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [ComponentCostDataRateTier | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

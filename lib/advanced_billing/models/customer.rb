@@ -220,32 +220,16 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(first_name = SKIP,
-                   last_name = SKIP,
-                   email = SKIP,
-                   cc_emails = SKIP,
-                   organization = SKIP,
-                   reference = SKIP,
-                   id = SKIP,
-                   created_at = SKIP,
-                   updated_at = SKIP,
-                   address = SKIP,
-                   address_2 = SKIP,
-                   city = SKIP,
-                   state = SKIP,
-                   state_name = SKIP,
-                   zip = SKIP,
-                   country = SKIP,
-                   country_name = SKIP,
-                   phone = SKIP,
-                   verified = SKIP,
+    def initialize(first_name = SKIP, last_name = SKIP, email = SKIP,
+                   cc_emails = SKIP, organization = SKIP, reference = SKIP,
+                   id = SKIP, created_at = SKIP, updated_at = SKIP,
+                   address = SKIP, address_2 = SKIP, city = SKIP, state = SKIP,
+                   state_name = SKIP, zip = SKIP, country = SKIP,
+                   country_name = SKIP, phone = SKIP, verified = SKIP,
                    portal_customer_created_at = SKIP,
                    portal_invite_last_sent_at = SKIP,
-                   portal_invite_last_accepted_at = SKIP,
-                   tax_exempt = SKIP,
-                   vat_number = SKIP,
-                   parent_id = SKIP,
-                   locale = SKIP,
+                   portal_invite_last_accepted_at = SKIP, tax_exempt = SKIP,
+                   vat_number = SKIP, parent_id = SKIP, locale = SKIP,
                    default_subscription_group_uid = SKIP)
       @first_name = first_name unless first_name == SKIP
       @last_name = last_name unless last_name == SKIP
@@ -353,6 +337,16 @@ module AdvancedBilling
                    parent_id,
                    locale,
                    default_subscription_group_uid)
+    end
+
+    # Validates an instance of the object from a given value.
+    # @param [Customer | Hash] The value against the validation is performed.
+    def self.validate(value)
+      return true if value.instance_of? self
+
+      return false unless value.instance_of? Hash
+
+      true
     end
   end
 end

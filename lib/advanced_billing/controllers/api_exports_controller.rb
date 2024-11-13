@@ -7,7 +7,7 @@ module AdvancedBilling
   # APIExportsController
   class APIExportsController < BaseController
     # This API creates an invoices export and returns a batchjob object.
-    # @return [BatchJobResponse] response from the API call
+    # @return [BatchJobResponse] response from the API call.
     def export_invoices
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -16,15 +16,15 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(BatchJobResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('409',
-                                'Conflict',
-                                SingleErrorResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(BatchJobResponse.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('409',
+                                 'Conflict',
+                                 SingleErrorResponseException))
         .execute
     end
 
@@ -46,7 +46,7 @@ module AdvancedBilling
     # passing in a page parameter. Retrieve the next page by adding ?page=2 to
     # the query string. If there are no results to return, then an empty result
     # set will be returned. Use in query `page=1`.
-    # @return [Array[ProformaInvoice]] response from the API call
+    # @return [Array[ProformaInvoice]] response from the API call.
     def list_exported_proforma_invoices(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -60,19 +60,19 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ProformaInvoice.method(:from_hash))
-                   .is_response_array(true)
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ProformaInvoice.method(:from_hash))
+                    .is_response_array(true)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
     # This API returns a batchjob object for proforma invoices export.
     # @param [String] batch_id Required parameter: Id of a Batch Job.
-    # @return [BatchJobResponse] response from the API call
+    # @return [BatchJobResponse] response from the API call.
     def read_proforma_invoices_export(batch_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -84,18 +84,18 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(BatchJobResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(BatchJobResponse.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
     # This API returns a batchjob object for subscriptions export.
     # @param [String] batch_id Required parameter: Id of a Batch Job.
-    # @return [BatchJobResponse] response from the API call
+    # @return [BatchJobResponse] response from the API call.
     def read_subscriptions_export(batch_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -107,12 +107,12 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(BatchJobResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(BatchJobResponse.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
@@ -134,7 +134,7 @@ module AdvancedBilling
     # passing in a page parameter. Retrieve the next page by adding ?page=2 to
     # the query string. If there are no results to return, then an empty result
     # set will be returned. Use in query `page=1`.
-    # @return [Array[Subscription]] response from the API call
+    # @return [Array[Subscription]] response from the API call.
     def list_exported_subscriptions(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -148,13 +148,13 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(Subscription.method(:from_hash))
-                   .is_response_array(true)
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(Subscription.method(:from_hash))
+                    .is_response_array(true)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
@@ -176,7 +176,7 @@ module AdvancedBilling
     # passing in a page parameter. Retrieve the next page by adding ?page=2 to
     # the query string. If there are no results to return, then an empty result
     # set will be returned. Use in query `page=1`.
-    # @return [Array[Invoice]] response from the API call
+    # @return [Array[Invoice]] response from the API call.
     def list_exported_invoices(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -190,19 +190,19 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(Invoice.method(:from_hash))
-                   .is_response_array(true)
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(Invoice.method(:from_hash))
+                    .is_response_array(true)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
     # This API creates a proforma invoices export and returns a batchjob object.
     # It is only available for Relationship Invoicing architecture.
-    # @return [BatchJobResponse] response from the API call
+    # @return [BatchJobResponse] response from the API call.
     def export_proforma_invoices
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -211,21 +211,21 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(BatchJobResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('409',
-                                'Conflict',
-                                SingleErrorResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(BatchJobResponse.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('409',
+                                 'Conflict',
+                                 SingleErrorResponseException))
         .execute
     end
 
     # This API returns a batchjob object for invoices export.
     # @param [String] batch_id Required parameter: Id of a Batch Job.
-    # @return [BatchJobResponse] response from the API call
+    # @return [BatchJobResponse] response from the API call.
     def read_invoices_export(batch_id)
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -237,17 +237,17 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(BatchJobResponse.method(:from_hash))
-                   .local_error('404',
-                                'Not Found',
-                                APIException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(BatchJobResponse.method(:from_hash))
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException))
         .execute
     end
 
     # This API creates a subscriptions export and returns a batchjob object.
-    # @return [BatchJobResponse] response from the API call
+    # @return [BatchJobResponse] response from the API call.
     def export_subscriptions
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::POST,
@@ -256,12 +256,12 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(BatchJobResponse.method(:from_hash))
-                   .local_error('409',
-                                'Conflict',
-                                SingleErrorResponseException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(BatchJobResponse.method(:from_hash))
+                    .local_error('409',
+                                 'Conflict',
+                                 SingleErrorResponseException))
         .execute
     end
   end

@@ -94,17 +94,11 @@ module AdvancedBilling
       ]
     end
 
-    def initialize(type = 'apple_pay',
-                   masked_account_number = SKIP,
-                   masked_routing_number = SKIP,
-                   card_brand = SKIP,
-                   card_expiration = SKIP,
-                   last_four = SKIP,
-                   masked_card_number = SKIP,
-                   details = SKIP,
-                   kind = SKIP,
-                   memo = SKIP,
-                   email = SKIP)
+    def initialize(type = 'apple_pay', masked_account_number = SKIP,
+                   masked_routing_number = SKIP, card_brand = SKIP,
+                   card_expiration = SKIP, last_four = SKIP,
+                   masked_card_number = SKIP, details = SKIP, kind = SKIP,
+                   memo = SKIP, email = SKIP)
       @type = type unless type == SKIP
       @masked_account_number = masked_account_number unless masked_account_number == SKIP
       @masked_routing_number = masked_routing_number unless masked_routing_number == SKIP

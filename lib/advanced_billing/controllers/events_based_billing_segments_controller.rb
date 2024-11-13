@@ -17,7 +17,7 @@ module AdvancedBilling
     # @param [String] price_point_id Required parameter: ID or Handle for the
     # Price Point belonging to the Component
     # @param [CreateSegmentRequest] body Optional parameter: Example:
-    # @return [SegmentResponse] response from the API call
+    # @return [SegmentResponse] response from the API call.
     def create_segment(component_id,
                        price_point_id,
                        body: nil)
@@ -37,21 +37,21 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SegmentResponse.method(:from_hash))
-                   .local_error('401',
-                                'Unauthorized',
-                                APIException)
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                EventBasedBillingSegmentErrorsException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SegmentResponse.method(:from_hash))
+                    .local_error('401',
+                                 'Unauthorized',
+                                 APIException)
+                    .local_error('403',
+                                 'Forbidden',
+                                 APIException)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 EventBasedBillingSegmentErrorsException))
         .execute
     end
 
@@ -68,7 +68,7 @@ module AdvancedBilling
     # @param [String] price_point_id Required parameter: ID or Handle for the
     # Price Point belonging to the Component
     # @param [BulkUpdateSegments] body Optional parameter: Example:
-    # @return [ListSegmentsResponse] response from the API call
+    # @return [ListSegmentsResponse] response from the API call.
     def update_segments(component_id,
                         price_point_id,
                         body: nil)
@@ -88,21 +88,21 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListSegmentsResponse.method(:from_hash))
-                   .local_error('401',
-                                'Unauthorized',
-                                APIException)
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                EventBasedBillingSegmentException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ListSegmentsResponse.method(:from_hash))
+                    .local_error('401',
+                                 'Unauthorized',
+                                 APIException)
+                    .local_error('403',
+                                 'Forbidden',
+                                 APIException)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 EventBasedBillingSegmentException))
         .execute
     end
 
@@ -116,7 +116,7 @@ module AdvancedBilling
     # Price Point belonging to the Component
     # @param [Float] id Required parameter: The ID of the Segment
     # @param [UpdateSegmentRequest] body Optional parameter: Example:
-    # @return [SegmentResponse] response from the API call
+    # @return [SegmentResponse] response from the API call.
     def update_segment(component_id,
                        price_point_id,
                        id,
@@ -140,21 +140,21 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(SegmentResponse.method(:from_hash))
-                   .local_error('401',
-                                'Unauthorized',
-                                APIException)
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                EventBasedBillingSegmentErrorsException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(SegmentResponse.method(:from_hash))
+                    .local_error('401',
+                                 'Unauthorized',
+                                 APIException)
+                    .local_error('403',
+                                 'Forbidden',
+                                 APIException)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 EventBasedBillingSegmentErrorsException))
         .execute
     end
 
@@ -166,7 +166,7 @@ module AdvancedBilling
     # @param [String] price_point_id Required parameter: ID or Handle of the
     # Price Point belonging to the Component
     # @param [Float] id Required parameter: The ID of the Segment
-    # @return [void] response from the API call
+    # @return [void] response from the API call.
     def delete_segment(component_id,
                        price_point_id,
                        id)
@@ -185,20 +185,20 @@ module AdvancedBilling
                                     .should_encode(true))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .is_response_void(true)
-                   .local_error('401',
-                                'Unauthorized',
-                                APIException)
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                APIException))
+                    .is_nullify404(true)
+                    .is_response_void(true)
+                    .local_error('401',
+                                 'Unauthorized',
+                                 APIException)
+                    .local_error('403',
+                                 'Forbidden',
+                                 APIException)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 APIException))
         .execute
     end
 
@@ -215,7 +215,7 @@ module AdvancedBilling
     # @param [String] price_point_id Required parameter: ID or Handle for the
     # Price Point belonging to the Component
     # @param [BulkCreateSegments] body Optional parameter: Example:
-    # @return [ListSegmentsResponse] response from the API call
+    # @return [ListSegmentsResponse] response from the API call.
     def create_segments(component_id,
                         price_point_id,
                         body: nil)
@@ -235,21 +235,21 @@ module AdvancedBilling
                    .body_serializer(proc do |param| param.to_json unless param.nil? end)
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListSegmentsResponse.method(:from_hash))
-                   .local_error('401',
-                                'Unauthorized',
-                                APIException)
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                EventBasedBillingSegmentException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ListSegmentsResponse.method(:from_hash))
+                    .local_error('401',
+                                 'Unauthorized',
+                                 APIException)
+                    .local_error('403',
+                                 'Forbidden',
+                                 APIException)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 EventBasedBillingSegmentException))
         .execute
     end
 
@@ -292,7 +292,7 @@ module AdvancedBilling
     # value passed here would be used to filter segments. Pass a value related
     # to `segment_property_4` on attached Metric. If empty string is passed,
     # this filter would be rejected.
-    # @return [ListSegmentsResponse] response from the API call
+    # @return [ListSegmentsResponse] response from the API call.
     def list_segments_for_price_point(options = {})
       new_api_call_builder
         .request(new_request_builder(HttpMethodEnum::GET,
@@ -313,21 +313,21 @@ module AdvancedBilling
                    .header_param(new_parameter('application/json', key: 'accept'))
                    .auth(Single.new('BasicAuth')))
         .response(new_response_handler
-                   .is_nullify404(true)
-                   .deserializer(APIHelper.method(:custom_type_deserializer))
-                   .deserialize_into(ListSegmentsResponse.method(:from_hash))
-                   .local_error('401',
-                                'Unauthorized',
-                                APIException)
-                   .local_error('403',
-                                'Forbidden',
-                                APIException)
-                   .local_error('404',
-                                'Not Found',
-                                APIException)
-                   .local_error('422',
-                                'Unprocessable Entity (WebDAV)',
-                                EventBasedBillingListSegmentsErrorsException))
+                    .is_nullify404(true)
+                    .deserializer(APIHelper.method(:custom_type_deserializer))
+                    .deserialize_into(ListSegmentsResponse.method(:from_hash))
+                    .local_error('401',
+                                 'Unauthorized',
+                                 APIException)
+                    .local_error('403',
+                                 'Forbidden',
+                                 APIException)
+                    .local_error('404',
+                                 'Not Found',
+                                 APIException)
+                    .local_error('422',
+                                 'Unprocessable Entity (WebDAV)',
+                                 EventBasedBillingListSegmentsErrorsException))
         .execute
     end
   end

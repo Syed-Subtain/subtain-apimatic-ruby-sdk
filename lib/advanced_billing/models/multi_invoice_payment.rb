@@ -52,10 +52,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(transaction_id = SKIP,
-                   total_amount = SKIP,
-                   currency_code = SKIP,
-                   applications = SKIP)
+    def initialize(transaction_id = SKIP, total_amount = SKIP,
+                   currency_code = SKIP, applications = SKIP)
       @transaction_id = transaction_id unless transaction_id == SKIP
       @total_amount = total_amount unless total_amount == SKIP
       @currency_code = currency_code unless currency_code == SKIP

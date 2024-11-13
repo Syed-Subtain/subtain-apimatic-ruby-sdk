@@ -68,13 +68,8 @@ module AdvancedBilling
       []
     end
 
-    def initialize(id = SKIP,
-                   site_id = SKIP,
-                   code = SKIP,
-                   description = SKIP,
-                   position = SKIP,
-                   created_at = SKIP,
-                   updated_at = SKIP)
+    def initialize(id = SKIP, site_id = SKIP, code = SKIP, description = SKIP,
+                   position = SKIP, created_at = SKIP, updated_at = SKIP)
       @id = id unless id == SKIP
       @site_id = site_id unless site_id == SKIP
       @code = code unless code == SKIP
