@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'subtain-apimatic-sdk'
-  s.version = '9.1.4'
+  s.version = '9.1.5'
   s.summary = 'this is short summary please ignore'
   s.description = 'This is a test package publishing, Please ignore'
   s.authors = ['Subtain']
